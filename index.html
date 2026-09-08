@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toalhas</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <h1>Lista de Toalhas</h1>
+
+    <div id="lista-toalhas"></div>
+
+    <script>
+        const toalhas = [
+            {
+                id: "001",
+                codigo: "010101",
+                status: "Em uso"
+            },
+            {
+                id: "002",
+                codigo: "020202",
+                status: "Livre"
+            }
+        ];
+
+        const lista = document.getElementById("lista-toalhas");
+
+        for (let i = 0; i < toalhas.length; i++) {
+
+            const item = document.createElement("div");
+            item.classList.add("toalha");
+
+            const id = document.createElement("p");
+            id.textContent = "ID: " + toalhas[i].id;
+
+            const codigo = document.createElement("p");
+            codigo.textContent = "Código: " + toalhas[i].codigo;
+
+            const status = document.createElement("p");
+            status.textContent = "Status: " + toalhas[i].status;
+
+            item.appendChild(id);
+            item.appendChild(codigo);
+            item.appendChild(status);
+
+            lista.appendChild(item);
+        }
+    </script>
+
+</body>
+</html>
