@@ -1,6 +1,6 @@
 # NADO LIVRE 
 
-# Estudo de Caso 2 — Sistema de Controle de Toalhas em uma Escola de Natação
+## Estudo de Caso 2 — Sistema de Controle de Toalhas em uma Escola de Natação
 
 **Equipe:** [4v - Informática para Internet]
 
