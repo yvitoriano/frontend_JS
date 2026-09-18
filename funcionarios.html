@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Funcionários - Nado Livre</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cadastrar {
+            background-color: #0077b6;
+            color: white;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .acoes button {
+            margin-right: 10px;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #0077b6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Funcionários</h1>
+
+        <a class="voltar" href="index.html">
+            ← Voltar para o início
+        </a>
+
+
+        <form id="formFuncionario">
+
+            <label for="idFuncionario">
+                ID do Funcionário:
+            </label>
+
+            <input
+                type="text"
+                id="idFuncionario"
+                required
+            >
+
+
+            <label for="nome">
+                Nome:
+            </label>
+
+            <input
+                type="text"
+                id="nome"
+                required
+            >
+
+
+            <label for="telefone">
+                Telefone:
+            </label>
+
+            <input
+                type="text"
+                id="telefone"
+                required
+            >
+
+
+            <label for="cpf">
+                CPF:
+            </label>
+
+            <input
+                type="text"
+                id="cpf"
+                required
+            >
+
+
+            <label for="email">
+                E-mail:
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="cadastrar"
+                id="botaoFormulario"
+            >
+                Cadastrar
+            </button>
+
+        </form>
+
+
+        <h2>Funcionários cadastrados</h2>
+
+        <div id="listaFuncionarios"></div>
+
+    </div>
+
+
+    <script>
+
+        class Funcionario {
+
+            constructor(
+                id_funcionario,
+                nome,
+                telefone,
+                cpf,
+                email
+            ) {
+
+                this.id_funcionario =
+                    id_funcionario;
+
+                this.nome =
+                    nome;
+
+                this.telefone =
+                    telefone;
+
+                this.cpf =
+                    cpf;
+
+                this.email =
+                    email;
+
+            }
+
+        }
+
+
+        const funcionarios = [];
+
+        let funcionarioEditando = null;
+
+
+        const formFuncionario =
+            document.getElementById(
+                "formFuncionario"
+            );
+
+
+        const listaFuncionarios =
+            document.getElementById(
+                "listaFuncionarios"
+            );
+
+
+        const campoId =
+            document.getElementById(
+                "idFuncionario"
+            );
+
+
+        const campoNome =
+            document.getElementById(
+                "nome"
+            );
+
+
+        const campoTelefone =
+            document.getElementById(
+                "telefone"
+            );
+
+
+        const campoCpf =
+            document.getElementById(
+                "cpf"
+            );
+
+
+        const campoEmail =
+            document.getElementById(
+                "email"
+            );
+
+
+        const botaoFormulario =
+            document.getElementById(
+                "botaoFormulario"
+            );
+
+
+        formFuncionario.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const idFuncionario =
+                    campoId.value;
+
+                const nome =
+                    campoNome.value;
+
+                const telefone =
+                    campoTelefone.value;
+
+                const cpf =
+                    campoCpf.value;
+
+                const email =
+                    campoEmail.value;
+
+
+                if (funcionarioEditando === null) {
+
+                    const funcionario =
+                        new Funcionario(
+                            idFuncionario,
+                            nome,
+                            telefone,
+                            cpf,
+                            email
+                        );
+
+
+                    funcionarios.push(
+                        funcionario
+                    );
+
+                } else {
+
+                    funcionarioEditando.id_funcionario =
+                        idFuncionario;
+
+                    funcionarioEditando.nome =
+                        nome;
+
+                    funcionarioEditando.telefone =
+                        telefone;
+
+                    funcionarioEditando.cpf =
+                        cpf;
+
+                    funcionarioEditando.email =
+                        email;
+
+
+                    funcionarioEditando = null;
+
+                    botaoFormulario.textContent =
+                        "Cadastrar";
+
+                }
+
+
+                formFuncionario.reset();
+
+                atualizarLista();
+
+            }
+        );
+
+
+        function atualizarLista() {
+
+            listaFuncionarios.innerHTML = "";
+
+
+            for (
+                const funcionario
+                of funcionarios
+            ) {
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className = "card";
+
+
+                const id =
+                    document.createElement(
+                        "p"
+                    );
+
+                id.textContent =
+                    "ID: " +
+                    funcionario.id_funcionario;
+
+
+                const nome =
+                    document.createElement(
+                        "p"
+                    );
+
+                nome.textContent =
+                    "Nome: " +
+                    funcionario.nome;
+
+
+                const telefone =
+                    document.createElement(
+                        "p"
+                    );
+
+                telefone.textContent =
+                    "Telefone: " +
+                    funcionario.telefone;
+
+
+                const cpf =
+                    document.createElement(
+                        "p"
+                    );
+
+                cpf.textContent =
+                    "CPF: " +
+                    funcionario.cpf;
+
+
+                const email =
+                    document.createElement(
+                        "p"
+                    );
+
+                email.textContent =
+                    "E-mail: " +
+                    funcionario.email;
+
+
+                const botaoEditar =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                botaoEditar.textContent =
+                    "Editar";
+
+
+                botaoEditar.addEventListener(
+                    "click",
+                    function() {
+
+                        campoId.value =
+                            funcionario.id_funcionario;
+
+                        campoNome.value =
+                            funcionario.nome;
+
+                        campoTelefone.value =
+                            funcionario.telefone;
+
+                        campoCpf.value =
+                            funcionario.cpf;
+
+                        campoEmail.value =
+                            funcionario.email;
+
+
+                        funcionarioEditando =
+                            funcionario;
+
+
+                        botaoFormulario.textContent =
+                            "Alterar";
+
+                    }
+                );
+
+
+                card.appendChild(id);
+
+                card.appendChild(nome);
+
+                card.appendChild(telefone);
+
+                card.appendChild(cpf);
+
+                card.appendChild(email);
+
+                card.appendChild(
+                    botaoEditar
+                );
+
+
+                listaFuncionarios.appendChild(
+                    card
+                );
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
