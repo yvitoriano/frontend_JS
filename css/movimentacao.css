@@ -1,0 +1,650 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #111111;
+}
+
+button,
+select,
+input {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+}
+
+.layout {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* ==================================================
+   MENU LATERAL
+================================================== */
+
+.sidebar {
+    width: 314px;
+    min-height: 100vh;
+
+    padding: 49px 17px 34px;
+
+    background: #092d78;
+
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    flex-shrink: 0;
+}
+
+
+/* LOGO */
+
+.brand {
+    height: 106px;
+
+    padding-left: 20px;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 9px;
+}
+
+.logo-space {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+}
+
+.logo-space img {
+    width: 58px;
+    height: 58px;
+
+    display: block;
+}
+
+.brand-text {
+    margin-top: 9px;
+}
+
+.brand-name {
+    font-size: 26px;
+    line-height: 28px;
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+}
+
+.brand-name span {
+    color: #2875df;
+}
+
+.brand-subtitle {
+    margin-top: 1px;
+
+    font-size: 13px;
+}
+
+
+/* NAVEGAÇÃO */
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.nav-item {
+    height: 71px;
+
+    padding: 0 22px 0 38px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    transition: background-color 0.15s ease;
+}
+
+.nav-item:hover {
+    background: #226FE3;
+}
+
+.nav-item.selected {
+    background: #0C5DE0;
+}
+
+.nav-item.selected:hover {
+    background: #0C5DE0;
+}
+
+.icon-space {
+    width: 26px;
+    height: 26px;
+
+    flex-shrink: 0;
+}
+
+.icon-space img {
+    width: 26px;
+    height: 26px;
+
+    display: block;
+}
+
+
+/* PARTE INFERIOR */
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.user-box {
+    height: 101px;
+
+    border: 1px solid #4c83d2;
+
+    border-radius: 9px;
+
+    padding: 14px 18px 14px 41px;
+
+    display: flex;
+    align-items: center;
+}
+
+.user-image-space {
+    width: 56px;
+    height: 56px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+.user-image-space img {
+    width: 56px;
+    height: 56px;
+
+    display: block;
+}
+
+.user-info {
+    margin-left: 11px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.user-info strong {
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.user-info span {
+    font-size: 14px;
+}
+
+.arrow-space {
+    width: 12px;
+    height: 12px;
+
+    margin-left: auto;
+}
+
+.arrow-space img {
+    width: 12px;
+    height: 12px;
+
+    display: block;
+}
+
+
+/* SAIR */
+
+.logout {
+    height: 70px;
+
+    margin-top: 10px;
+
+    padding-left: 11px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 17px;
+}
+
+.logout-icon-space {
+    width: 23px;
+    height: 23px;
+}
+
+.logout-icon-space img {
+    width: 23px;
+    height: 23px;
+
+    display: block;
+}
+
+
+/* ==================================================
+   CONTEÚDO
+================================================== */
+
+.main-content {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 85px 26px 50px;
+
+    overflow: hidden;
+}
+
+
+/* CABEÇALHO */
+
+.page-header h1 {
+    margin: 0;
+
+    font-size: 30px;
+    line-height: 36px;
+
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 10px 0 0;
+
+    color: #667085;
+
+    font-size: 17px;
+    line-height: 22px;
+}
+
+
+/* ==================================================
+   ÁREA DE MOVIMENTAÇÃO
+================================================== */
+
+.movimentacao-area {
+    width: 100%;
+
+    margin-top: 42px;
+}
+
+
+/* ==================================================
+   TÍTULOS RETIRADA / DEVOLUÇÃO
+================================================== */
+
+.movimentacao-tabs {
+    width: 100%;
+
+    height: 70px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    border: 1px solid #aab2c0;
+
+    border-radius: 10px 10px 0 0;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+.tab {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    color: #244b8f;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+.tab:first-child {
+    border-right: 1px solid #d9dde5;
+}
+
+.tab-icon {
+    width: 21px;
+    height: 21px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1.5px solid #5478ad;
+
+    color: #315b9c;
+
+    font-size: 15px;
+
+    line-height: 1;
+}
+
+
+/* ==================================================
+   CARD PRINCIPAL
+================================================== */
+
+.movimentacao-card {
+    width: 100%;
+
+    border: 1px solid #aab2c0;
+
+    border-top: none;
+
+    border-radius: 0 0 10px 10px;
+
+    background: #ffffff;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+}
+
+
+/* ==================================================
+   PAINÉIS
+================================================== */
+
+.movimentacao-panel {
+    padding: 27px 30px 30px;
+
+    min-width: 0;
+}
+
+.retirada-panel {
+    border-right: 1px solid #d9dde5;
+}
+
+
+/* ==================================================
+   CABEÇALHO DO PAINEL
+================================================== */
+
+.panel-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 27px;
+}
+
+.movimentacao-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+/* ÍCONE RETIRADA */
+
+.retirada-icon {
+    background: #75a9f5;
+
+    color: #0C5DE0;
+}
+
+
+/* ÍCONE DEVOLUÇÃO */
+
+.devolucao-icon {
+    background: #3ca262;
+
+    color: #ffffff;
+}
+
+
+.panel-header h2 {
+    margin: 0;
+
+    font-size: 19px;
+
+    line-height: 24px;
+
+    font-weight: 700;
+}
+
+.panel-header p {
+    margin: 4px 0 0;
+
+    color: #667085;
+
+    font-size: 12px;
+
+    line-height: 17px;
+}
+
+
+/* ==================================================
+   FORMULÁRIOS
+================================================== */
+
+form {
+    width: 100%;
+}
+
+.campo {
+    width: 100%;
+
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #333b47;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.campo select,
+.campo input {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #aab2c0;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #333b47;
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+.campo select {
+    cursor: pointer;
+}
+
+.campo select:focus,
+.campo input:focus {
+    border-color: #0C5DE0;
+}
+
+
+/* ==================================================
+   AVISO
+================================================== */
+
+.aviso {
+    min-height: 44px;
+
+    margin-top: 5px;
+
+    margin-bottom: 28px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+}
+
+.aviso-icon {
+    width: 17px;
+    height: 17px;
+
+    margin-top: 1px;
+
+    border-radius: 50%;
+
+    background: #2777dc;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.aviso strong {
+    display: block;
+
+    color: #315b9c;
+
+    font-size: 12px;
+
+    line-height: 16px;
+}
+
+.aviso p {
+    margin: 1px 0 0;
+
+    color: #667085;
+
+    font-size: 11px;
+
+    line-height: 16px;
+}
+
+
+/* ==================================================
+   BOTÕES
+================================================== */
+
+.button {
+    height: 42px;
+
+    min-width: 145px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: block;
+
+    margin-left: auto;
+
+    transition: background-color 0.15s ease;
+}
+
+
+/* RETIRADA */
+
+.button-retirada {
+    background: #0C5DE0;
+}
+
+.button-retirada:hover {
+    background: #0953c8;
+}
+
+
+/* DEVOLUÇÃO */
+
+.button-devolucao {
+    background: #27934f;
+}
+
+.button-devolucao:hover {
+    background: #217d43;
+}

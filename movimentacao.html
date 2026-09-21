@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Movimentação - Nado Livre</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/frontend_JS/css/movimentacao.css">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- MENU LATERAL -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="logo-space">
+                    <img src="img/logo.svg" alt="">
+                </div>
+
+                <div class="brand-text">
+
+                    <div class="brand-name">
+                        NADO<span>LIVRE</span>
+                    </div>
+
+                    <div class="brand-subtitle">
+                        Controle de Toalhas
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <nav class="navigation">
+
+                <a href="index.html" class="nav-item">
+
+                    <span class="icon-space">
+                        <img src="img/House.svg" alt="">
+                    </span>
+
+                    <span>Início</span>
+
+                </a>
+
+
+                <a href="funcionarios.html" class="nav-item">
+
+                    <span class="icon-space">
+                        <img src="img/users.svg" alt="">
+                    </span>
+
+                    <span>Cadastro</span>
+
+                </a>
+
+
+                <a href="movimentacao.html" class="nav-item selected">
+
+                    <span class="icon-space">
+                        <img src="img/movi.svg" alt="">
+                    </span>
+
+                    <span>Movimentação</span>
+
+                </a>
+
+
+                <a href="toalhas.html" class="nav-item">
+
+                    <span class="icon-space">
+                        <img src="img/toalha.svg" alt="">
+                    </span>
+
+                    <span>Toalhas</span>
+
+                </a>
+
+
+                <a href="historico.html" class="nav-item">
+
+                    <span class="icon-space">
+                        <img src="img/ClockCountdown.svg" alt="">
+                    </span>
+
+                    <span>Histórico</span>
+
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="user-box">
+
+                    <div class="user-image-space">
+                        <img src="img/userphoto.svg" alt="">
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Usuario</strong>
+                        <span>Contabilidade</span>
+                    </div>
+
+                    <div class="arrow-space">
+                        <img src="img/arrow.svg" alt="">
+                    </div>
+
+                </div>
+
+
+                <a href="#" class="logout">
+
+                    <span class="logout-icon-space">
+                        <img src="img/exit.svg" alt="">
+                    </span>
+
+                    <span>Sair</span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO PRINCIPAL -->
+
+        <main class="main-content">
+
+            <header class="page-header">
+
+                <h1>Movimentação de toalhas</h1>
+
+                <p>
+                    Registre retiradas e devoluções de toalhas.
+                </p>
+
+            </header>
+
+
+            <section class="movimentacao-area">
+
+
+                <!-- ABAS / TÍTULOS -->
+
+                <div class="movimentacao-tabs">
+
+                    <div class="tab tab-retirada">
+
+                        <span class="tab-icon">
+                            ↑
+                        </span>
+
+                        <span>Retirada</span>
+
+                    </div>
+
+
+                    <div class="tab tab-devolucao">
+
+                        <span class="tab-icon">
+                            ↶
+                        </span>
+
+                        <span>Devolução</span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ÁREA DOS DOIS FORMULÁRIOS -->
+
+                <div class="movimentacao-card">
+
+
+                    <!-- RETIRADA -->
+
+                    <section class="movimentacao-panel retirada-panel">
+
+                        <div class="panel-header">
+
+                            <div class="movimentacao-icon retirada-icon">
+                                ↑
+                            </div>
+
+                            <div>
+
+                                <h2>Registrar retirada</h2>
+
+                                <p>
+                                    Registre a retirada de uma toalha para um nadador.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <form id="formRetirada">
+
+
+                            <!-- NADADOR -->
+
+                            <div class="campo">
+
+                                <label for="nadadorRetirada">
+                                    Nadador
+                                </label>
+
+                                <select id="nadadorRetirada" required>
+
+                                    <option value="">
+                                        Selecione o nadador
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- FUNCIONÁRIO -->
+
+                            <div class="campo">
+
+                                <label for="funcionarioRetirada">
+                                    Funcionário
+                                </label>
+
+                                <select id="funcionarioRetirada" required>
+
+                                    <option value="">
+                                        Selecione o funcionário
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- TOALHA -->
+
+                            <div class="campo">
+
+                                <label for="toalhaRetirada">
+                                    Toalha disponível
+                                </label>
+
+                                <select id="toalhaRetirada" required>
+
+                                    <option value="">
+                                        Selecione a toalha disponível
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- DATA/HORA -->
+
+                            <div class="campo">
+
+                                <label for="dataRetirada">
+                                    Data/Hora
+                                </label>
+
+                                <input
+                                    type="datetime-local"
+                                    id="dataRetirada"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- AVISO -->
+
+                            <div class="aviso">
+
+                                <span class="aviso-icon">
+                                    !
+                                </span>
+
+                                <div>
+
+                                    <strong>Importante</strong>
+
+                                    <p>
+                                        Após a retirada, o status da toalha será alterado para "Em uso".
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BOTÃO -->
+
+                            <button
+                                type="submit"
+                                class="button button-retirada"
+                            >
+                                Registrar retirada
+                            </button>
+
+                        </form>
+
+                    </section>
+
+
+
+                    <!-- DEVOLUÇÃO -->
+
+                    <section class="movimentacao-panel devolucao-panel">
+
+                        <div class="panel-header">
+
+                            <div class="movimentacao-icon devolucao-icon">
+                                ↶
+                            </div>
+
+                            <div>
+
+                                <h2>Registrar devolução</h2>
+
+                                <p>
+                                    Registre a devolução de uma toalha por um nadador.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <form id="formDevolucao">
+
+
+                            <!-- TOALHA -->
+
+                            <div class="campo">
+
+                                <label for="toalhaDevolucao">
+                                    Toalha
+                                </label>
+
+                                <select id="toalhaDevolucao" required>
+
+                                    <option value="">
+                                        Selecione a toalha
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- FUNCIONÁRIO -->
+
+                            <div class="campo">
+
+                                <label for="funcionarioDevolucao">
+                                    Funcionário
+                                </label>
+
+                                <select id="funcionarioDevolucao" required>
+
+                                    <option value="">
+                                        Selecione o funcionário
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- DATA/HORA -->
+
+                            <div class="campo">
+
+                                <label for="dataDevolucao">
+                                    Data/Hora
+                                </label>
+
+                                <input
+                                    type="datetime-local"
+                                    id="dataDevolucao"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- AVISO -->
+
+                            <div class="aviso">
+
+                                <span class="aviso-icon">
+                                    !
+                                </span>
+
+                                <div>
+
+                                    <strong>Importante</strong>
+
+                                    <p>
+                                        Após a devolução, o status da toalha será alterado para "Disponível".
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BOTÃO -->
+
+                            <button
+                                type="submit"
+                                class="button button-devolucao"
+                            >
+                                Registrar devolução
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /* ==================================================
+           CLASSES
+        ================================================== */
+
+        class Nadador {
+
+            constructor(id, nome) {
+
+                this.id = id;
+                this.nome = nome;
+
+            }
+
+        }
+
+
+        class Funcionario {
+
+            constructor(id, nome) {
+
+                this.id = id;
+                this.nome = nome;
+
+            }
+
+        }
+
+
+        class Toalha {
+
+            constructor(id, codigoIdentificador, status) {
+
+                this.id = id;
+                this.codigoIdentificador = codigoIdentificador;
+                this.status = status;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           DADOS DE EXEMPLO
+        ================================================== */
+
+        const nadadores = [
+
+            new Nadador("01", "João Silva"),
+
+            new Nadador("02", "Maria Santos"),
+
+            new Nadador("03", "Pedro Oliveira"),
+
+            new Nadador("04", "Ana Beatriz")
+
+        ];
+
+
+        const funcionarios = [
+
+            new Funcionario("01", "Carlos Souza"),
+
+            new Funcionario("02", "Mariana Lima"),
+
+            new Funcionario("03", "Fernanda Costa")
+
+        ];
+
+
+        const toalhas = [
+
+            new Toalha("01", "TOL-001", "Disponível"),
+
+            new Toalha("02", "TOL-002", "Em uso"),
+
+            new Toalha("03", "TOL-003", "Disponível"),
+
+            new Toalha("04", "TOL-004", "Disponível"),
+
+            new Toalha("05", "TOL-005", "Em uso"),
+
+            new Toalha("06", "TOL-006", "Disponível")
+
+        ];
+
+
+        /* ==================================================
+           ELEMENTOS
+        ================================================== */
+
+        const selectNadadorRetirada =
+            document.getElementById("nadadorRetirada");
+
+
+        const selectFuncionarioRetirada =
+            document.getElementById("funcionarioRetirada");
+
+
+        const selectToalhaRetirada =
+            document.getElementById("toalhaRetirada");
+
+
+        const selectToalhaDevolucao =
+            document.getElementById("toalhaDevolucao");
+
+
+        const selectFuncionarioDevolucao =
+            document.getElementById("funcionarioDevolucao");
+
+
+        const dataRetirada =
+            document.getElementById("dataRetirada");
+
+
+        const dataDevolucao =
+            document.getElementById("dataDevolucao");
+
+
+        const formRetirada =
+            document.getElementById("formRetirada");
+
+
+        const formDevolucao =
+            document.getElementById("formDevolucao");
+
+
+        /* ==================================================
+           CARREGAR NADADORES
+        ================================================== */
+
+        function carregarNadadores() {
+
+            nadadores.forEach(function (nadador) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = nadador.id;
+
+                option.textContent = nadador.nome;
+
+                selectNadadorRetirada.appendChild(option);
+
+            });
+
+        }
+
+
+        /* ==================================================
+           CARREGAR FUNCIONÁRIOS
+        ================================================== */
+
+        function carregarFuncionarios() {
+
+            funcionarios.forEach(function (funcionario) {
+
+                const optionRetirada =
+                    document.createElement("option");
+
+                optionRetirada.value = funcionario.id;
+
+                optionRetirada.textContent =
+                    funcionario.nome;
+
+                selectFuncionarioRetirada.appendChild(
+                    optionRetirada
+                );
+
+
+                const optionDevolucao =
+                    document.createElement("option");
+
+                optionDevolucao.value = funcionario.id;
+
+                optionDevolucao.textContent =
+                    funcionario.nome;
+
+                selectFuncionarioDevolucao.appendChild(
+                    optionDevolucao
+                );
+
+            });
+
+        }
+
+
+        /* ==================================================
+           CARREGAR TOALHAS DISPONÍVEIS
+        ================================================== */
+
+        function carregarToalhasDisponiveis() {
+
+            selectToalhaRetirada.innerHTML = `
+                <option value="">
+                    Selecione a toalha disponível
+                </option>
+            `;
+
+
+            toalhas.forEach(function (toalha) {
+
+                if (toalha.status === "Disponível") {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = toalha.id;
+
+                    option.textContent =
+                        toalha.codigoIdentificador;
+
+                    selectToalhaRetirada.appendChild(option);
+
+                }
+
+            });
+
+        }
+
+
+        /* ==================================================
+           CARREGAR TOALHAS EM USO
+        ================================================== */
+
+        function carregarToalhasEmUso() {
+
+            selectToalhaDevolucao.innerHTML = `
+                <option value="">
+                    Selecione a toalha
+                </option>
+            `;
+
+
+            toalhas.forEach(function (toalha) {
+
+                if (toalha.status === "Em uso") {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = toalha.id;
+
+                    option.textContent =
+                        toalha.codigoIdentificador;
+
+                    selectToalhaDevolucao.appendChild(option);
+
+                }
+
+            });
+
+        }
+
+
+        /* ==================================================
+           DATA E HORA ATUAL
+        ================================================== */
+
+        function definirDataAtual() {
+
+            const agora = new Date();
+
+
+            const ano =
+                agora.getFullYear();
+
+
+            const mes =
+                String(
+                    agora.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const dia =
+                String(
+                    agora.getDate()
+                ).padStart(2, "0");
+
+
+            const hora =
+                String(
+                    agora.getHours()
+                ).padStart(2, "0");
+
+
+            const minutos =
+                String(
+                    agora.getMinutes()
+                ).padStart(2, "0");
+
+
+            const dataFormatada =
+                `${ano}-${mes}-${dia}T${hora}:${minutos}`;
+
+
+            dataRetirada.value =
+                dataFormatada;
+
+
+            dataDevolucao.value =
+                dataFormatada;
+
+        }
+
+
+        /* ==================================================
+           REGISTRAR RETIRADA
+        ================================================== */
+
+        formRetirada.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const toalhaId =
+                    selectToalhaRetirada.value;
+
+
+                const toalha =
+                    toalhas.find(function (item) {
+
+                        return item.id === toalhaId;
+
+                    });
+
+
+                if (!toalha) {
+
+                    return;
+
+                }
+
+
+                toalha.status = "Em uso";
+
+
+                alert(
+                    "Retirada registrada com sucesso!"
+                );
+
+
+                formRetirada.reset();
+
+
+                definirDataAtual();
+
+
+                carregarToalhasDisponiveis();
+
+                carregarToalhasEmUso();
+
+            }
+        );
+
+
+        /* ==================================================
+           REGISTRAR DEVOLUÇÃO
+        ================================================== */
+
+        formDevolucao.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const toalhaId =
+                    selectToalhaDevolucao.value;
+
+
+                const toalha =
+                    toalhas.find(function (item) {
+
+                        return item.id === toalhaId;
+
+                    });
+
+
+                if (!toalha) {
+
+                    return;
+
+                }
+
+
+                toalha.status = "Disponível";
+
+
+                alert(
+                    "Devolução registrada com sucesso!"
+                );
+
+
+                formDevolucao.reset();
+
+
+                definirDataAtual();
+
+
+                carregarToalhasDisponiveis();
+
+                carregarToalhasEmUso();
+
+            }
+        );
+
+
+        /* ==================================================
+           INICIALIZAÇÃO
+        ================================================== */
+
+        carregarNadadores();
+
+        carregarFuncionarios();
+
+        carregarToalhasDisponiveis();
+
+        carregarToalhasEmUso();
+
+        definirDataAtual();
+
+    </script>
+
+</body>
+
+</html>

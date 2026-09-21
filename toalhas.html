@@ -5,447 +5,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toalhas - Nado Livre</title>
-
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 30px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        h1 {
-            margin-bottom: 10px;
-        }
-
-        .voltar {
-            display: inline-block;
-            margin-bottom: 25px;
-            text-decoration: none;
-            color: #333;
-        }
-
-        h2 {
-            margin-top: 25px;
-        }
-
-        form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            flex: 1;
-        }
-
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #333;
-            color: white;
-        }
-
-        button:hover {
-            opacity: 0.85;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #eee;
-        }
-
-        .disponivel {
-            color: green;
-            font-weight: bold;
-        }
-
-        .em-uso {
-            color: #c77d00;
-            font-weight: bold;
-        }
-
-        .acoes button {
-            margin-right: 5px;
-        }
-
-        /* POP-UP */
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-conteudo {
-            background-color: white;
-            width: 350px;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal-conteudo h2 {
-            margin-top: 0;
-        }
-
-        .modal-conteudo label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .modal-conteudo input {
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
-
-        .botoes-modal {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .botao-cancelar {
-            background-color: #777;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/frontend_JS/css/toalhas.css">
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="layout">
 
-        <h1>Toalhas</h1>
+        <aside class="sidebar">
 
-        <a class="voltar" href="index.html">
-            ← Voltar para o início
-        </a>
+            <div class="brand">
+                <div class="logo-space">
+                    <img src="img/logo.svg" alt="">
+                </div>
 
-        <!-- CADASTRO -->
+                <div class="brand-text">
+                    <div class="brand-name">
+                        NADO<span>LIVRE</span>
+                    </div>
+                    <div class="brand-subtitle">
+                        Controle de Toalhas
+                    </div>
+                </div>
+            </div>
 
-        <h2>Cadastrar Toalha</h2>
+            <nav class="navigation">
 
-        <form id="formToalha">
+                <a href="index.html" class="nav-item">
+                    <span class="icon-space"><img src="img/House.svg" alt=""></span>
+                    <span>Início</span>
+                </a>
 
-            <input
-                type="text"
-                id="codigoIdentificador"
-                placeholder="Código identificador"
-                required
-            >
+                <a href="funcionarios.html" class="nav-item">
+                    <span class="icon-space"><img src="img/users.svg" alt=""></span>
+                    <span>Cadastro</span>
+                </a>
 
-            <button type="submit">
-                Cadastrar
-            </button>
+                <a href="movimentacao.html" class="nav-item">
+                    <span class="icon-space"><img src="img/movi.svg" alt=""></span>
+                    <span>Movimentação</span>
+                </a>
 
-        </form>
+                <a href="toalhas.html" class="nav-item selected">
+                    <span class="icon-space"><img src="img/toalha.svg" alt=""></span>
+                    <span>Toalhas</span>
+                </a>
 
-        <!-- LISTAGEM -->
+                <a href="historico.html" class="nav-item">
+                    <span class="icon-space"><img src="img/ClockCountdown.svg" alt=""></span>
+                    <span>Histórico</span>
+                </a>
 
-        <h2>Toalhas cadastradas</h2>
+            </nav>
 
-        <table>
+            <div class="sidebar-bottom">
 
-            <thead>
+                <div class="user-box">
+                    <div class="user-image-space">
+                        <img src="img/userphoto.svg" alt="">
+                    </div>
 
-                <tr>
-                    <th>Código identificador</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
+                    <div class="user-info">
+                        <strong>Usuario</strong>
+                        <span>Contabilidade</span>
+                    </div>
 
-            </thead>
+                    <div class="arrow-space">
+                        <img src="img/arrow.svg" alt="">
+                    </div>
+                </div>
 
-            <tbody id="listaToalhas">
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <!-- POP-UP DE ALTERAÇÃO -->
-
-    <div id="modalAlterar" class="modal">
-
-        <div class="modal-conteudo">
-
-            <h2>Alterar toalha</h2>
-
-            <label for="novoCodigo">
-                Código identificador
-            </label>
-
-            <input
-                type="text"
-                id="novoCodigo"
-                placeholder="Digite o novo código"
-            >
-
-            <div class="botoes-modal">
-
-                <button
-                    class="botao-cancelar"
-                    onclick="fecharModal()"
-                >
-                    Cancelar
-                </button>
-
-                <button onclick="salvarAlteracao()">
-                    Salvar
-                </button>
+                <a href="#" class="logout">
+                    <span class="logout-icon-space">
+                        <img src="img/exit.svg" alt="">
+                    </span>
+                    <span>Sair</span>
+                </a>
 
             </div>
 
-        </div>
+        </aside>
+
+
+        <main class="main-content">
+
+            <header class="page-header">
+                <h1>Toalhas</h1>
+                <p>Acompanhe a situação das toalhas cadastradas no sistema.</p>
+            </header>
+
+
+            <section class="toalhas-area">
+
+                <!-- FILTRO / SITUAÇÃO -->
+                <section class="situacao-card">
+
+                    <div class="situacao-header">
+                        <div>
+                            <h2>Situação das Toalhas</h2>
+                        </div>
+
+                        <div class="filtros">
+                            <label for="filtroStatus">Filtrar por status:</label>
+
+                            <select id="filtroStatus">
+                                <option value="Todas">Todas</option>
+                                <option value="Disponível">Disponíveis</option>
+                                <option value="Em uso">Em uso</option>
+                                <option value="Não devolvida">Não devolvidas</option>
+                            </select>
+
+                            <button type="button" class="button-atualizar" id="btnAtualizar">
+                                <span class="refresh-icon">↻</span>
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+
+                </section>
+
+
+                <!-- LISTAGEM -->
+                <section class="listagem-card">
+
+                    <div class="table-wrapper">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Código</th>
+                                    <th>Status</th>
+                                    <th>Última movimentação</th>
+                                    <th>Observação</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="listaToalhas"></tbody>
+                        </table>
+
+                        <div id="mensagemVazia" class="mensagem-vazia">
+                            Nenhuma toalha encontrada.
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESUMO -->
+                    <div class="summary">
+
+                        <div class="summary-card">
+                            <div class="summary-icon total">
+                                <img src="img/toalha.svg" alt="">
+                            </div>
+                            <div class="summary-info">
+                                <span>Total de toalhas</span>
+                                <strong id="totalToalhas">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon available">✓</div>
+                            <div class="summary-info">
+                                <span>Disponíveis</span>
+                                <strong id="totalDisponiveis">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon in-use">◷</div>
+                            <div class="summary-info">
+                                <span>Em uso</span>
+                                <strong id="totalEmUso">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon not-returned">!</div>
+                        
+                            <div class="summary-info">
+                                <span>Não devolvidas</span>
+                                <strong id="totalNaoDevolvidas">0</strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
 
     </div>
 
+
     <script>
 
-        // CLASSE E ARRAY
-
+        /* CLASSE */
         class Toalha {
-
-            constructor(codigoIdentificador) {
+            constructor(id, codigoIdentificador, status, ultimaMovimentacao, observacao) {
+                this.id = id;
                 this.codigoIdentificador = codigoIdentificador;
-                this.status = "Disponível";
+                this.status = status;
+                this.ultimaMovimentacao = ultimaMovimentacao;
+                this.observacao = observacao;
             }
-
         }
 
-        const toalhas = [];
 
-        let indiceToalhaAlteracao = null;
-
-
-        // ELEMENTOS
-
-        const formToalha =
-            document.getElementById("formToalha");
-
-        const codigoIdentificadorInput =
-            document.getElementById("codigoIdentificador");
-
-        const listaToalhas =
-            document.getElementById("listaToalhas");
-
-        const modalAlterar =
-            document.getElementById("modalAlterar");
-
-        const novoCodigo =
-            document.getElementById("novoCodigo");
+        /* ARRAY DE TOALHAS
+           Estes dados representam as toalhas já cadastradas.
+           O cadastro é feito na página Cadastro. */
+        const toalhas = [
+            new Toalha("01", "TOL-001", "Disponível", "22/05/2026 13:35", "Pronta para uso"),
+            new Toalha("02", "TOL-002", "Em uso", "22/05/2026 14:35", "Retirada por nadador"),
+            new Toalha("03", "TOL-003", "Disponível", "22/05/2026 16:35", "Pronta para uso"),
+            new Toalha("04", "TOL-004", "Não devolvida", "22/05/2026 15:35", "Aguardando devolução"),
+            new Toalha("05", "TOL-005", "Disponível", "22/05/2026 13:35", "Pronta para uso"),
+            new Toalha("06", "TOL-006", "Em uso", "22/05/2026 13:35", "Retirada por nadador"),
+            new Toalha("07", "TOL-007", "Disponível", "22/05/2026 09:35", "Pronta para uso"),
+            new Toalha("08", "TOL-008", "Não devolvida", "22/05/2026 00:00", "Aguardando devolução"),
+            new Toalha("09", "TOL-009", "Disponível", "22/05/2026 18:00", "Pronta para uso"),
+            new Toalha("10", "TOL-010", "Em uso", "22/05/2026 18:50", "Retirada por nadador")
+        ];
 
 
-        // CADASTRO
-
-        formToalha.addEventListener("submit", function(event) {
-
-            event.preventDefault();
-
-            const codigo =
-                codigoIdentificadorInput.value.trim();
-
-            if (codigo === "") {
-                alert("Informe o código identificador da toalha.");
-                return;
-            }
-
-            const existe = toalhas.some(function(toalha) {
-                return toalha.codigoIdentificador === codigo;
-            });
-
-            if (existe) {
-                alert("Já existe uma toalha com esse código identificador.");
-                return;
-            }
-
-            const novaToalha = new Toalha(codigo);
-
-            toalhas.push(novaToalha);
-
-            atualizarLista();
-
-            codigoIdentificadorInput.value = "";
-
-        });
+        /* ELEMENTOS */
+        const listaToalhas = document.getElementById("listaToalhas");
+        const mensagemVazia = document.getElementById("mensagemVazia");
+        const filtroStatus = document.getElementById("filtroStatus");
+        const btnAtualizar = document.getElementById("btnAtualizar");
+        const totalToalhas = document.getElementById("totalToalhas");
+        const totalDisponiveis = document.getElementById("totalDisponiveis");
+        const totalEmUso = document.getElementById("totalEmUso");
+        const totalNaoDevolvidas = document.getElementById("totalNaoDevolvidas");
 
 
-        // LISTAGEM
-
+        /* LISTAGEM */
         function atualizarLista() {
+
+            const filtro = filtroStatus.value;
+
+            const toalhasFiltradas = toalhas.filter(function (toalha) {
+                return filtro === "Todas" || toalha.status === filtro;
+            });
 
             listaToalhas.innerHTML = "";
 
-            toalhas.forEach(function(toalha, index) {
+            if (toalhasFiltradas.length === 0) {
+                mensagemVazia.style.display = "block";
+            } else {
+                mensagemVazia.style.display = "none";
+            }
+
+            toalhasFiltradas.forEach(function (toalha) {
 
                 const linha = document.createElement("tr");
 
-                const classeStatus =
-                    toalha.status === "Disponível"
-                        ? "disponivel"
-                        : "em-uso";
+                let classeStatus = "";
+
+                if (toalha.status === "Disponível") {
+                    classeStatus = "status-disponivel";
+                } else if (toalha.status === "Em uso") {
+                    classeStatus = "status-em-uso";
+                } else {
+                    classeStatus = "status-nao-devolvida";
+                }
 
                 linha.innerHTML = `
-
+                    <td>${toalha.id}</td>
+                    <td class="codigo">${toalha.codigoIdentificador}</td>
                     <td>
-                        ${toalha.codigoIdentificador}
-                    </td>
-
-                    <td class="${classeStatus}">
-                        ${toalha.status}
-                    </td>
-
-                    <td class="acoes">
-
-                        <button onclick="abrirModal(${index})">
-                            Alterar
+                        <button
+                            type="button"
+                            class="status ${classeStatus}"
+                            onclick="alterarStatus('${toalha.id}')"
+                            title="Clique para alterar a situação"
+                        >
+                            <span class="status-icone">
+                                ${toalha.status === "Disponível" ? "✓" : toalha.status === "Em uso" ? "◷" : "!"}
+                            </span>
+                            ${toalha.status}
                         </button>
-
-                        <button onclick="alterarStatus(${index})">
-                            Alterar status
-                        </button>
-
                     </td>
-
+                    <td>${toalha.ultimaMovimentacao}</td>
+                    <td>${toalha.observacao}</td>
                 `;
 
                 listaToalhas.appendChild(linha);
-
             });
 
+            atualizarResumo();
         }
 
 
-        // ALTERAÇÃO
+        /* RESUMO */
+        function atualizarResumo() {
 
-        function abrirModal(index) {
+            const disponiveis = toalhas.filter(function (toalha) {
+                return toalha.status === "Disponível";
+            }).length;
 
-            indiceToalhaAlteracao = index;
+            const emUso = toalhas.filter(function (toalha) {
+                return toalha.status === "Em uso";
+            }).length;
 
-            novoCodigo.value =
-                toalhas[index].codigoIdentificador;
+            const naoDevolvidas = toalhas.filter(function (toalha) {
+                return toalha.status === "Não devolvida";
+            }).length;
 
-            modalAlterar.style.display = "flex";
-
-            novoCodigo.focus();
-
+            totalToalhas.textContent = toalhas.length;
+            totalDisponiveis.textContent = disponiveis;
+            totalEmUso.textContent = emUso;
+            totalNaoDevolvidas.textContent = naoDevolvidas;
         }
 
 
-        function fecharModal() {
+        /* ALTERAÇÃO DA SITUAÇÃO */
+        function alterarStatus(id) {
+            
+            const toalha = toalhas.find(function (item) {
+                return item.id === id;
+            });
 
-            modalAlterar.style.display = "none";
-
-            indiceToalhaAlteracao = null;
-
-        }
-
-
-        function salvarAlteracao() {
-
-            if (indiceToalhaAlteracao === null) {
+            if (!toalha) {
                 return;
             }
-
-            const codigo =
-                novoCodigo.value.trim();
-
-            if (codigo === "") {
-                alert("O código identificador não pode ficar vazio.");
-                return;
-            }
-
-            const existe =
-                toalhas.some(function(toalha, index) {
-
-                    return (
-                        toalha.codigoIdentificador === codigo &&
-                        index !== indiceToalhaAlteracao
-                    );
-
-                });
-
-            if (existe) {
-                alert("Já existe uma toalha com esse código identificador.");
-                return;
-            }
-
-            toalhas[indiceToalhaAlteracao]
-                .codigoIdentificador = codigo;
-
-            atualizarLista();
-
-            fecharModal();
-
-        }
-
-
-        // STATUS
-
-        function alterarStatus(index) {
-
-            const toalha = toalhas[index];
-
+            
             if (toalha.status === "Disponível") {
                 toalha.status = "Em uso";
-            } else {
+                toalha.observacao = "Retirada por nadador";
+            } else if (toalha.status === "Em uso") {
+                toalha.status = "Não devolvida";
+                toalha.observacao = "Aguardando devolução";
+            } else if (toalha.status === "Não devolvida") {
                 toalha.status = "Disponível";
+                toalha.observacao = "Pronta para uso";
             }
 
             atualizarLista();
-
         }
 
 
-        // FECHAR POP-UP
+        /* FILTRO */
+        filtroStatus.addEventListener("change", atualizarLista);
 
-        window.addEventListener("click", function(event) {
 
-            if (event.target === modalAlterar) {
-                fecharModal();
-            }
-
+        /* ATUALIZAR */
+        btnAtualizar.addEventListener("click", function () {
+            atualizarLista();
         });
+
+
+        /* PRIMEIRA EXIBIÇÃO */
+        atualizarLista();
 
     </script>
 
 </body>
 
 </html>
-```
