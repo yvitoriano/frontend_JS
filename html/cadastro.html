@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastros - Nado Livre</title>
-    <link rel="stylesheet" href="css/funcionarios.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
 
             <div class="brand">
                 <div class="logo-space">
-                    <img src="img/logo.svg" alt="">
+                    <img src="../img/logo.svg" alt="">
                 </div>
 
                 <div class="brand-text">
@@ -34,35 +34,35 @@
 
                 <a href="index.html" class="nav-item">
                     <span class="icon-space">
-                        <img src="img/House.svg" alt="">
+                        <img src="../img/House.svg" alt="">
                     </span>
                     <span>Início</span>
                 </a>
 
-                <a href="funcionarios.html" class="nav-item selected">
+                <a href="cadastro.html" class="nav-item selected">
                     <span class="icon-space">
-                        <img src="img/users.svg" alt="">
+                        <img src="../img/users.svg" alt="">
                     </span>
                     <span>Cadastro</span>
                 </a>
 
                 <a href="movimentacao.html" class="nav-item">
                     <span class="icon-space">
-                        <img src="img/movi.svg" alt="">
+                        <img src="../img/movi.svg" alt="">
                     </span>
                     <span>Movimentação</span>
                 </a>
 
                 <a href="toalhas.html" class="nav-item">
                     <span class="icon-space">
-                        <img src="img/toalha.svg" alt="">
+                        <img src="../img/toalha.svg" alt="">
                     </span>
                     <span>Toalhas</span>
                 </a>
 
                 <a href="historico.html" class="nav-item">
                     <span class="icon-space">
-                        <img src="img/ClockCountdown.svg" alt="">
+                        <img src="../img/ClockCountdown.svg" alt="">
                     </span>
                     <span>Histórico</span>
                 </a>
@@ -74,7 +74,7 @@
                 <div class="user-box">
 
                     <div class="user-image-space">
-                        <img src="img/userphoto.svg" alt="">
+                        <img src="../img/userphoto.svg" alt="">
                     </div>
 
                     <div class="user-info">
@@ -83,14 +83,14 @@
                     </div>
 
                     <div class="arrow-space">
-                        <img src="img/arrow.svg" alt="">
+                        <img src="../img/arrow.svg" alt="">
                     </div>
 
                 </div>
 
                 <a href="#" class="logout">
                     <span class="logout-icon-space">
-                        <img src="img/exit.svg" alt="">
+                        <img src="../img/exit.svg" alt="">
                     </span>
                     <span>Sair</span>
                 </a>
@@ -117,21 +117,21 @@
 
                     <button class="tab active" data-tab="nadador">
                         <span class="tab-icon-space">
-                            <img src="img/icon2.svg" alt="">
+                            <img src="../img/icon2.svg" alt="">
                         </span>
                         <span>Nadador</span>
                     </button>
 
                     <button class="tab" data-tab="funcionario">
                         <span class="tab-icon-space">
-                            <img src="img/icon2 (1).svg" alt="">
+                            <img src="../img/icon2 (1).svg" alt="">
                         </span>
                         <span>Funcionário</span>
                     </button>
 
                     <button class="tab" data-tab="toalha">
                         <span class="tab-icon-space">
-                            <img src="img/icon2 (2).svg" alt="">
+                            <img src="../img/icon2 (2).svg" alt="">
                         </span>
                         <span>Toalhas</span>
                     </button>
@@ -159,11 +159,6 @@
 
                         <div class="form-grid">
 
-                            <div class="field">
-                                <label for="idNadador">ID</label>
-
-                                <input type="text" id="idNadador" placeholder="ID será gerado automaticamente" readonly>
-                            </div>
 
 
                             <div class="field">
@@ -226,15 +221,6 @@
                     <form id="formFuncionario">
 
                         <div class="form-grid">
-
-                            <div class="field">
-                                <label for="idFuncionario">ID</label>
-
-                                <input type="text" id="idFuncionario" placeholder="ID será gerado automaticamente"
-                                    readonly>
-                            </div>
-
-
                             <div class="field">
                                 <label for="nomeFuncionario">Nome</label>
 
@@ -322,7 +308,7 @@
                 <div class="information">
 
                     <div class="information-icon-space">
-                        <img src="img/Info.svg" alt="">
+                        <img src="../img/Info.svg" alt="">
                     </div>
 
                     <div>
@@ -342,141 +328,8 @@
     </div>
 
 
-    <script>
+    <script type="module" src="../JS/cadastro.js"></script>
 
-        let proximoIdNadador = 1;
-        let proximoIdFuncionario = 1;
-
-        const nadadores = [];
-        const funcionarios = [];
-        const toalhas = [];
-
-
-        /* ABAS */
-
-        const tabs = document.querySelectorAll(".tab");
-        const conteudos = document.querySelectorAll(".tab-content");
-
-        tabs.forEach(function (tab) {
-
-            tab.addEventListener("click", function () {
-
-                const nomeAba = tab.dataset.tab;
-
-                tabs.forEach(function (item) {
-                    item.classList.remove("active");
-                });
-
-                conteudos.forEach(function (conteudo) {
-                    conteudo.classList.remove("active");
-                });
-
-                tab.classList.add("active");
-
-                document
-                    .getElementById(nomeAba)
-                    .classList.add("active");
-
-            });
-
-        });
-
-
-        /* NADADOR */
-
-        document
-            .getElementById("formNadador")
-            .addEventListener("submit", function (event) {
-
-                event.preventDefault();
-
-                const nadador = {
-                    id: proximoIdNadador,
-                    nome: document.getElementById("nomeNadador").value,
-                    cpf: document.getElementById("cpfNadador").value,
-                    telefone: document.getElementById("telefoneNadador").value,
-                    email: document.getElementById("emailNadador").value
-                };
-
-                nadadores.push(nadador);
-
-                proximoIdNadador++;
-
-                alert("Nadador cadastrado com sucesso.");
-
-                this.reset();
-
-            });
-
-
-        /* FUNCIONÁRIO */
-
-        document
-            .getElementById("formFuncionario")
-            .addEventListener("submit", function (event) {
-
-                event.preventDefault();
-
-                const funcionario = {
-                    id: proximoIdFuncionario,
-                    nome: document.getElementById("nomeFuncionario").value,
-                    cpf: document.getElementById("cpfFuncionario").value,
-                    telefone: document.getElementById("telefoneFuncionario").value,
-                    email: document.getElementById("emailFuncionario").value
-                };
-
-                funcionarios.push(funcionario);
-
-                proximoIdFuncionario++;
-
-                alert("Funcionário cadastrado com sucesso.");
-
-                this.reset();
-
-            });
-
-
-        /* TOALHAS */
-
-        document
-            .getElementById("formToalha")
-            .addEventListener("submit", function (event) {
-
-                event.preventDefault();
-
-                const codigo = document
-                    .getElementById("codigoToalha")
-                    .value
-                    .trim();
-
-                const existe = toalhas.some(function (toalha) {
-
-                    return toalha.codigo === codigo;
-
-                });
-
-                if (existe) {
-
-                    alert(
-                        "Já existe uma toalha com esse código identificador."
-                    );
-
-                    return;
-
-                }
-
-                toalhas.push({
-                    codigo: codigo,
-                    status: "Disponível"
-                });
-
-                alert("Toalha cadastrada com sucesso.");
-
-                this.reset();
-
-            });
-
-    </script>
 
 </body>
 

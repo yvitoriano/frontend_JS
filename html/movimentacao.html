@@ -12,7 +12,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/frontend_JS/css/movimentacao.css">
+    <link rel="stylesheet" href="../css/movimentacao.css">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
             <div class="brand">
 
                 <div class="logo-space">
-                    <img src="img/logo.svg" alt="">
+                    <img src="../img/logo.svg" alt="">
                 </div>
 
                 <div class="brand-text">
@@ -49,7 +49,7 @@
                 <a href="index.html" class="nav-item">
 
                     <span class="icon-space">
-                        <img src="img/House.svg" alt="">
+                        <img src="../img/House.svg" alt="">
                     </span>
 
                     <span>Início</span>
@@ -57,10 +57,10 @@
                 </a>
 
 
-                <a href="funcionarios.html" class="nav-item">
+                <a href="cadastro.html" class="nav-item">
 
                     <span class="icon-space">
-                        <img src="img/users.svg" alt="">
+                        <img src="../img/users.svg" alt="">
                     </span>
 
                     <span>Cadastro</span>
@@ -71,7 +71,7 @@
                 <a href="movimentacao.html" class="nav-item selected">
 
                     <span class="icon-space">
-                        <img src="img/movi.svg" alt="">
+                        <img src="../img/movi.svg" alt="">
                     </span>
 
                     <span>Movimentação</span>
@@ -82,7 +82,7 @@
                 <a href="toalhas.html" class="nav-item">
 
                     <span class="icon-space">
-                        <img src="img/toalha.svg" alt="">
+                        <img src="../img/toalha.svg" alt="">
                     </span>
 
                     <span>Toalhas</span>
@@ -93,7 +93,7 @@
                 <a href="historico.html" class="nav-item">
 
                     <span class="icon-space">
-                        <img src="img/ClockCountdown.svg" alt="">
+                        <img src="../img/ClockCountdown.svg" alt="">
                     </span>
 
                     <span>Histórico</span>
@@ -108,7 +108,7 @@
                 <div class="user-box">
 
                     <div class="user-image-space">
-                        <img src="img/userphoto.svg" alt="">
+                        <img src="../img/userphoto.svg" alt="">
                     </div>
 
                     <div class="user-info">
@@ -117,7 +117,7 @@
                     </div>
 
                     <div class="arrow-space">
-                        <img src="img/arrow.svg" alt="">
+                        <img src="../img/arrow.svg" alt="">
                     </div>
 
                 </div>
@@ -126,7 +126,7 @@
                 <a href="#" class="logout">
 
                     <span class="logout-icon-space">
-                        <img src="img/exit.svg" alt="">
+                        <img src="../img/exit.svg" alt="">
                     </span>
 
                     <span>Sair</span>
@@ -452,432 +452,8 @@
 
     <!-- JAVASCRIPT -->
 
-    <script>
+    <script type="module" src="../JS/movimentacao.js"></script>
 
-        /* ==================================================
-           CLASSES
-        ================================================== */
-
-        class Nadador {
-
-            constructor(id, nome) {
-
-                this.id = id;
-                this.nome = nome;
-
-            }
-
-        }
-
-
-        class Funcionario {
-
-            constructor(id, nome) {
-
-                this.id = id;
-                this.nome = nome;
-
-            }
-
-        }
-
-
-        class Toalha {
-
-            constructor(id, codigoIdentificador, status) {
-
-                this.id = id;
-                this.codigoIdentificador = codigoIdentificador;
-                this.status = status;
-
-            }
-
-        }
-
-
-        /* ==================================================
-           DADOS DE EXEMPLO
-        ================================================== */
-
-        const nadadores = [
-
-            new Nadador("01", "João Silva"),
-
-            new Nadador("02", "Maria Santos"),
-
-            new Nadador("03", "Pedro Oliveira"),
-
-            new Nadador("04", "Ana Beatriz")
-
-        ];
-
-
-        const funcionarios = [
-
-            new Funcionario("01", "Carlos Souza"),
-
-            new Funcionario("02", "Mariana Lima"),
-
-            new Funcionario("03", "Fernanda Costa")
-
-        ];
-
-
-        const toalhas = [
-
-            new Toalha("01", "TOL-001", "Disponível"),
-
-            new Toalha("02", "TOL-002", "Em uso"),
-
-            new Toalha("03", "TOL-003", "Disponível"),
-
-            new Toalha("04", "TOL-004", "Disponível"),
-
-            new Toalha("05", "TOL-005", "Em uso"),
-
-            new Toalha("06", "TOL-006", "Disponível")
-
-        ];
-
-
-        /* ==================================================
-           ELEMENTOS
-        ================================================== */
-
-        const selectNadadorRetirada =
-            document.getElementById("nadadorRetirada");
-
-
-        const selectFuncionarioRetirada =
-            document.getElementById("funcionarioRetirada");
-
-
-        const selectToalhaRetirada =
-            document.getElementById("toalhaRetirada");
-
-
-        const selectToalhaDevolucao =
-            document.getElementById("toalhaDevolucao");
-
-
-        const selectFuncionarioDevolucao =
-            document.getElementById("funcionarioDevolucao");
-
-
-        const dataRetirada =
-            document.getElementById("dataRetirada");
-
-
-        const dataDevolucao =
-            document.getElementById("dataDevolucao");
-
-
-        const formRetirada =
-            document.getElementById("formRetirada");
-
-
-        const formDevolucao =
-            document.getElementById("formDevolucao");
-
-
-        /* ==================================================
-           CARREGAR NADADORES
-        ================================================== */
-
-        function carregarNadadores() {
-
-            nadadores.forEach(function (nadador) {
-
-                const option =
-                    document.createElement("option");
-
-                option.value = nadador.id;
-
-                option.textContent = nadador.nome;
-
-                selectNadadorRetirada.appendChild(option);
-
-            });
-
-        }
-
-
-        /* ==================================================
-           CARREGAR FUNCIONÁRIOS
-        ================================================== */
-
-        function carregarFuncionarios() {
-
-            funcionarios.forEach(function (funcionario) {
-
-                const optionRetirada =
-                    document.createElement("option");
-
-                optionRetirada.value = funcionario.id;
-
-                optionRetirada.textContent =
-                    funcionario.nome;
-
-                selectFuncionarioRetirada.appendChild(
-                    optionRetirada
-                );
-
-
-                const optionDevolucao =
-                    document.createElement("option");
-
-                optionDevolucao.value = funcionario.id;
-
-                optionDevolucao.textContent =
-                    funcionario.nome;
-
-                selectFuncionarioDevolucao.appendChild(
-                    optionDevolucao
-                );
-
-            });
-
-        }
-
-
-        /* ==================================================
-           CARREGAR TOALHAS DISPONÍVEIS
-        ================================================== */
-
-        function carregarToalhasDisponiveis() {
-
-            selectToalhaRetirada.innerHTML = `
-                <option value="">
-                    Selecione a toalha disponível
-                </option>
-            `;
-
-
-            toalhas.forEach(function (toalha) {
-
-                if (toalha.status === "Disponível") {
-
-                    const option =
-                        document.createElement("option");
-
-                    option.value = toalha.id;
-
-                    option.textContent =
-                        toalha.codigoIdentificador;
-
-                    selectToalhaRetirada.appendChild(option);
-
-                }
-
-            });
-
-        }
-
-
-        /* ==================================================
-           CARREGAR TOALHAS EM USO
-        ================================================== */
-
-        function carregarToalhasEmUso() {
-
-            selectToalhaDevolucao.innerHTML = `
-                <option value="">
-                    Selecione a toalha
-                </option>
-            `;
-
-
-            toalhas.forEach(function (toalha) {
-
-                if (toalha.status === "Em uso") {
-
-                    const option =
-                        document.createElement("option");
-
-                    option.value = toalha.id;
-
-                    option.textContent =
-                        toalha.codigoIdentificador;
-
-                    selectToalhaDevolucao.appendChild(option);
-
-                }
-
-            });
-
-        }
-
-
-        /* ==================================================
-           DATA E HORA ATUAL
-        ================================================== */
-
-        function definirDataAtual() {
-
-            const agora = new Date();
-
-
-            const ano =
-                agora.getFullYear();
-
-
-            const mes =
-                String(
-                    agora.getMonth() + 1
-                ).padStart(2, "0");
-
-
-            const dia =
-                String(
-                    agora.getDate()
-                ).padStart(2, "0");
-
-
-            const hora =
-                String(
-                    agora.getHours()
-                ).padStart(2, "0");
-
-
-            const minutos =
-                String(
-                    agora.getMinutes()
-                ).padStart(2, "0");
-
-
-            const dataFormatada =
-                `${ano}-${mes}-${dia}T${hora}:${minutos}`;
-
-
-            dataRetirada.value =
-                dataFormatada;
-
-
-            dataDevolucao.value =
-                dataFormatada;
-
-        }
-
-
-        /* ==================================================
-           REGISTRAR RETIRADA
-        ================================================== */
-
-        formRetirada.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                const toalhaId =
-                    selectToalhaRetirada.value;
-
-
-                const toalha =
-                    toalhas.find(function (item) {
-
-                        return item.id === toalhaId;
-
-                    });
-
-
-                if (!toalha) {
-
-                    return;
-
-                }
-
-
-                toalha.status = "Em uso";
-
-
-                alert(
-                    "Retirada registrada com sucesso!"
-                );
-
-
-                formRetirada.reset();
-
-
-                definirDataAtual();
-
-
-                carregarToalhasDisponiveis();
-
-                carregarToalhasEmUso();
-
-            }
-        );
-
-
-        /* ==================================================
-           REGISTRAR DEVOLUÇÃO
-        ================================================== */
-
-        formDevolucao.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                const toalhaId =
-                    selectToalhaDevolucao.value;
-
-
-                const toalha =
-                    toalhas.find(function (item) {
-
-                        return item.id === toalhaId;
-
-                    });
-
-
-                if (!toalha) {
-
-                    return;
-
-                }
-
-
-                toalha.status = "Disponível";
-
-
-                alert(
-                    "Devolução registrada com sucesso!"
-                );
-
-
-                formDevolucao.reset();
-
-
-                definirDataAtual();
-
-
-                carregarToalhasDisponiveis();
-
-                carregarToalhasEmUso();
-
-            }
-        );
-
-
-        /* ==================================================
-           INICIALIZAÇÃO
-        ================================================== */
-
-        carregarNadadores();
-
-        carregarFuncionarios();
-
-        carregarToalhasDisponiveis();
-
-        carregarToalhasEmUso();
-
-        definirDataAtual();
-
-    </script>
 
 </body>
 
