@@ -159,12 +159,17 @@
 
                         <div class="form-grid">
 
-
-
                             <div class="field">
                                 <label for="nomeNadador">Nome</label>
 
                                 <input type="text" id="nomeNadador" placeholder="Digite o nome completo" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="telefoneNadador">Telefone</label>
+
+                                <input type="text" id="telefoneNadador" placeholder="(00)00000-0000" required>
                             </div>
 
 
@@ -176,13 +181,6 @@
 
 
                             <div class="field">
-                                <label for="telefoneNadador">Telefone</label>
-
-                                <input type="text" id="telefoneNadador" placeholder="(00)00000-0000" required>
-                            </div>
-
-
-                            <div class="field full">
                                 <label for="emailNadador">E-mail</label>
 
                                 <input type="email" id="emailNadador" placeholder="exemplo@gmail.com" required>
@@ -192,9 +190,15 @@
 
 
                         <div class="form-actions">
+
+                            <button type="button" class="button-secondary" data-lista="nadador">
+                                Ver cadastrados
+                            </button>
+
                             <button type="submit" class="button-primary">
                                 Cadastrar
                             </button>
+
                         </div>
 
                     </form>
@@ -221,10 +225,18 @@
                     <form id="formFuncionario">
 
                         <div class="form-grid">
+
                             <div class="field">
                                 <label for="nomeFuncionario">Nome</label>
 
                                 <input type="text" id="nomeFuncionario" placeholder="Digite o nome completo" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="telefoneFuncionario">Telefone</label>
+
+                                <input type="text" id="telefoneFuncionario" placeholder="(00)00000-0000" required>
                             </div>
 
 
@@ -236,13 +248,6 @@
 
 
                             <div class="field">
-                                <label for="telefoneFuncionario">Telefone</label>
-
-                                <input type="text" id="telefoneFuncionario" placeholder="(00)00000-0000" required>
-                            </div>
-
-
-                            <div class="field full">
                                 <label for="emailFuncionario">E-mail</label>
 
                                 <input type="email" id="emailFuncionario" placeholder="exemplo@gmail.com" required>
@@ -252,9 +257,15 @@
 
 
                         <div class="form-actions">
+
+                            <button type="button" class="button-secondary" data-lista="funcionario">
+                                Ver cadastrados
+                            </button>
+
                             <button type="submit" class="button-primary">
                                 Cadastrar
                             </button>
+
                         </div>
 
                     </form>
@@ -283,21 +294,29 @@
                         <div class="form-grid">
 
                             <div class="field full">
+
                                 <label for="codigoToalha">
                                     Código identificador
                                 </label>
 
                                 <input type="text" id="codigoToalha" placeholder="Digite o código identificador"
                                     required>
+
                             </div>
 
                         </div>
 
 
                         <div class="form-actions">
+
+                            <button type="button" class="button-secondary" data-lista="toalha">
+                                Ver cadastrados
+                            </button>
+
                             <button type="submit" class="button-primary">
                                 Cadastrar
                             </button>
+
                         </div>
 
                     </form>
@@ -328,8 +347,145 @@
     </div>
 
 
-    <script type="module" src="../JS/cadastro.js"></script>
+    <!-- MODAL LISTA -->
 
+    <div class="modal-overlay" id="modalLista" aria-hidden="true">
+
+        <div class="modal modal-lista" role="dialog" aria-modal="true">
+
+            <button class="modal-close" type="button" data-fechar="lista" aria-label="Fechar">
+                &times;
+            </button>
+
+
+            <h2 id="tituloLista">Cadastros</h2>
+
+
+            <div class="list-search">
+
+                <span>⌕</span>
+
+                <input id="buscaCadastro" type="search" placeholder="Buscar por nome, CPF ou ID...">
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table class="cadastros-table">
+
+                    <thead id="cabecalhoLista"></thead>
+
+                    <tbody id="corpoLista"></tbody>
+
+                </table>
+
+            </div>
+
+
+            <div id="listaVazia" class="empty-state" hidden>
+                Nenhum cadastro encontrado.
+            </div>
+
+
+            <div class="list-footer">
+
+                <span id="resumoLista"></span>
+
+                <div id="paginacaoLista" class="pagination"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MODAL EDIÇÃO -->
+
+    <div class="modal-overlay modal-overlay-top" id="modalEdicao" aria-hidden="true">
+
+        <div class="modal modal-edicao" role="dialog" aria-modal="true">
+
+            <button class="modal-close" type="button" data-fechar="edicao" aria-label="Fechar">
+                &times;
+            </button>
+
+
+            <h2 id="tituloEdicao">
+                Editar dados
+            </h2>
+
+
+            <form id="formEdicao">
+
+                <div class="edit-id">
+                    ID:
+                    <strong id="edicaoId"></strong>
+                </div>
+
+
+                <div id="camposEdicao"></div>
+
+
+                <div class="edit-actions">
+
+                    <button type="button" class="button-cancel" data-fechar="edicao">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="button-save">
+                        Salvar alterações
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- MODAL EXCLUSÃO -->
+
+    <div class="modal-overlay modal-overlay-confirm" id="modalConfirmacao" aria-hidden="true">
+
+        <div class="modal modal-confirmacao" role="dialog" aria-modal="true">
+
+            <button class="modal-close" type="button" data-fechar="confirmacao" aria-label="Fechar">
+                &times;
+            </button>
+
+
+            <h2>
+                Excluir cadastro
+            </h2>
+
+
+            <p>
+                Tem certeza que deseja excluir este cadastro?
+            </p>
+
+
+            <div class="confirm-actions">
+
+                <button type="button" class="button-cancel" data-fechar="confirmacao">
+                    Cancelar
+                </button>
+
+                <button type="button" id="confirmarExclusao" class="button-danger">
+                    Excluir
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="module" src="../JS/cadastro.js"></script>
 
 </body>
 

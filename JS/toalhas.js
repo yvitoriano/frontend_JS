@@ -1,160 +1,723 @@
+const STORAGE = {
+    toalhas: "toalhas",
+    movimentacoes: "movimentacoes"
+};
+
+const POR_PAGINA = 10;
+
+let paginaAtual = 1;
 
 
-/* CLASSE */
-class Toalha {
-    constructor(id, codigoIdentificador, status, ultimaMovimentacao, observacao) {
-        this.id = id;
-        this.codigoIdentificador = codigoIdentificador;
-        this.status = status;
-        this.ultimaMovimentacao = ultimaMovimentacao;
-        this.observacao = observacao;
+
+const listaToalhas =
+    document.getElementById("listaToalhas");
+
+const mensagemVazia =
+    document.getElementById("mensagemVazia");
+
+const filtroStatus =
+    document.getElementById("filtroStatus");
+
+const btnAtualizar =
+    document.getElementById("btnAtualizar");
+
+const totalToalhas =
+    document.getElementById("totalToalhas");
+
+const totalDisponiveis =
+    document.getElementById("totalDisponiveis");
+
+const totalEmUso =
+    document.getElementById("totalEmUso");
+
+const totalNaoDevolvidas =
+    document.getElementById("totalNaoDevolvidas");
+
+const paginacao =
+    document.getElementById("paginacao");
+
+const resumoPaginacao =
+    document.getElementById("resumoPaginacao");
+
+
+
+function carregarDados(chave) {
+
+    try {
+
+        const dados =
+            JSON.parse(
+                localStorage.getItem(chave)
+            );
+
+        return Array.isArray(dados)
+            ? dados
+            : [];
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar dados:",
+            erro
+        );
+
+        return [];
+
     }
+
 }
 
 
-/* ARRAY DE TOALHAS
-   Estes dados representam as toalhas já cadastradas.
-   O cadastro é feito na página Cadastro. */
-const toalhas = [
-    new Toalha("01", "TOL-001", "Disponível", "22/05/2026 13:35", "Pronta para uso"),
-    new Toalha("02", "TOL-002", "Em uso", "22/05/2026 14:35", "Retirada por nadador"),
-    new Toalha("03", "TOL-003", "Disponível", "22/05/2026 16:35", "Pronta para uso"),
-    new Toalha("04", "TOL-004", "Não devolvida", "22/05/2026 15:35", "Aguardando devolução"),
-    new Toalha("05", "TOL-005", "Disponível", "22/05/2026 13:35", "Pronta para uso"),
-    new Toalha("06", "TOL-006", "Em uso", "22/05/2026 13:35", "Retirada por nadador"),
-    new Toalha("07", "TOL-007", "Disponível", "22/05/2026 09:35", "Pronta para uso"),
-    new Toalha("08", "TOL-008", "Não devolvida", "22/05/2026 00:00", "Aguardando devolução"),
-    new Toalha("09", "TOL-009", "Disponível", "22/05/2026 18:00", "Pronta para uso"),
-    new Toalha("10", "TOL-010", "Em uso", "22/05/2026 18:50", "Retirada por nadador")
-];
+
+function formatarId(id) {
+
+    return String(id).padStart(
+        2,
+        "0"
+    );
+
+}
 
 
-/* ELEMENTOS */
-const listaToalhas = document.getElementById("listaToalhas");
-const mensagemVazia = document.getElementById("mensagemVazia");
-const filtroStatus = document.getElementById("filtroStatus");
-const btnAtualizar = document.getElementById("btnAtualizar");
-const totalToalhas = document.getElementById("totalToalhas");
-const totalDisponiveis = document.getElementById("totalDisponiveis");
-const totalEmUso = document.getElementById("totalEmUso");
-const totalNaoDevolvidas = document.getElementById("totalNaoDevolvidas");
+function formatarData(data) {
 
-
-/* LISTAGEM */
-function atualizarLista() {
-
-    const filtro = filtroStatus.value;
-
-    const toalhasFiltradas = toalhas.filter(function (toalha) {
-        return filtro === "Todas" || toalha.status === filtro;
-    });
-
-    listaToalhas.innerHTML = "";
-
-    if (toalhasFiltradas.length === 0) {
-        mensagemVazia.style.display = "block";
-    } else {
-        mensagemVazia.style.display = "none";
+    if (!data) {
+        return "—";
     }
 
-    toalhasFiltradas.forEach(function (toalha) {
 
-        const linha = document.createElement("tr");
+    const valor =
+        new Date(data);
 
-        let classeStatus = "";
 
-        if (toalha.status === "Disponível") {
-            classeStatus = "status-disponivel";
-        } else if (toalha.status === "Em uso") {
-            classeStatus = "status-em-uso";
-        } else {
-            classeStatus = "status-nao-devolvida";
+    if (
+        Number.isNaN(
+            valor.getTime()
+        )
+    ) {
+
+        return data;
+
+    }
+
+
+    return valor.toLocaleString(
+        "pt-BR",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+
+function buscarUltimaMovimentacao(
+    toalha,
+    movimentacoes
+) {
+
+    const registros =
+        movimentacoes.filter(
+            function (movimentacao) {
+
+                return (
+                    String(
+                        movimentacao.toalhaId
+                    ) ===
+                    String(
+                        toalha.id
+                    )
+                );
+
+            }
+        );
+
+
+    if (registros.length === 0) {
+
+        return null;
+
+    }
+
+
+    registros.sort(
+        function (a, b) {
+
+            return (
+                new Date(b.dataHora) -
+                new Date(a.dataHora)
+            );
+
+        }
+    );
+
+
+    return registros[0];
+
+}
+
+
+
+function obterObservacao(
+    toalha,
+    ultimaMovimentacao
+) {
+
+    if (
+        toalha.status ===
+        "Disponível"
+    ) {
+
+        return "Pronta para uso";
+
+    }
+
+
+    if (
+        toalha.status ===
+        "Em uso"
+    ) {
+
+        if (
+            ultimaMovimentacao &&
+            ultimaMovimentacao.nadadorNome
+        ) {
+
+            return (
+                "Retirada por " +
+                ultimaMovimentacao.nadadorNome
+            );
+
         }
 
-        linha.innerHTML = `
-                    <td>${toalha.id}</td>
-                    <td class="codigo">${toalha.codigoIdentificador}</td>
-                    <td>
-                        <button
-                            type="button"
-                            class="status ${classeStatus}"
-                            onclick="alterarStatus('${toalha.id}')"
-                            title="Clique para alterar a situação"
-                        >
-                            <span class="status-icone">
-                                ${toalha.status === "Disponível" ? "✓" : toalha.status === "Em uso" ? "◷" : "!"}
-                            </span>
-                            ${toalha.status}
-                        </button>
-                    </td>
-                    <td>${toalha.ultimaMovimentacao}</td>
-                    <td>${toalha.observacao}</td>
-                `;
 
-        listaToalhas.appendChild(linha);
-    });
+        return "Retirada por nadador";
 
-    atualizarResumo();
+    }
+
+
+    if (
+        toalha.status ===
+        "Não devolvida"
+    ) {
+
+        return "Aguardando devolução";
+
+    }
+
+
+    return "—";
+
 }
 
 
-/* RESUMO */
-function atualizarResumo() {
 
-    const disponiveis = toalhas.filter(function (toalha) {
-        return toalha.status === "Disponível";
-    }).length;
+function criarStatus(status) {
 
-    const emUso = toalhas.filter(function (toalha) {
-        return toalha.status === "Em uso";
-    }).length;
+    let classe =
+        "status-disponivel";
 
-    const naoDevolvidas = toalhas.filter(function (toalha) {
-        return toalha.status === "Não devolvida";
-    }).length;
+    let icone =
+        "✓";
 
-    totalToalhas.textContent = toalhas.length;
-    totalDisponiveis.textContent = disponiveis;
-    totalEmUso.textContent = emUso;
-    totalNaoDevolvidas.textContent = naoDevolvidas;
+
+    if (
+        status ===
+        "Em uso"
+    ) {
+
+        classe =
+            "status-em-uso";
+
+        icone =
+            "◷";
+
+    }
+
+
+    if (
+        status ===
+        "Não devolvida"
+    ) {
+
+        classe =
+            "status-nao-devolvida";
+
+        icone =
+            "!";
+
+    }
+
+
+    return `
+        <span class="status ${classe}">
+            <span class="status-icone">
+                ${icone}
+            </span>
+
+            ${status}
+        </span>
+    `;
+
 }
 
 
-/* ALTERAÇÃO DA SITUAÇÃO */
-function alterarStatus(id) {
+function atualizarLista() {
 
-    const toalha = toalhas.find(function (item) {
-        return item.id === id;
-    });
+    const toalhas =
+        carregarDados(
+            STORAGE.toalhas
+        );
 
-    if (!toalha) {
+
+    const movimentacoes =
+        carregarDados(
+            STORAGE.movimentacoes
+        );
+
+
+    const filtro =
+        filtroStatus.value;
+
+
+    const toalhasFiltradas =
+        toalhas.filter(
+            function (toalha) {
+
+                return (
+                    filtro === "Todas" ||
+                    toalha.status === filtro
+                );
+
+            }
+        );
+
+
+    const totalPaginas =
+        Math.max(
+            1,
+            Math.ceil(
+                toalhasFiltradas.length /
+                POR_PAGINA
+            )
+        );
+
+
+    if (
+        paginaAtual >
+        totalPaginas
+    ) {
+
+        paginaAtual =
+            totalPaginas;
+
+    }
+
+
+    const inicio =
+        (paginaAtual - 1) *
+        POR_PAGINA;
+
+
+    const fim =
+        inicio +
+        POR_PAGINA;
+
+
+    const registrosPagina =
+        toalhasFiltradas.slice(
+            inicio,
+            fim
+        );
+
+
+    listaToalhas.innerHTML =
+        "";
+
+
+    if (
+        toalhasFiltradas.length === 0
+    ) {
+
+        mensagemVazia.style.display =
+            "block";
+
+    } else {
+
+        mensagemVazia.style.display =
+            "none";
+
+    }
+
+
+    registrosPagina.forEach(
+        function (toalha) {
+
+            const ultimaMovimentacao =
+                buscarUltimaMovimentacao(
+                    toalha,
+                    movimentacoes
+                );
+
+
+            const linha =
+                document.createElement(
+                    "tr"
+                );
+
+
+            linha.innerHTML = `
+                <td>
+                    ${formatarId(toalha.id)}
+                </td>
+
+                <td class="codigo">
+                    ${toalha.codigo || "—"}
+                </td>
+
+                <td>
+                    ${criarStatus(
+                toalha.status ||
+                "Disponível"
+            )}
+                </td>
+
+                <td>
+                    ${ultimaMovimentacao
+                    ? formatarData(
+                        ultimaMovimentacao.dataHora
+                    )
+                    : "—"
+                }
+                </td>
+
+                <td>
+                    ${obterObservacao(
+                    toalha,
+                    ultimaMovimentacao
+                )}
+                </td>
+            `;
+
+
+            listaToalhas.appendChild(
+                linha
+            );
+
+        }
+    );
+
+
+    atualizarResumo(
+        toalhas
+    );
+
+
+    atualizarPaginacao(
+        toalhasFiltradas.length,
+        totalPaginas
+    );
+
+}
+
+
+
+function atualizarResumo(toalhas) {
+
+    const disponiveis =
+        toalhas.filter(
+            function (toalha) {
+
+                return (
+                    toalha.status ===
+                    "Disponível"
+                );
+
+            }
+        ).length;
+
+
+    const emUso =
+        toalhas.filter(
+            function (toalha) {
+
+                return (
+                    toalha.status ===
+                    "Em uso"
+                );
+
+            }
+        ).length;
+
+
+    const naoDevolvidas =
+        toalhas.filter(
+            function (toalha) {
+
+                return (
+                    toalha.status ===
+                    "Não devolvida"
+                );
+
+            }
+        ).length;
+
+
+    totalToalhas.textContent =
+        toalhas.length;
+
+
+    totalDisponiveis.textContent =
+        disponiveis;
+
+
+    totalEmUso.textContent =
+        emUso;
+
+
+    totalNaoDevolvidas.textContent =
+        naoDevolvidas;
+
+}
+
+
+
+function atualizarPaginacao(
+    quantidade,
+    totalPaginas
+) {
+
+    paginacao.innerHTML =
+        "";
+
+
+    if (
+        quantidade === 0
+    ) {
+
+        resumoPaginacao.textContent =
+            "Mostrando 0 de 0 registros";
+
         return;
+
     }
 
-    if (toalha.status === "Disponível") {
-        toalha.status = "Em uso";
-        toalha.observacao = "Retirada por nadador";
-    } else if (toalha.status === "Em uso") {
-        toalha.status = "Não devolvida";
-        toalha.observacao = "Aguardando devolução";
-    } else if (toalha.status === "Não devolvida") {
-        toalha.status = "Disponível";
-        toalha.observacao = "Pronta para uso";
+
+    const inicio =
+        (paginaAtual - 1) *
+        POR_PAGINA +
+        1;
+
+
+    const fim =
+        Math.min(
+            paginaAtual *
+            POR_PAGINA,
+            quantidade
+        );
+
+
+    resumoPaginacao.textContent =
+        `Mostrando ${inicio}-${fim} de ${quantidade} registros`;
+
+
+    const anterior =
+        document.createElement(
+            "button"
+        );
+
+
+    anterior.type =
+        "button";
+
+
+    anterior.textContent =
+        "<";
+
+
+    anterior.disabled =
+        paginaAtual === 1;
+
+
+    anterior.addEventListener(
+        "click",
+        function () {
+
+            if (
+                paginaAtual > 1
+            ) {
+
+                paginaAtual--;
+
+                atualizarLista();
+
+            }
+
+        }
+    );
+
+
+    paginacao.appendChild(
+        anterior
+    );
+
+
+    for (
+        let pagina = 1;
+        pagina <= totalPaginas;
+        pagina++
+    ) {
+
+        const botao =
+            document.createElement(
+                "button"
+            );
+
+
+        botao.type =
+            "button";
+
+
+        botao.textContent =
+            pagina;
+
+
+        if (
+            pagina ===
+            paginaAtual
+        ) {
+
+            botao.classList.add(
+                "ativo"
+            );
+
+        }
+
+
+        botao.addEventListener(
+            "click",
+            function () {
+
+                paginaAtual =
+                    pagina;
+
+                atualizarLista();
+
+            }
+        );
+
+
+        paginacao.appendChild(
+            botao
+        );
+
     }
 
-    atualizarLista();
+
+    const proximo =
+        document.createElement(
+            "button"
+        );
+
+
+    proximo.type =
+        "button";
+
+
+    proximo.textContent =
+        ">";
+
+
+    proximo.disabled =
+        paginaAtual ===
+        totalPaginas;
+
+
+    proximo.addEventListener(
+        "click",
+        function () {
+
+            if (
+                paginaAtual <
+                totalPaginas
+            ) {
+
+                paginaAtual++;
+
+                atualizarLista();
+
+            }
+
+        }
+    );
+
+
+    paginacao.appendChild(
+        proximo
+    );
+
 }
 
 
-/* FILTRO */
-filtroStatus.addEventListener("change", atualizarLista);
+filtroStatus.addEventListener(
+    "change",
+    function () {
+
+        paginaAtual =
+            1;
+
+        atualizarLista();
+
+    }
+);
 
 
-/* ATUALIZAR */
-btnAtualizar.addEventListener("click", function () {
-    atualizarLista();
-});
+btnAtualizar.addEventListener(
+    "click",
+    function () {
+
+        atualizarLista();
+
+    }
+);
 
 
-/* PRIMEIRA EXIBIÇÃO */
+/*VOLTAR PARA A PÁGINA*/
+
+window.addEventListener(
+    "pageshow",
+    function () {
+
+        atualizarLista();
+
+    }
+);
+
+
+/*ALTERAÇÕES NO LOCAL STORAGE*/
+
+window.addEventListener(
+    "storage",
+    function (event) {
+
+        if (
+            event.key ===
+            STORAGE.toalhas ||
+            event.key ===
+            STORAGE.movimentacoes
+        ) {
+
+            atualizarLista();
+
+        }
+
+    }
+);
+
+
 atualizarLista();

@@ -5,8 +5,9 @@
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     margin: 0;
+    overflow: hidden;
 }
 
 body {
@@ -22,40 +23,60 @@ select {
 
 .layout {
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
+    overflow: hidden;
 }
 
-/* MENU LATERAL */
+
+/* ==================================================
+   MENU LATERAL
+================================================== */
+
 .sidebar {
     width: 314px;
-    min-height: 100vh;
+    height: 100%;
+
     padding: 49px 17px 34px;
+
     background: #092d78;
     color: #ffffff;
+
     display: flex;
     flex-direction: column;
+
     flex-shrink: 0;
+
+    overflow: hidden;
 }
 
 .brand {
     height: 106px;
+
     padding-left: 20px;
+
     display: flex;
     align-items: flex-start;
+
     gap: 9px;
+
+    flex-shrink: 0;
 }
 
 .logo-space {
     width: 58px;
     height: 58px;
+
     flex-shrink: 0;
 }
 
 .logo-space img {
     width: 58px;
     height: 58px;
+
     display: block;
+
+    object-fit: contain;
 }
 
 .brand-text {
@@ -65,7 +86,9 @@ select {
 .brand-name {
     font-size: 26px;
     line-height: 28px;
+
     font-weight: 700;
+
     letter-spacing: -1px;
 }
 
@@ -75,26 +98,43 @@ select {
 
 .brand-subtitle {
     margin-top: 1px;
+
     font-size: 13px;
 }
+
+
+/* ==================================================
+   NAVEGAÇÃO
+================================================== */
 
 .navigation {
     display: flex;
     flex-direction: column;
+
     gap: 10px;
 }
 
 .nav-item {
     height: 71px;
+
     padding: 0 22px 0 38px;
+
     display: flex;
     align-items: center;
+
     gap: 15px;
+
     border-radius: 10px;
+
     color: #ffffff;
+
     text-decoration: none;
+
     font-size: 17px;
+
     transition: background-color 0.15s ease;
+
+    flex-shrink: 0;
 }
 
 .nav-item:hover {
@@ -112,24 +152,37 @@ select {
 .icon-space {
     width: 26px;
     height: 26px;
+
     flex-shrink: 0;
 }
 
 .icon-space img {
     width: 26px;
     height: 26px;
+
     display: block;
 }
 
+
+/* ==================================================
+   PARTE INFERIOR
+================================================== */
+
 .sidebar-bottom {
     margin-top: auto;
+
+    flex-shrink: 0;
 }
 
 .user-box {
     height: 101px;
+
     border: 1px solid #4c83d2;
+
     border-radius: 9px;
+
     padding: 14px 18px 14px 41px;
+
     display: flex;
     align-items: center;
 }
@@ -137,20 +190,29 @@ select {
 .user-image-space {
     width: 56px;
     height: 56px;
+
     border-radius: 50%;
+
+    overflow: hidden;
+
     flex-shrink: 0;
 }
 
 .user-image-space img {
     width: 56px;
     height: 56px;
+
     display: block;
+
+    object-fit: cover;
 }
 
 .user-info {
     margin-left: 11px;
+
     display: flex;
     flex-direction: column;
+
     gap: 5px;
 }
 
@@ -166,24 +228,33 @@ select {
 .arrow-space {
     width: 12px;
     height: 12px;
+
     margin-left: auto;
 }
 
 .arrow-space img {
     width: 12px;
     height: 12px;
+
     display: block;
 }
 
 .logout {
     height: 70px;
+
     margin-top: 10px;
+
     padding-left: 11px;
+
     display: flex;
     align-items: center;
+
     gap: 13px;
+
     color: #ffffff;
+
     text-decoration: none;
+
     font-size: 17px;
 }
 
@@ -195,81 +266,152 @@ select {
 .logout-icon-space img {
     width: 23px;
     height: 23px;
+
     display: block;
 }
 
-/* CONTEÚDO */
+
+/* ==================================================
+   CONTEÚDO
+================================================== */
+
 .main-content {
     flex: 1;
+
+    width: calc(100% - 314px);
+    height: 100%;
+
     min-width: 0;
-    padding: 85px 26px 50px;
+
+    padding: 50px 26px 22px;
+
+    display: flex;
+    flex-direction: column;
+
     overflow: hidden;
+}
+
+
+/* ==================================================
+   CABEÇALHO
+================================================== */
+
+.page-header {
+    flex-shrink: 0;
 }
 
 .page-header h1 {
     margin: 0;
+
     font-size: 30px;
     line-height: 36px;
+
     font-weight: 700;
 }
 
 .page-header p {
-    margin: 10px 0 0;
+    margin: 7px 0 0;
+
     color: #667085;
+
     font-size: 17px;
     line-height: 22px;
 }
 
+
+/* ==================================================
+   ÁREA DAS TOALHAS
+================================================== */
+
 .toalhas-area {
     width: 100%;
-    margin-top: 42px;
+
+    margin-top: 20px;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
 }
 
-/* BOX SUPERIOR — SITUAÇÃO */
+
+/* ==================================================
+   SITUAÇÃO
+================================================== */
+
 .situacao-card {
     width: 100%;
-    min-height: 88px;
-    padding: 20px 30px;
+    height: 72px;
+
+    padding: 12px 20px;
+
     border: 1px solid #aab2c0;
+
     border-radius: 10px;
+
     background: #ffffff;
+
+    flex-shrink: 0;
 }
 
 .situacao-header {
-    min-height: 46px;
+    width: 100%;
+    height: 100%;
+
     display: flex;
+
     align-items: center;
     justify-content: space-between;
+
     gap: 25px;
 }
 
 .situacao-header h2 {
     margin: 0;
+
     font-size: 23px;
     line-height: 28px;
 }
 
+
+/* ==================================================
+   FILTROS
+================================================== */
+
 .filtros {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 }
 
 .filtros label {
     color: #333b47;
+
     font-size: 14px;
+
     font-weight: 600;
 }
 
 .filtros select {
     width: 118px;
     height: 40px;
+
     padding: 0 11px;
+
     border: 1px solid #aab2c0;
+
     border-radius: 7px;
+
     background: #ffffff;
+
     color: #333b47;
+
     outline: none;
+
     cursor: pointer;
 }
 
@@ -279,78 +421,164 @@ select {
 
 .button-atualizar {
     height: 40px;
+
     padding: 0 14px;
+
     border: 1px solid #aab2c0;
+
     border-radius: 7px;
+
     background: #ffffff;
+
     color: #333b47;
+
     font-size: 14px;
+
     font-weight: 600;
+
     cursor: pointer;
+
     display: inline-flex;
+
     align-items: center;
+
     gap: 7px;
+
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease,
+        background-color 0.15s ease;
 }
 
 .button-atualizar:hover {
     border-color: #0C5DE0;
+
     color: #0C5DE0;
+
+    background: #f7faff;
 }
 
 .refresh-icon {
     font-size: 18px;
+
     line-height: 1;
 }
 
-/* LISTAGEM */
+
+/* ==================================================
+   LISTAGEM
+================================================== */
+
 .listagem-card {
     width: 100%;
-    margin-top: 18px;
-    padding: 0 30px 24px;
+
+    margin-top: 12px;
+
+    padding: 0 20px 14px;
+
     border: 1px solid #aab2c0;
+
     border-radius: 10px;
+
     background: #ffffff;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+
+    overflow: hidden;
 }
 
 .table-wrapper {
     width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
     overflow-x: auto;
+    overflow-y: hidden;
 }
 
 table {
     width: 100%;
+
     min-width: 780px;
+
     border-collapse: collapse;
+
+    table-layout: fixed;
 }
 
 thead {
     background: #092d78;
+
     color: #ffffff;
 }
 
 th {
-    height: 49px;
+    height: 45px;
+
     padding: 0 14px;
+
     text-align: left;
-    font-size: 16px;
+
+    font-size: 14px;
+
     font-weight: 700;
 }
 
 td {
-    height: 43px;
-    padding: 6px 14px;
+    height: 39px;
+
+    padding: 5px 14px;
+
     border-bottom: 1px solid #d8dde5;
+
     color: #333b47;
-    font-size: 16px;
+
+    font-size: 14px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 }
 
 tbody tr:hover td {
     background: #f7f9fc;
 }
 
+th:nth-child(1),
+td:nth-child(1) {
+    width: 9%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 16%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 21%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 26%;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 28%;
+}
+
 td:first-child {
-    width: 60px;
-    color: #333b47;
     font-weight: 600;
 }
 
@@ -358,106 +586,219 @@ td:first-child {
     font-weight: 600;
 }
 
-/* STATUS */
-.status {
-    min-width: 94px;
-    border: 0;
-    background: transparent;
-    padding: 4px 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-}
 
-.status:hover {
-    background: #f1f4f8;
+/* ==================================================
+   STATUS
+================================================== */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 14px;
+
+    font-weight: 600;
 }
 
 .status-icone {
     width: 18px;
     height: 18px;
+
     border-radius: 50%;
+
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
+    flex-shrink: 0;
+
     font-size: 11px;
+
     font-weight: 700;
 }
 
 .status-disponivel {
-    color: #45a36b;
+    color: #278b4d;
 }
 
 .status-disponivel .status-icone {
-    border: 1px solid #7bc79a;
-    color: #45a36b;
+    border: 1px solid #45a36b;
 }
 
 .status-em-uso {
-    color: #dc9141;
+    color: #e36c16;
 }
 
 .status-em-uso .status-icone {
-    border: 1px solid #eda967;
-    color: #dc9141;
+    border: 1px solid #e36c16;
 }
 
 .status-nao-devolvida {
-    color: #ed5d65;
+    color: #ed2e38;
 }
 
 .status-nao-devolvida .status-icone {
-    border: 1px solid #f08086;
-    color: #ed5d65;
+    border: 1px solid #ed2e38;
 }
 
-/* MENSAGEM VAZIA */
+
+/* ==================================================
+   MENSAGEM VAZIA
+================================================== */
+
 .mensagem-vazia {
     display: none;
+
     padding: 28px 15px;
+
     color: #667085;
+
     text-align: center;
+
     font-size: 14px;
 }
 
-/* RESUMO */
+
+/* ==================================================
+   PAGINAÇÃO
+================================================== */
+
+.paginacao-area {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding-top: 8px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    flex-shrink: 0;
+}
+
+#resumoPaginacao {
+    color: #667085;
+
+    font-size: 12px;
+}
+
+.paginacao {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+.paginacao button {
+    min-width: 30px;
+    height: 30px;
+
+    padding: 0 8px;
+
+    border: 1px solid #d0d5dd;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.paginacao button:hover:not(:disabled) {
+    border-color: #0C5DE0;
+
+    color: #0C5DE0;
+}
+
+.paginacao button.ativo {
+    border-color: #0C5DE0;
+
+    background: #0C5DE0;
+
+    color: #ffffff;
+}
+
+.paginacao button:disabled {
+    opacity: 0.4;
+
+    cursor: default;
+}
+
+
+/* ==================================================
+   RESUMO
+================================================== */
+
 .summary {
     display: grid;
+
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-top: 22px;
+
+    gap: 10px;
+
+    margin-top: 8px;
+
+    flex-shrink: 0;
 }
 
 .summary-card {
-    min-height: 70px;
-    padding: 10px 15px;
+    height: 70px;
+
+    padding: 8px 12px;
+
     border: 1px solid #e0e4ea;
+
     border-radius: 9px;
+
     display: flex;
+
     align-items: center;
-    gap: 11px;
+
+    gap: 10px;
+
     background: #ffffff;
 }
 
 .summary-icon {
-    width: 39px;
-    height: 39px;
+    width: 38px;
+    height: 38px;
+
     border-radius: 50%;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     flex-shrink: 0;
+
     font-size: 20px;
+
     font-weight: 700;
 }
 
 .summary-icon img {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
+
     filter: brightness(0) invert(1);
 }
 
@@ -467,32 +808,569 @@ td:first-child {
 
 .summary-icon.available {
     background: #75c995;
+
     color: #ffffff;
 }
 
 .summary-icon.in-use {
     background: #f0a45f;
+
     color: #ffffff;
 }
 
 .summary-icon.not-returned {
     background: #ed5d65;
+
     color: #ffffff;
 }
 
 .summary-info {
     display: flex;
+
     flex-direction: column;
+
     gap: 2px;
 }
 
 .summary-info span {
     color: #667085;
+
     font-size: 11px;
 }
 
 .summary-info strong {
     color: #111111;
+
     font-size: 19px;
+
     line-height: 21px;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - LARGURA
+================================================== */
+
+@media (max-width: 1200px) {
+
+    .sidebar {
+        width: 270px;
+    }
+
+    .main-content {
+        width: calc(100% - 270px);
+
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .situacao-header h2 {
+        font-size: 20px;
+    }
+
+    .summary-card {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - ALTURA MÉDIA
+================================================== */
+
+@media (max-height: 800px) {
+
+    .sidebar {
+        padding-top: 30px;
+        padding-bottom: 20px;
+    }
+
+    .brand {
+        height: 85px;
+    }
+
+    .nav-item {
+        height: 58px;
+    }
+
+    .user-box {
+        height: 80px;
+    }
+
+    .user-image-space,
+    .user-image-space img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .user-info strong {
+        font-size: 16px;
+    }
+
+    .user-info span {
+        font-size: 12px;
+    }
+
+    .logout {
+        height: 50px;
+
+        margin-top: 5px;
+    }
+
+    .main-content {
+        padding-top: 25px;
+        padding-bottom: 14px;
+    }
+
+    .page-header h1 {
+        font-size: 27px;
+        line-height: 31px;
+    }
+
+    .page-header p {
+        margin-top: 4px;
+
+        font-size: 14px;
+    }
+
+    .toalhas-area {
+        margin-top: 12px;
+    }
+
+    .situacao-card {
+        height: 58px;
+
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .situacao-header h2 {
+        font-size: 19px;
+    }
+
+    .filtros select,
+    .button-atualizar {
+        height: 35px;
+    }
+
+    .listagem-card {
+        margin-top: 8px;
+
+        padding-bottom: 8px;
+    }
+
+    th {
+        height: 35px;
+
+        font-size: 12px;
+    }
+
+    td {
+        height: 30px;
+
+        padding-top: 3px;
+        padding-bottom: 3px;
+
+        font-size: 12px;
+    }
+
+    .status {
+        font-size: 12px;
+    }
+
+    .status-icone {
+        width: 15px;
+        height: 15px;
+
+        font-size: 9px;
+    }
+
+    .paginacao-area {
+        min-height: 34px;
+
+        padding-top: 4px;
+    }
+
+    .paginacao button {
+        height: 26px;
+
+        min-width: 26px;
+    }
+
+    .summary {
+        margin-top: 5px;
+    }
+
+    .summary-card {
+        height: 57px;
+    }
+
+    .summary-icon {
+        width: 32px;
+        height: 32px;
+
+        font-size: 16px;
+    }
+
+    .summary-icon img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .summary-info span {
+        font-size: 10px;
+    }
+
+    .summary-info strong {
+        font-size: 16px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - ALTURA PEQUENA
+================================================== */
+
+@media (max-height: 680px) {
+
+    .sidebar {
+        padding-top: 18px;
+        padding-bottom: 12px;
+    }
+
+    .brand {
+        height: 65px;
+    }
+
+    .logo-space,
+    .logo-space img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .brand-text {
+        margin-top: 5px;
+    }
+
+    .brand-name {
+        font-size: 21px;
+        line-height: 23px;
+    }
+
+    .brand-subtitle {
+        font-size: 11px;
+    }
+
+    .navigation {
+        gap: 5px;
+    }
+
+    .nav-item {
+        height: 47px;
+
+        font-size: 15px;
+    }
+
+    .icon-space,
+    .icon-space img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .user-box {
+        height: 65px;
+
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .user-image-space,
+    .user-image-space img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .user-info strong {
+        font-size: 15px;
+    }
+
+    .user-info span {
+        font-size: 11px;
+    }
+
+    .logout {
+        height: 38px;
+
+        margin-top: 4px;
+
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding-top: 12px;
+        padding-bottom: 8px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+        line-height: 25px;
+    }
+
+    .page-header p {
+        margin-top: 1px;
+
+        font-size: 11px;
+        line-height: 14px;
+    }
+
+    .toalhas-area {
+        margin-top: 6px;
+    }
+
+    .situacao-card {
+        height: 46px;
+
+        padding: 5px 12px;
+    }
+
+    .situacao-header h2 {
+        font-size: 16px;
+    }
+
+    .filtros {
+        gap: 6px;
+    }
+
+    .filtros label {
+        font-size: 11px;
+    }
+
+    .filtros select {
+        width: 100px;
+        height: 30px;
+
+        font-size: 11px;
+    }
+
+    .button-atualizar {
+        height: 30px;
+
+        padding-left: 9px;
+        padding-right: 9px;
+
+        font-size: 11px;
+    }
+
+    .listagem-card {
+        margin-top: 5px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 5px;
+    }
+
+    th {
+        height: 27px;
+
+        padding-left: 8px;
+        padding-right: 8px;
+
+        font-size: 10px;
+    }
+
+    td {
+        height: 23px;
+
+        padding: 2px 8px;
+
+        font-size: 10px;
+    }
+
+    .status {
+        gap: 4px;
+
+        font-size: 10px;
+    }
+
+    .status-icone {
+        width: 13px;
+        height: 13px;
+
+        font-size: 8px;
+    }
+
+    .paginacao-area {
+        min-height: 27px;
+
+        padding-top: 2px;
+    }
+
+    #resumoPaginacao {
+        font-size: 9px;
+    }
+
+    .paginacao button {
+        min-width: 22px;
+        height: 22px;
+
+        padding-left: 5px;
+        padding-right: 5px;
+
+        font-size: 9px;
+    }
+
+    .summary {
+        gap: 5px;
+
+        margin-top: 2px;
+    }
+
+    .summary-card {
+        height: 45px;
+
+        padding: 5px 7px;
+
+        gap: 6px;
+    }
+
+    .summary-icon {
+        width: 27px;
+        height: 27px;
+
+        font-size: 13px;
+    }
+
+    .summary-icon img {
+        width: 15px;
+        height: 15px;
+    }
+
+    .summary-info span {
+        font-size: 8px;
+    }
+
+    .summary-info strong {
+        font-size: 13px;
+        line-height: 15px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - LARGURA MÉDIA
+================================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 220px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .brand {
+        padding-left: 8px;
+    }
+
+    .brand-name {
+        font-size: 21px;
+    }
+
+    .nav-item {
+        padding-left: 20px;
+    }
+
+    .situacao-header {
+        gap: 10px;
+    }
+
+    .situacao-header h2 {
+        font-size: 18px;
+    }
+
+    .filtros label {
+        display: none;
+    }
+
+    .summary {
+        gap: 6px;
+    }
+
+    .summary-card {
+        gap: 5px;
+    }
+
+}
+
+
+/* ==================================================
+   TELAS ESTREITAS
+================================================== */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 180px;
+
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .main-content {
+        width: calc(100% - 180px);
+
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .brand {
+        padding-left: 3px;
+    }
+
+    .brand-name {
+        font-size: 17px;
+    }
+
+    .brand-subtitle {
+        font-size: 10px;
+    }
+
+    .nav-item {
+        padding-left: 10px;
+
+        gap: 8px;
+
+        font-size: 14px;
+    }
+
+    .situacao-card {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .situacao-header h2 {
+        font-size: 15px;
+    }
+
+    .button-atualizar {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .summary-info span {
+        font-size: 8px;
+    }
+
 }

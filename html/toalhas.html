@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Toalhas - Nado Livre</title>
+
     <link rel="stylesheet" href="../css/toalhas.css">
 </head>
 
@@ -12,55 +14,93 @@
 
     <div class="layout">
 
+        <!-- MENU LATERAL -->
         <aside class="sidebar">
 
             <div class="brand">
+
                 <div class="logo-space">
                     <img src="../img/logo.svg" alt="">
                 </div>
 
                 <div class="brand-text">
+
                     <div class="brand-name">
                         NADO<span>LIVRE</span>
                     </div>
+
                     <div class="brand-subtitle">
                         Controle de Toalhas
                     </div>
+
                 </div>
+
             </div>
+
 
             <nav class="navigation">
 
                 <a href="index.html" class="nav-item">
-                    <span class="icon-space"><img src="../img/House.svg" alt=""></span>
+
+                    <span class="icon-space">
+                        <img src="../img/House.svg" alt="">
+                    </span>
+
                     <span>Início</span>
+
                 </a>
+
 
                 <a href="cadastro.html" class="nav-item">
-                    <span class="icon-space"><img src="../img/users.svg" alt=""></span>
+
+                    <span class="icon-space">
+                        <img src="../img/users.svg" alt="">
+                    </span>
+
                     <span>Cadastro</span>
+
                 </a>
+
 
                 <a href="movimentacao.html" class="nav-item">
-                    <span class="icon-space"><img src="../img/movi.svg" alt=""></span>
+
+                    <span class="icon-space">
+                        <img src="../img/movi.svg" alt="">
+                    </span>
+
                     <span>Movimentação</span>
+
                 </a>
+
 
                 <a href="toalhas.html" class="nav-item selected">
-                    <span class="icon-space"><img src="../img/toalha.svg" alt=""></span>
+
+                    <span class="icon-space">
+                        <img src="../img/toalha.svg" alt="">
+                    </span>
+
                     <span>Toalhas</span>
+
                 </a>
 
+
                 <a href="historico.html" class="nav-item">
-                    <span class="icon-space"><img src="../img/ClockCountdown.svg" alt=""></span>
+
+                    <span class="icon-space">
+                        <img src="../img/ClockCountdown.svg" alt="">
+                    </span>
+
                     <span>Histórico</span>
+
                 </a>
 
             </nav>
 
+
             <div class="sidebar-bottom">
 
                 <div class="user-box">
+
                     <div class="user-image-space">
                         <img src="../img/userphoto.svg" alt="">
                     </div>
@@ -73,13 +113,18 @@
                     <div class="arrow-space">
                         <img src="../img/arrow.svg" alt="">
                     </div>
+
                 </div>
 
+
                 <a href="#" class="logout">
+
                     <span class="logout-icon-space">
                         <img src="../img/exit.svg" alt="">
                     </span>
+
                     <span>Sair</span>
+
                 </a>
 
             </div>
@@ -87,11 +132,17 @@
         </aside>
 
 
+        <!-- CONTEÚDO -->
         <main class="main-content">
 
             <header class="page-header">
+
                 <h1>Toalhas</h1>
-                <p>Acompanhe a situação das toalhas cadastradas no sistema.</p>
+
+                <p>
+                    Acompanhe a situação das toalhas cadastradas no sistema.
+                </p>
+
             </header>
 
 
@@ -101,25 +152,51 @@
                 <section class="situacao-card">
 
                     <div class="situacao-header">
+
                         <div>
                             <h2>Situação das Toalhas</h2>
                         </div>
 
+
                         <div class="filtros">
-                            <label for="filtroStatus">Filtrar por status:</label>
+
+                            <label for="filtroStatus">
+                                Filtrar por status:
+                            </label>
 
                             <select id="filtroStatus">
-                                <option value="Todas">Todas</option>
-                                <option value="Disponível">Disponíveis</option>
-                                <option value="Em uso">Em uso</option>
-                                <option value="Não devolvida">Não devolvidas</option>
+
+                                <option value="Todas">
+                                    Todas
+                                </option>
+
+                                <option value="Disponível">
+                                    Disponíveis
+                                </option>
+
+                                <option value="Em uso">
+                                    Em uso
+                                </option>
+
+                                <option value="Não devolvida">
+                                    Não devolvidas
+                                </option>
+
                             </select>
 
+
                             <button type="button" class="button-atualizar" id="btnAtualizar">
-                                <span class="refresh-icon">↻</span>
+
+                                <span class="refresh-icon">
+                                    ↻
+                                </span>
+
                                 Atualizar
+
                             </button>
+
                         </div>
+
                     </div>
 
                 </section>
@@ -131,7 +208,9 @@
                     <div class="table-wrapper">
 
                         <table>
+
                             <thead>
+
                                 <tr>
                                     <th>ID</th>
                                     <th>Código</th>
@@ -139,14 +218,29 @@
                                     <th>Última movimentação</th>
                                     <th>Observação</th>
                                 </tr>
+
                             </thead>
 
                             <tbody id="listaToalhas"></tbody>
+
                         </table>
 
+
                         <div id="mensagemVazia" class="mensagem-vazia">
-                            Nenhuma toalha encontrada.
+                            Nenhuma toalha cadastrada.
                         </div>
+
+                    </div>
+
+
+                    <!-- PAGINAÇÃO -->
+                    <div class="paginacao-area">
+
+                        <span id="resumoPaginacao">
+                            Mostrando 0 de 0 registros
+                        </span>
+
+                        <div class="paginacao" id="paginacao"></div>
 
                     </div>
 
@@ -155,38 +249,58 @@
                     <div class="summary">
 
                         <div class="summary-card">
+
                             <div class="summary-icon total">
                                 <img src="../img/toalha.svg" alt="">
                             </div>
+
                             <div class="summary-info">
                                 <span>Total de toalhas</span>
                                 <strong id="totalToalhas">0</strong>
                             </div>
+
                         </div>
 
+
                         <div class="summary-card">
-                            <div class="summary-icon available">✓</div>
+
+                            <div class="summary-icon available">
+                                ✓
+                            </div>
+
                             <div class="summary-info">
                                 <span>Disponíveis</span>
                                 <strong id="totalDisponiveis">0</strong>
                             </div>
+
                         </div>
 
+
                         <div class="summary-card">
-                            <div class="summary-icon in-use">◷</div>
+
+                            <div class="summary-icon in-use">
+                                ◷
+                            </div>
+
                             <div class="summary-info">
                                 <span>Em uso</span>
                                 <strong id="totalEmUso">0</strong>
                             </div>
+
                         </div>
 
+
                         <div class="summary-card">
-                            <div class="summary-icon not-returned">!</div>
-                        
+
+                            <div class="summary-icon not-returned">
+                                !
+                            </div>
+
                             <div class="summary-info">
                                 <span>Não devolvidas</span>
                                 <strong id="totalNaoDevolvidas">0</strong>
                             </div>
+
                         </div>
 
                     </div>
@@ -198,6 +312,7 @@
         </main>
 
     </div>
+
 
     <script type="module" src="../JS/toalhas.js"></script>
 

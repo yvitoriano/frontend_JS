@@ -5,8 +5,9 @@
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     margin: 0;
+    overflow: hidden;
 }
 
 body {
@@ -23,8 +24,9 @@ input {
 
 .layout {
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
+    overflow: hidden;
 }
 
 
@@ -34,18 +36,18 @@ input {
 
 .sidebar {
     width: 314px;
-    min-height: 100vh;
+    height: 100%;
 
     padding: 49px 17px 34px;
 
     background: #092d78;
-
     color: #ffffff;
 
     display: flex;
     flex-direction: column;
 
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 
@@ -60,6 +62,8 @@ input {
     align-items: flex-start;
 
     gap: 9px;
+
+    flex-shrink: 0;
 }
 
 .logo-space {
@@ -74,6 +78,7 @@ input {
     height: 58px;
 
     display: block;
+    object-fit: contain;
 }
 
 .brand-text {
@@ -100,7 +105,9 @@ input {
 }
 
 
-/* NAVEGAÇÃO */
+/* ==================================================
+   NAVEGAÇÃO
+================================================== */
 
 .navigation {
     display: flex;
@@ -128,6 +135,8 @@ input {
     font-size: 17px;
 
     transition: background-color 0.15s ease;
+
+    flex-shrink: 0;
 }
 
 .nav-item:hover {
@@ -154,13 +163,18 @@ input {
     height: 26px;
 
     display: block;
+    object-fit: contain;
 }
 
 
-/* PARTE INFERIOR */
+/* ==================================================
+   PARTE INFERIOR
+================================================== */
 
 .sidebar-bottom {
     margin-top: auto;
+
+    flex-shrink: 0;
 }
 
 .user-box {
@@ -182,6 +196,8 @@ input {
 
     border-radius: 50%;
 
+    overflow: hidden;
+
     flex-shrink: 0;
 }
 
@@ -190,6 +206,7 @@ input {
     height: 56px;
 
     display: block;
+    object-fit: cover;
 }
 
 .user-info {
@@ -249,6 +266,8 @@ input {
 .logout-icon-space {
     width: 23px;
     height: 23px;
+
+    flex-shrink: 0;
 }
 
 .logout-icon-space img {
@@ -266,15 +285,27 @@ input {
 .main-content {
     flex: 1;
 
+    width: calc(100% - 314px);
+    height: 100%;
+
     min-width: 0;
 
-    padding: 85px 26px 50px;
+    padding: 55px 26px 25px;
+
+    display: flex;
+    flex-direction: column;
 
     overflow: hidden;
 }
 
 
-/* CABEÇALHO */
+/* ==================================================
+   CABEÇALHO
+================================================== */
+
+.page-header {
+    flex-shrink: 0;
+}
 
 .page-header h1 {
     margin: 0;
@@ -286,7 +317,7 @@ input {
 }
 
 .page-header p {
-    margin: 10px 0 0;
+    margin: 7px 0 0;
 
     color: #667085;
 
@@ -302,7 +333,14 @@ input {
 .movimentacao-area {
     width: 100%;
 
-    margin-top: 42px;
+    margin-top: 20px;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
 }
 
 
@@ -312,12 +350,11 @@ input {
 
 .movimentacao-tabs {
     width: 100%;
-
-    height: 70px;
+    height: 62px;
 
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
 
     border: 1px solid #aab2c0;
 
@@ -326,13 +363,14 @@ input {
     background: #ffffff;
 
     overflow: hidden;
+
+    flex-shrink: 0;
 }
 
 .tab {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 8px;
@@ -355,7 +393,6 @@ input {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border: 1.5px solid #5478ad;
@@ -375,6 +412,10 @@ input {
 .movimentacao-card {
     width: 100%;
 
+    flex: 1;
+
+    min-height: 0;
+
     border: 1px solid #aab2c0;
 
     border-top: none;
@@ -385,7 +426,9 @@ input {
 
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
+
+    overflow: hidden;
 }
 
 
@@ -394,9 +437,15 @@ input {
 ================================================== */
 
 .movimentacao-panel {
-    padding: 27px 30px 30px;
+    padding: 20px 24px 22px;
 
     min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
 }
 
 .retirada-panel {
@@ -415,7 +464,9 @@ input {
 
     gap: 12px;
 
-    margin-bottom: 27px;
+    margin-bottom: 18px;
+
+    flex-shrink: 0;
 }
 
 .movimentacao-icon {
@@ -427,7 +478,6 @@ input {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     flex-shrink: 0;
@@ -436,24 +486,17 @@ input {
     font-weight: 600;
 }
 
-
-/* ÍCONE RETIRADA */
-
 .retirada-icon {
     background: #75a9f5;
 
     color: #0C5DE0;
 }
 
-
-/* ÍCONE DEVOLUÇÃO */
-
 .devolucao-icon {
     background: #3ca262;
 
     color: #ffffff;
 }
-
 
 .panel-header h2 {
     margin: 0;
@@ -466,7 +509,7 @@ input {
 }
 
 .panel-header p {
-    margin: 4px 0 0;
+    margin: 3px 0 0;
 
     color: #667085;
 
@@ -482,18 +525,27 @@ input {
 
 form {
     width: 100%;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
 }
 
 .campo {
     width: 100%;
 
-    margin-bottom: 18px;
+    margin-bottom: 13px;
+
+    flex-shrink: 0;
 }
 
 .campo label {
     display: block;
 
-    margin-bottom: 7px;
+    margin-bottom: 5px;
 
     color: #333b47;
 
@@ -533,22 +585,34 @@ form {
 }
 
 
+/* SELECT DESABILITADO */
+
+.campo select:disabled {
+    background: #f5f6f8;
+
+    color: #98a2b3;
+
+    cursor: not-allowed;
+}
+
+
 /* ==================================================
    AVISO
 ================================================== */
 
 .aviso {
-    min-height: 44px;
+    min-height: 40px;
 
-    margin-top: 5px;
-
-    margin-bottom: 28px;
+    margin-top: 2px;
+    margin-bottom: 12px;
 
     display: flex;
 
     align-items: flex-start;
 
     gap: 9px;
+
+    flex-shrink: 0;
 }
 
 .aviso-icon {
@@ -566,7 +630,6 @@ form {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     flex-shrink: 0;
@@ -604,7 +667,7 @@ form {
 .button {
     height: 42px;
 
-    min-width: 145px;
+    min-width: 180px;
 
     padding: 0 18px;
 
@@ -622,13 +685,15 @@ form {
 
     display: block;
 
+    margin-top: auto;
     margin-left: auto;
 
-    transition: background-color 0.15s ease;
+    flex-shrink: 0;
+
+    transition:
+        background-color 0.15s ease,
+        opacity 0.15s ease;
 }
-
-
-/* RETIRADA */
 
 .button-retirada {
     background: #0C5DE0;
@@ -638,13 +703,503 @@ form {
     background: #0953c8;
 }
 
-
-/* DEVOLUÇÃO */
-
 .button-devolucao {
     background: #27934f;
 }
 
 .button-devolucao:hover {
     background: #217d43;
+}
+
+.button:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - LARGURA
+================================================== */
+
+@media (max-width: 1200px) {
+
+    .sidebar {
+        width: 270px;
+    }
+
+    .main-content {
+        width: calc(100% - 270px);
+
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .movimentacao-panel {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - ALTURA MÉDIA
+================================================== */
+
+@media (max-height: 800px) {
+
+    .sidebar {
+        padding-top: 30px;
+        padding-bottom: 20px;
+    }
+
+    .brand {
+        height: 85px;
+    }
+
+    .nav-item {
+        height: 58px;
+    }
+
+    .user-box {
+        height: 80px;
+    }
+
+    .user-image-space,
+    .user-image-space img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .user-info strong {
+        font-size: 16px;
+    }
+
+    .user-info span {
+        font-size: 12px;
+    }
+
+    .logout {
+        height: 50px;
+        margin-top: 5px;
+    }
+
+    .main-content {
+        padding-top: 28px;
+        padding-bottom: 18px;
+    }
+
+    .page-header h1 {
+        font-size: 27px;
+        line-height: 32px;
+    }
+
+    .page-header p {
+        margin-top: 4px;
+
+        font-size: 15px;
+    }
+
+    .movimentacao-area {
+        margin-top: 15px;
+    }
+
+    .movimentacao-tabs {
+        height: 52px;
+    }
+
+    .movimentacao-panel {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .panel-header {
+        margin-bottom: 10px;
+    }
+
+    .movimentacao-icon {
+        width: 35px;
+        height: 35px;
+
+        font-size: 17px;
+    }
+
+    .panel-header h2 {
+        font-size: 17px;
+        line-height: 20px;
+    }
+
+    .panel-header p {
+        font-size: 11px;
+        line-height: 14px;
+    }
+
+    .campo {
+        margin-bottom: 9px;
+    }
+
+    .campo label {
+        margin-bottom: 4px;
+
+        font-size: 12px;
+    }
+
+    .campo select,
+    .campo input {
+        height: 37px;
+
+        font-size: 12px;
+    }
+
+    .aviso {
+        min-height: 34px;
+
+        margin-bottom: 8px;
+    }
+
+    .button {
+        height: 38px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - ALTURA PEQUENA
+================================================== */
+
+@media (max-height: 680px) {
+
+    .sidebar {
+        padding-top: 18px;
+        padding-bottom: 12px;
+    }
+
+    .brand {
+        height: 65px;
+    }
+
+    .logo-space,
+    .logo-space img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .brand-text {
+        margin-top: 5px;
+    }
+
+    .brand-name {
+        font-size: 21px;
+        line-height: 23px;
+    }
+
+    .brand-subtitle {
+        font-size: 11px;
+    }
+
+    .navigation {
+        gap: 5px;
+    }
+
+    .nav-item {
+        height: 47px;
+
+        font-size: 15px;
+    }
+
+    .icon-space,
+    .icon-space img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .user-box {
+        height: 65px;
+
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .user-image-space,
+    .user-image-space img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .user-info strong {
+        font-size: 15px;
+    }
+
+    .user-info span {
+        font-size: 11px;
+    }
+
+    .logout {
+        height: 38px;
+
+        margin-top: 4px;
+
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding-top: 14px;
+        padding-bottom: 10px;
+    }
+
+    .page-header h1 {
+        font-size: 23px;
+        line-height: 27px;
+    }
+
+    .page-header p {
+        margin-top: 2px;
+
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .movimentacao-area {
+        margin-top: 8px;
+    }
+
+    .movimentacao-tabs {
+        height: 42px;
+    }
+
+    .tab {
+        font-size: 14px;
+    }
+
+    .tab-icon {
+        width: 18px;
+        height: 18px;
+
+        font-size: 12px;
+    }
+
+    .movimentacao-panel {
+        padding: 9px 15px 10px;
+    }
+
+    .panel-header {
+        gap: 8px;
+
+        margin-bottom: 6px;
+    }
+
+    .movimentacao-icon {
+        width: 30px;
+        height: 30px;
+
+        font-size: 15px;
+    }
+
+    .panel-header h2 {
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+    .panel-header p {
+        margin-top: 1px;
+
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+    .campo {
+        margin-bottom: 5px;
+    }
+
+    .campo label {
+        margin-bottom: 2px;
+
+        font-size: 11px;
+    }
+
+    .campo select,
+    .campo input {
+        height: 31px;
+
+        padding-left: 9px;
+        padding-right: 9px;
+
+        font-size: 11px;
+    }
+
+    .aviso {
+        min-height: 27px;
+
+        margin-top: 0;
+        margin-bottom: 4px;
+
+        gap: 6px;
+    }
+
+    .aviso-icon {
+        width: 15px;
+        height: 15px;
+
+        font-size: 9px;
+    }
+
+    .aviso strong {
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+    .aviso p {
+        font-size: 9px;
+        line-height: 12px;
+    }
+
+    .button {
+        height: 32px;
+
+        min-width: 155px;
+
+        font-size: 11px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE - LARGURA MÉDIA
+================================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 220px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .brand {
+        padding-left: 8px;
+    }
+
+    .brand-name {
+        font-size: 21px;
+    }
+
+    .nav-item {
+        padding-left: 20px;
+    }
+
+    .movimentacao-panel {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .panel-header h2 {
+        font-size: 16px;
+    }
+
+    .panel-header p {
+        font-size: 10px;
+    }
+
+    .campo select,
+    .campo input {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+}
+
+
+/* ==================================================
+   TELAS ESTREITAS
+================================================== */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 180px;
+
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .main-content {
+        width: calc(100% - 180px);
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .brand {
+        padding-left: 3px;
+    }
+
+    .brand-name {
+        font-size: 17px;
+    }
+
+    .brand-subtitle {
+        font-size: 10px;
+    }
+
+    .nav-item {
+        padding-left: 10px;
+
+        gap: 8px;
+
+        font-size: 14px;
+    }
+
+    .movimentacao-panel {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .panel-header {
+        gap: 6px;
+    }
+
+    .panel-header h2 {
+        font-size: 14px;
+    }
+
+    .panel-header p {
+        font-size: 9px;
+    }
+
+    .movimentacao-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .campo label {
+        font-size: 11px;
+    }
+
+    .campo select,
+    .campo input {
+        font-size: 10px;
+    }
+
+    .aviso p {
+        font-size: 9px;
+    }
+
+    .button {
+        width: 100%;
+        min-width: 0;
+
+        font-size: 11px;
+    }
+
 }

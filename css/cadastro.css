@@ -5,8 +5,9 @@
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     margin: 0;
+    overflow: hidden;
 }
 
 body {
@@ -15,32 +16,52 @@ body {
     color: #111111;
 }
 
+
+/* ================================================= */
+/* ESTRUTURA */
+/* ================================================= */
+
 .layout {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     display: flex;
+    overflow: hidden;
 }
 
 
+/* ================================================= */
 /* MENU LATERAL */
+/* ================================================= */
 
 .sidebar {
     width: 314px;
-    min-height: 100vh;
+    height: 100%;
+    flex-shrink: 0;
+
     padding: 49px 17px 34px;
+
     background: #092d78;
     color: #ffffff;
+
     display: flex;
     flex-direction: column;
+
+    overflow: hidden;
 }
+
 
 .brand {
     height: 106px;
     padding-left: 20px;
+
     display: flex;
     align-items: flex-start;
+
     gap: 9px;
+
+    flex-shrink: 0;
 }
+
 
 .logo-space {
     width: 58px;
@@ -48,9 +69,11 @@ body {
     flex-shrink: 0;
 }
 
+
 .brand-text {
     margin-top: 9px;
 }
+
 
 .brand-name {
     font-size: 26px;
@@ -59,14 +82,19 @@ body {
     letter-spacing: -1px;
 }
 
+
 .brand-name span {
     color: #2875df;
 }
+
 
 .brand-subtitle {
     margin-top: 1px;
     font-size: 13px;
 }
+
+
+/* NAVEGAÇÃO */
 
 .navigation {
     display: flex;
@@ -74,30 +102,42 @@ body {
     gap: 10px;
 }
 
+
 .nav-item {
     height: 71px;
+
     padding: 0 22px 0 38px;
+
     display: flex;
     align-items: center;
+
     gap: 15px;
+
     border-radius: 10px;
+
     color: #ffffff;
     text-decoration: none;
+
     font-size: 17px;
+
     transition: background-color 0.15s ease;
 }
+
 
 .nav-item:hover {
     background: #226FE3;
 }
 
+
 .nav-item.selected {
     background: #0C5DE0;
 }
 
+
 .nav-item.selected:hover {
     background: #0C5DE0;
 }
+
 
 .icon-space {
     width: 26px;
@@ -105,60 +145,86 @@ body {
     flex-shrink: 0;
 }
 
+
+/* PARTE INFERIOR DO MENU */
+
 .sidebar-bottom {
     margin-top: auto;
+    flex-shrink: 0;
 }
+
 
 .user-box {
     height: 101px;
+
     border: 1px solid #4c83d2;
     border-radius: 9px;
+
     padding: 14px 18px 14px 41px;
+
     display: flex;
     align-items: center;
 }
 
+
 .user-image-space {
     width: 56px;
     height: 56px;
+
     border-radius: 50%;
+
     background: #dedede;
+
     flex-shrink: 0;
 }
 
+
 .user-info {
     margin-left: 11px;
+
     display: flex;
     flex-direction: column;
+
     gap: 5px;
 }
+
 
 .user-info strong {
     font-size: 19px;
     font-weight: 500;
 }
 
+
 .user-info span {
     font-size: 14px;
 }
 
+
 .arrow-space {
     width: 12px;
     height: 12px;
+
     margin-left: auto;
 }
 
+
 .logout {
     height: 70px;
+
     margin-top: 10px;
     padding-left: 11px;
+
     display: flex;
     align-items: center;
+
     gap: 13px;
+
     color: #ffffff;
     text-decoration: none;
+
     font-size: 17px;
 }
+
 
 .logout-icon-space {
     width: 23px;
@@ -166,77 +232,129 @@ body {
 }
 
 
-/* CONTEÚDO */
+/* ================================================= */
+/* CONTEÚDO PRINCIPAL */
+/* ================================================= */
 
 .main-content {
-    flex: 1;
-    padding: 85px 26px 50px;
+    width: calc(100% - 314px);
+    height: 100%;
+
+    padding: 60px 26px 25px;
+
+    display: flex;
+    flex-direction: column;
+
     overflow: hidden;
 }
 
+
+/* CABEÇALHO */
+
+.page-header {
+    flex-shrink: 0;
+}
+
+
 .page-header h1 {
     margin: 0;
+
     font-size: 30px;
     line-height: 36px;
     font-weight: 700;
 }
 
+
 .page-header p {
-    margin: 10px 0 0;
+    margin: 8px 0 0;
+
     color: #667085;
+
     font-size: 17px;
     line-height: 22px;
 }
 
 
+/* ================================================= */
 /* ÁREA DE CADASTRO */
+/* ================================================= */
 
 .cadastro-area {
     width: 100%;
-    margin-top: 42px;
+
+    margin-top: 25px;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
 }
 
 
+/* ================================================= */
 /* ABAS */
+/* ================================================= */
 
 .tabs {
     width: 100%;
     height: 60px;
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        33.333% 33.333% 33.334%;
+
+    flex-shrink: 0;
 }
 
+
 .tab {
+    width: 100%;
     height: 60px;
+
     border: 1px solid #aab2c0;
     border-bottom: 1px solid #aab2c0;
+
     background: #ffffff;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     gap: 20px;
+
     font-family: Arial, Helvetica, sans-serif;
+
     font-size: 20px;
     font-weight: 700;
+
     cursor: pointer;
+
     color: #111111;
 }
+
 
 .tab:first-child {
     border-radius: 10px 0 0 10px;
 }
 
+
 .tab:last-child {
     border-radius: 0 10px 10px 0;
 }
+
 
 .tab.active {
     border-bottom: 4px solid #0C5DE0;
 }
 
+
 .tab:hover {
     background: #f7f9fc;
 }
+
 
 .tab-icon-space {
     width: 30px;
@@ -244,212 +362,1337 @@ body {
 }
 
 
-/* FORMULÁRIOS */
+/* ================================================= */
+/* CONTEÚDO DAS ABAS */
+/* ================================================= */
 
 .tab-content {
     display: none;
-    padding: 38px 43px 0;
+
+    width: 100%;
+
+    padding: 25px 43px 0;
+
+    flex: 1;
+
+    min-height: 0;
 }
 
+
 .tab-content.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
+
+
+/* TÍTULO DO FORMULÁRIO */
 
 .form-title {
     display: flex;
     align-items: center;
-    gap: 18px;
-    margin-bottom: 18px;
-}
 
-.form-title-icon {
-    width: 78px;
-    height: 78px;
-    border-radius: 50%;
-    background: #75a7f5;
+    gap: 18px;
+
+    margin-bottom: 18px;
+
     flex-shrink: 0;
 }
 
-.form-title h2 {
-    margin: 0 0 8px;
-    font-size: 25px;
-    line-height: 30px;
+
+.form-title-icon {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    background: #75a7f5;
+
+    flex-shrink: 0;
 }
+
+
+.form-title h2 {
+    margin: 0 0 5px;
+
+    font-size: 24px;
+    line-height: 28px;
+}
+
 
 .form-title p {
     margin: 0;
-    font-size: 17px;
-    line-height: 21px;
+
+    font-size: 16px;
+    line-height: 20px;
 }
 
 
-/* CAMPOS */
+/* ================================================= */
+/* FORMULÁRIO */
+/* ================================================= */
+
+.tab-content form {
+    width: 100%;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+}
+
 
 .form-grid {
+    width: 100%;
+
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        calc(50% - 15px) calc(50% - 15px);
+
     column-gap: 30px;
-    row-gap: 38px;
+    row-gap: 18px;
 }
 
+
 .field {
+    width: 100%;
+
     display: flex;
     flex-direction: column;
 }
+
 
 .field.full {
     grid-column: 1 / 3;
 }
 
+
 .field label {
-    margin: 0 0 10px;
+    margin: 0 0 7px;
+
     padding-left: 2px;
-    font-size: 20px;
-    line-height: 24px;
+
+    font-size: 18px;
+    line-height: 22px;
+
     font-weight: 700;
 }
 
+
 .field input {
     width: 100%;
-    height: 56px;
+    height: 50px;
+
     padding: 0 16px;
+
     border: 1px solid #707b8e;
     border-radius: 10px;
+
     outline: none;
+
     background: #ffffff;
+
     font-family: Arial, Helvetica, sans-serif;
+
     font-size: 16px;
+
     color: #111111;
 }
+
 
 .field input::placeholder {
     color: #999999;
 }
+
 
 .field input:focus {
     border-color: #0C5DE0;
 }
 
 
-/* BOTÃO */
+/* ================================================= */
+/* BOTÕES */
+/* ================================================= */
 
 .form-actions {
+    width: 100%;
+
     display: flex;
     justify-content: flex-end;
-    margin-top: 26px;
+    align-items: center;
+
+    gap: 30px;
+
+    /*
+        Faz os botões permanecerem na mesma
+        posição independentemente da quantidade
+        de campos da aba.
+    */
+
+    margin-top: auto;
+
+    padding-top: 15px;
+
+    flex-shrink: 0;
 }
 
-.button-primary {
+
+.button-primary,
+.button-secondary {
     width: 237px;
-    height: 53px;
-    border: 0;
+    height: 50px;
+
     border-radius: 10px;
-    background: #092d78;
-    color: #ffffff;
+
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 24px;
+
+    font-size: 21px;
     font-weight: 700;
+
     cursor: pointer;
 }
+
+
+.button-primary {
+    border: 0;
+
+    background: #092d78;
+
+    color: #ffffff;
+
+    transition: background-color 0.2s ease;
+}
+
 
 .button-primary:hover {
     background: #226FE3;
 }
 
 
-/* INFORMAÇÃO */
+/* VER CADASTRADOS */
 
-.information {
-    min-height: 87px;
-    margin-top: 47px;
-    padding: 15px 26px;
-    border-radius: 9px;
-    background: #c4dafa;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+.button-secondary {
+    border: 1px solid #092d78;
+
+    background: #ffffff;
+
+    color: #092d78;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.information-icon-space {
-    width: 49px;
-    height: 49px;
+
+.button-secondary:hover {
+    background: #092d78;
+
+    color: #ffffff;
+
+    border-color: #092d78;
+}
+
+
+/* ================================================= */
+/* INFORMAÇÃO */
+/* ================================================= */
+
+.information {
+    width: 100%;
+    height: 75px;
+
+    margin-top: 18px;
+
+    padding: 10px 26px;
+
+    border-radius: 9px;
+
+    background: #c4dafa;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
     flex-shrink: 0;
 }
 
-.information strong {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 17px;
+
+.information-icon-space {
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
 }
 
-.information p {
-    margin: 0;
-    color: #667085;
+
+.information-icon-space img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.information strong {
+    display: block;
+
+    margin-bottom: 4px;
+
     font-size: 16px;
 }
 
 
-/* RESPONSIVIDADE */
+.information p {
+    margin: 0;
 
-@media (max-width: 1050px) {
+    color: #667085;
+
+    font-size: 15px;
+}
+
+
+/* ================================================= */
+/* MODAIS */
+/* ================================================= */
+
+body.modal-open {
+    overflow: hidden;
+}
+
+
+.modal-overlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    z-index: 1000;
+}
+
+
+.modal-overlay.open {
+    display: flex;
+}
+
+
+.modal-overlay-top {
+    z-index: 1100;
+}
+
+
+.modal-overlay-confirm {
+    z-index: 1200;
+}
+
+
+.modal {
+    position: relative;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.20);
+}
+
+
+.modal h2 {
+    margin: 0;
+
+    font-size: 26px;
+}
+
+
+/* FECHAR MODAL */
+
+.modal-close {
+    position: absolute;
+
+    right: 24px;
+    top: 17px;
+
+    border: 0;
+
+    background: transparent;
+
+    font-size: 34px;
+    font-weight: 300;
+
+    cursor: pointer;
+
+    line-height: 1;
+}
+
+
+/* ================================================= */
+/* MODAL DA LISTA */
+/* ================================================= */
+
+.modal-lista {
+    width: 90%;
+    max-width: 1120px;
+
+    max-height: 90%;
+
+    padding: 38px 28px 24px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* BUSCA */
+
+.list-search {
+    width: 100%;
+    height: 45px;
+
+    border: 1px solid #667085;
+    border-radius: 6px;
+
+    margin: 30px 0 16px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 13px;
+
+    gap: 10px;
+
+    color: #667085;
+}
+
+
+.list-search span {
+    font-size: 28px;
+}
+
+
+.list-search input {
+    width: 100%;
+
+    border: 0;
+    outline: 0;
+
+    font-size: 14px;
+}
+
+
+/* ================================================= */
+/* TABELA */
+/* ================================================= */
+
+.table-wrap {
+    width: 100%;
+
+    overflow: auto;
+
+    min-height: 0;
+}
+
+
+.cadastros-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: auto;
+}
+
+
+.cadastros-table th {
+    background: #c4dafa;
+
+    padding: 14px 16px;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+
+.cadastros-table th:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+
+.cadastros-table th:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+
+.cadastros-table td {
+    padding: 10px 16px;
+
+    color: #4b5565;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+}
+
+
+/* ================================================= */
+/* AÇÕES DA TABELA */
+/* ================================================= */
+
+.actions-cell {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+.edit-btn {
+    border: 1px solid #1267f4;
+
+    background: #ffffff;
+
+    color: #1267f4;
+
+    border-radius: 6px;
+
+    padding: 6px 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.edit-btn:hover {
+    background: #f2f6ff;
+}
+
+
+.delete-btn {
+    border: 0;
+
+    background: transparent;
+
+    color: #ef233c;
+
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+
+/* ================================================= */
+/* LISTA VAZIA */
+/* ================================================= */
+
+.empty-state {
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #667085;
+}
+
+
+/* ================================================= */
+/* RODAPÉ DA LISTA */
+/* ================================================= */
+
+.list-footer {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+    color: #667085;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ================================================= */
+/* PAGINAÇÃO */
+/* ================================================= */
+
+.pagination {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.pagination button {
+    min-width: 34px;
+    height: 34px;
+
+    border: 0;
+
+    background: #ffffff;
+
+    border-radius: 6px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.pagination button:hover:not(:disabled):not(.active) {
+    background: #f1f5f9;
+}
+
+
+.pagination button.active {
+    background: #226FE3;
+
+    color: #ffffff;
+}
+
+
+.pagination button:disabled {
+    opacity: 0.3;
+
+    cursor: default;
+}
+
+
+/* ================================================= */
+/* MODAL DE EDIÇÃO */
+/* ================================================= */
+
+.modal-edicao {
+    width: 90%;
+    max-width: 640px;
+
+    max-height: 90%;
+
+    overflow: auto;
+
+    padding: 28px 56px 34px;
+}
+
+
+.edit-id {
+    margin: 18px 0;
+
+    color: #667085;
+}
+
+
+.edit-field {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 14px;
+}
+
+
+.edit-field label {
+    font-size: 20px;
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+
+.edit-field input {
+    width: 100%;
+    height: 56px;
+
+    border: 1px solid #707b8e;
+    border-radius: 10px;
+
+    padding: 0 15px;
+
+    font-size: 16px;
+
+    outline: 0;
+}
+
+
+.edit-field input:focus {
+    border-color: #0C5DE0;
+}
+
+
+.status-info {
+    margin: 18px 0;
+
+    font-size: 17px;
+}
+
+
+/* ================================================= */
+/* BOTÕES DOS MODAIS */
+/* ================================================= */
+
+.edit-actions,
+.confirm-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 14px;
+
+    margin-top: 28px;
+}
+
+
+.button-save,
+.button-cancel,
+.button-danger {
+    height: 50px;
+
+    border-radius: 10px;
+
+    padding: 0 24px;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.button-save {
+    border: 0;
+
+    background: #1267e8;
+
+    color: #ffffff;
+}
+
+
+.button-save:hover {
+    background: #0C5DE0;
+}
+
+
+.button-cancel {
+    border: 1px solid #667085;
+
+    background: #ffffff;
+
+    color: #344054;
+}
+
+
+.button-cancel:hover {
+    background: #f7f7f7;
+}
+
+
+.button-danger {
+    border: 0;
+
+    background: #dc2626;
+
+    color: #ffffff;
+}
+
+
+.button-danger:hover {
+    background: #b91c1c;
+}
+
+
+/* ================================================= */
+/* CONFIRMAÇÃO */
+/* ================================================= */
+
+.modal-confirmacao {
+    width: 90%;
+    max-width: 500px;
+
+    padding: 32px;
+}
+
+
+.modal-confirmacao p {
+    margin: 24px 0;
+
+    color: #475467;
+}
+
+
+/* ================================================= */
+/* RESPONSIVIDADE - LARGURA */
+/* ================================================= */
+
+@media (max-width: 1200px) {
 
     .sidebar {
         width: 270px;
     }
 
+
     .main-content {
+        width: calc(100% - 270px);
+
         padding-left: 20px;
         padding-right: 20px;
     }
+
 
     .tab-content {
         padding-left: 25px;
         padding-right: 25px;
     }
 
+
+    .button-primary,
+    .button-secondary {
+        width: 210px;
+    }
+
 }
 
-@media (max-width: 850px) {
+
+/* ================================================= */
+/* TELAS DE ALTURA MÉDIA */
+/* ================================================= */
+
+@media (max-height: 800px) {
 
     .sidebar {
-        width: 230px;
+        padding-top: 30px;
+        padding-bottom: 20px;
     }
+
+
+    .brand {
+        height: 85px;
+    }
+
+
+    .nav-item {
+        height: 58px;
+    }
+
+
+    .user-box {
+        height: 80px;
+    }
+
+
+    .logout {
+        height: 50px;
+    }
+
+
+    .main-content {
+        padding-top: 30px;
+        padding-bottom: 18px;
+    }
+
+
+    .page-header h1 {
+        font-size: 27px;
+        line-height: 32px;
+    }
+
+
+    .page-header p {
+        margin-top: 5px;
+        font-size: 15px;
+    }
+
+
+    .cadastro-area {
+        margin-top: 18px;
+    }
+
+
+    .tabs,
+    .tab {
+        height: 52px;
+    }
+
+
+    .tab {
+        font-size: 18px;
+    }
+
+
+    .tab-content {
+        padding-top: 18px;
+    }
+
+
+    .form-title {
+        margin-bottom: 12px;
+    }
+
+
+    .form-title-icon {
+        width: 55px;
+        height: 55px;
+    }
+
+
+    .form-title h2 {
+        font-size: 21px;
+        line-height: 25px;
+    }
+
+
+    .form-title p {
+        font-size: 14px;
+    }
+
+
+    .form-grid {
+        row-gap: 12px;
+    }
+
+
+    .field label {
+        margin-bottom: 5px;
+
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+
+    .field input {
+        height: 43px;
+    }
+
+
+    .form-actions {
+        padding-top: 10px;
+    }
+
+
+    .button-primary,
+    .button-secondary {
+        height: 44px;
+
+        font-size: 18px;
+    }
+
+
+    .information {
+        height: 60px;
+
+        margin-top: 12px;
+
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+
+    .information-icon-space {
+        width: 38px;
+        height: 38px;
+    }
+
+
+    .information strong {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+
+    .information p {
+        font-size: 13px;
+    }
+
+}
+
+
+/* ================================================= */
+/* TELAS COM POUCA ALTURA */
+/* ================================================= */
+
+@media (max-height: 680px) {
+
+    .sidebar {
+        padding-top: 18px;
+        padding-bottom: 12px;
+    }
+
+
+    .brand {
+        height: 65px;
+    }
+
+
+    .logo-space {
+        width: 45px;
+        height: 45px;
+    }
+
+
+    .brand-name {
+        font-size: 21px;
+        line-height: 23px;
+    }
+
+
+    .brand-subtitle {
+        font-size: 11px;
+    }
+
+
+    .navigation {
+        gap: 5px;
+    }
+
+
+    .nav-item {
+        height: 47px;
+
+        font-size: 15px;
+    }
+
+
+    .user-box {
+        height: 65px;
+    }
+
+
+    .user-image-space {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .user-info strong {
+        font-size: 15px;
+    }
+
+
+    .user-info span {
+        font-size: 12px;
+    }
+
+
+    .logout {
+        height: 38px;
+
+        margin-top: 5px;
+
+        font-size: 15px;
+    }
+
+
+    .main-content {
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+
+
+    .page-header h1 {
+        font-size: 24px;
+        line-height: 27px;
+    }
+
+
+    .page-header p {
+        margin-top: 2px;
+
+        font-size: 13px;
+        line-height: 17px;
+    }
+
+
+    .cadastro-area {
+        margin-top: 10px;
+    }
+
+
+    .tabs,
+    .tab {
+        height: 44px;
+    }
+
+
+    .tab {
+        font-size: 15px;
+
+        gap: 8px;
+    }
+
+
+    .tab-icon-space {
+        width: 23px;
+        height: 23px;
+    }
+
+
+    .tab-content {
+        padding-top: 10px;
+    }
+
+
+    .form-title {
+        gap: 12px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .form-title-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .form-title h2 {
+        margin-bottom: 2px;
+
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+
+    .form-title p {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+
+    .form-grid {
+        row-gap: 7px;
+    }
+
+
+    .field label {
+        margin-bottom: 3px;
+
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+
+    .field input {
+        height: 36px;
+
+        font-size: 13px;
+    }
+
+
+    .form-actions {
+        padding-top: 7px;
+    }
+
+
+    .button-primary,
+    .button-secondary {
+        height: 38px;
+
+        font-size: 16px;
+    }
+
+
+    .information {
+        height: 48px;
+
+        margin-top: 7px;
+
+        padding: 5px 18px;
+    }
+
+
+    .information-icon-space {
+        width: 31px;
+        height: 31px;
+    }
+
+
+    .information strong {
+        font-size: 12px;
+        margin-bottom: 1px;
+    }
+
+
+    .information p {
+        font-size: 11px;
+    }
+
+}
+
+
+/* ================================================= */
+/* RESPONSIVIDADE - LARGURA MENOR */
+/* ================================================= */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 220px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
 
     .brand {
         padding-left: 8px;
     }
 
+
     .brand-name {
         font-size: 21px;
     }
+
 
     .nav-item {
         padding-left: 20px;
     }
 
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .field.full {
-        grid-column: 1;
-    }
-
-    .tabs {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
 
     .tab {
-        border-radius: 0;
+        gap: 8px;
+
+        font-size: 16px;
     }
 
-    .tab:first-child {
-        border-radius: 10px 10px 0 0;
+
+    .tab-content {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
-    .tab:last-child {
-        border-radius: 0 0 10px 10px;
+
+    .form-grid {
+        grid-template-columns:
+            calc(50% - 8px) calc(50% - 8px);
+
+        column-gap: 16px;
+    }
+
+
+    .form-actions {
+        gap: 15px;
+    }
+
+
+    .button-primary,
+    .button-secondary {
+        width: 190px;
+
+        font-size: 17px;
+    }
+
+}
+
+
+/* ================================================= */
+/* TELAS MUITO ESTREITAS */
+/* ================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 180px;
+    }
+
+
+    .main-content {
+        width: calc(100% - 180px);
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .brand {
+        padding-left: 3px;
+    }
+
+
+    .brand-name {
+        font-size: 17px;
+    }
+
+
+    .brand-subtitle {
+        font-size: 10px;
+    }
+
+
+    .nav-item {
+        padding-left: 10px;
+
+        gap: 8px;
+
+        font-size: 14px;
+    }
+
+
+    .tab span:last-child {
+        font-size: 13px;
+    }
+
+
+    .tab-content {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+
+    .form-grid {
+        column-gap: 10px;
+
+        grid-template-columns:
+            calc(50% - 5px) calc(50% - 5px);
+    }
+
+
+    .field label {
+        font-size: 14px;
+    }
+
+
+    .field input {
+        padding-left: 8px;
+        padding-right: 8px;
+
+        font-size: 13px;
+    }
+
+
+    .button-primary,
+    .button-secondary {
+        width: 47%;
+
+        font-size: 14px;
+    }
+
+
+    .information {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
 }
