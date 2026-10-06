@@ -4,6 +4,11 @@ import {
 } from "../dados/movimentacoes.js";
 
 import {
+    carregarMovimentacoes,
+    salvarMovimentacoes
+} from "../dados/movimentacoes.js";
+
+import {
     carregarNadadores as carregarNadadoresDados
 } from "../dados/nadadores.js";
 
@@ -423,41 +428,15 @@ function registrarMovimentacao(
         );
 
 
-    const movimentacao = {
-
-        id:
+    const movimentacao =
+        new Movimentacao(
             maiorId + 1,
-
-        tipo:
             tipo,
-
-        toalhaId:
-            toalha.id,
-
-        toalhaCodigo:
-            toalha.codigo,
-
-        funcionarioId:
-            funcionario.id,
-
-        funcionarioNome:
-            funcionario.nome,
-
-        dataHora:
+            toalha,
+            funcionario,
+            nadador,
             dataHora
-
-    };
-
-
-    if (nadador) {
-
-        movimentacao.nadadorId =
-            nadador.id;
-
-        movimentacao.nadadorNome =
-            nadador.nome;
-
-    }
+        );
 
 
     movimentacoes.push(
@@ -612,6 +591,18 @@ formDevolucao.addEventListener(
             carregarToalhas();
 
 
+        const nadadores =
+            carregarNadadoresDados();
+
+
+        const funcionarios =
+            carregarFuncionariosDados();
+
+
+        const toalhas =
+            carregarToalhas();
+
+
         const funcionario =
             buscarPorId(
                 funcionarios,
@@ -657,24 +648,17 @@ formDevolucao.addEventListener(
         }
 
 
-        const nadador = {
+        const nadador =
+            buscarPorId(
+                nadadores,
+                toalha.nadadorId
+            );
 
-            id:
-                toalha.nadadorId || null,
-
-            nome:
-                toalha.nadadorNome || null
-
-        };
-
-
-        registrarMovimentacao(
+         registrarMovimentacao(
             "Devolução",
             toalha,
             funcionario,
-            nadador.id
-                ? nadador
-                : null,
+            nadador || null,
             dataDevolucao.value
         );
 
