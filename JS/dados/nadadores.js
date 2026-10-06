@@ -1,12 +1,24 @@
+import { Nadador } from "../classes/nadador.js";
+
 const STORAGE = "nadadores";
 
 export function carregarNadadores() {
 
     try {
 
-        return JSON.parse(
+        const dados = JSON.parse(
             localStorage.getItem(STORAGE)
         ) || [];
+
+        return dados.map(nadador =>
+            new Nadador(
+                nadador.id,
+                nadador.nome,
+                nadador.cpf,
+                nadador.telefone,
+                nadador.email
+            )
+        );
 
     } catch (erro) {
 

@@ -1,12 +1,34 @@
+import { Toalha } from "../classes/toalha.js";
+
 const STORAGE = "toalhas";
 
 export function carregarToalhas() {
 
     try {
 
-        return JSON.parse(
+        const dados = JSON.parse(
             localStorage.getItem(STORAGE)
         ) || [];
+
+        return dados.map(toalha => {
+
+            const novaToalha = new Toalha(
+                toalha.id,
+                toalha.codigo,
+                toalha.status
+            );
+
+            if (toalha.nadadorId !== undefined) {
+                novaToalha.nadadorId = toalha.nadadorId;
+            }
+
+            if (toalha.nadadorNome !== undefined) {
+                novaToalha.nadadorNome = toalha.nadadorNome;
+            }
+
+            return novaToalha;
+
+        });
 
     } catch (erro) {
 
