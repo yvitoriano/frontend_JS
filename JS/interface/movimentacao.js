@@ -1,7 +1,5 @@
-import {
-    carregarMovimentacoes,
-    salvarMovimentacoes
-} from "../dados/movimentacoes.js";
+import { Movimentacao } from "../classes/movimentacao.js";
+
 
 import {
     carregarMovimentacoes,
@@ -21,8 +19,9 @@ import {
     salvarToalhas
 } from "../dados/toalhas.js";
 
+
 const STORAGE = {
-    nadadores: "nadadores",
+    nadadores: "nadadores", 
     funcionarios: "funcionarios",
     toalhas: "toalhas",
     movimentacoes: "movimentacoes"
@@ -576,38 +575,20 @@ formRetirada.addEventListener(
 
 /*REGISTRAR DEVOLUÇÃO*/
 
+
 formDevolucao.addEventListener(
     "submit",
     function (event) {
-
         event.preventDefault();
 
+        const funcionarios = carregarFuncionariosDados();
+        const toalhas = carregarToalhas();
+        const nadadores = carregarNadadoresDados();
 
-        const funcionarios =
-            carregarFuncionariosDados();
-
-
-        const toalhas =
-            carregarToalhas();
-
-
-        const nadadores =
-            carregarNadadoresDados();
-
-
-        const funcionarios =
-            carregarFuncionariosDados();
-
-
-        const toalhas =
-            carregarToalhas();
-
-
-        const funcionario =
-            buscarPorId(
-                funcionarios,
-                selectFuncionarioDevolucao.value
-            );
+        const funcionario = buscarPorId(
+            funcionarios,
+            selectFuncionarioDevolucao.value
+        );
 
 
         const toalha =
@@ -654,7 +635,7 @@ formDevolucao.addEventListener(
                 toalha.nadadorId
             );
 
-         registrarMovimentacao(
+        registrarMovimentacao(
             "Devolução",
             toalha,
             funcionario,

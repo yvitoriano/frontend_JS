@@ -2,6 +2,8 @@ import { Nadador } from "../classes/nadador.js";
 import { Funcionario } from "../classes/funcionario.js";
 import { Toalha } from "../classes/toalha.js";
 
+import { carregarMovimentacoes } from "../dados/movimentacoes.js";
+
 import {
     carregarNadadores,
     salvarNadadores
@@ -1569,75 +1571,67 @@ document
 /* EXCLUSÃO */
 
 document
-    .getElementById(
-        "confirmarExclusao"
-    )
-    .addEventListener(
-        "click",
-        function () {
+    .getElementById("confirmarExclusao")
+    .addEventListener("click", function () {
 
-            let registros;
+        const movimentacoes = carregarMovimentacoes();
 
-            if (tipoAtual === "nadador") {
+        const registroVinculado = movimentacoes.some(
+            function (movimentacao) {
 
-                registros = carregarNadadores();
+                if (tipoAtual === "nadador") {
+                    return Number(movimentacao.nadadorId) === exclusaoAtual;
+                }
 
-            } else if (tipoAtual === "funcionario") {
+                if (tipoAtual === "funcionario") {
+                    return Number(movimentacao.funcionarioId) === exclusaoAtual;
+                }
 
-                registros = carregarFuncionarios();
+                if (tipoAtual === "toalha") {
+                    return Number(movimentacao.toalhaId) === exclusaoAtual;
+                }
 
-            } else {
-
-                registros = carregarToalhas();
-
+                return false;
             }
+        );
 
-
-            const registrosAtualizados =
-                registros.filter(
-                    function (registro) {
-
-                        return (
-                            Number(
-                                registro.id
-                            ) !==
-                            exclusaoAtual
-                        );
-
-                    }
-                );
-
-
-            if (tipoAtual === "nadador") {
-
-                salvarNadadores(
-                    registrosAtualizados
-                );
-
-            } else if (tipoAtual === "funcionario") {
-
-                salvarFuncionarios(
-                    registrosAtualizados
-                );
-
-            } else {
-
-                salvarToalhas(
-                    registrosAtualizados
-                );
-
-            }
-
-
-            exclusaoAtual = null;
-
-
-            fecharModal(
-                modalConfirmacao
+        if (registroVinculado) {
+            alert(
+                "Não é possível excluir este cadastro, pois ele está vinculado a uma movimentação."
             );
 
-
-            renderizarLista();
-
+            exclusaoAtual = null;
+            fecharModal(modalConfirmacao);
+            return;
         }
-    );
+
+        let registros;
+
+        if (tipoAtual === "nadador") {
+            registros = carregarNadadores();
+        } else if (tipoAtual === "funcionario") {
+            registros = carregarFuncionarios();
+        } else {
+            registros = carregarToalhas();
+        }
+
+        const registrosAtualizados = registros.filter(
+            function (registro) {
+                return Number(registro.id) !== exclusaoAtual;
+            }
+        );
+
+        if (tipoAtual === "nadador") {
+            salvarNadadores(registrosAtualizados);
+        } else if (tipoAtual === "funcionario") {
+            salvarFuncionarios(registrosAtualizados);
+        } else {
+            salvarToalhas(registrosAtualizados);
+        }
+
+        exclusaoAtual = null;
+
+        fecharModal(modalConfirmacao);
+
+        renderizarLista();
+    });
