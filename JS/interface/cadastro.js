@@ -19,6 +19,11 @@ import {
     salvarToalhas
 } from "../dados/toalhas.js";
 
+import {
+    criarCelulaAcoes,
+    criarCabecalhoTabela,
+    criarCelulaTabela
+} from "./componentes.js";
 
 const NEXT_ID = {
     nadador: "proximoIdNadador",
@@ -716,28 +721,13 @@ function renderizarLista() {
         configuracao.titulo;
 
 
+
     document
-        .getElementById(
-            "cabecalhoLista"
-        )
-        .innerHTML =
-        `
-            <tr>
-                ${configuracao
-            .colunas
-            .map(
-                function (coluna) {
+        .getElementById("cabecalhoLista")
+        .replaceChildren(
+            criarCabecalhoTabela(configuracao.colunas)
+        );
 
-                    return (
-                        `<th>${coluna}</th>`
-                    );
-
-                }
-            )
-            .join("")
-        }
-            </tr>
-        `;
 
 
     const todos =
@@ -788,138 +778,35 @@ function renderizarLista() {
             "corpoLista"
         );
 
+    corpo.replaceChildren();
 
-    corpo.innerHTML =
-        itens
-            .map(
-                function (registro) {
+    itens.forEach(function (registro) {
+        const linha = document.createElement("tr");
 
-                    if (
-                        tipoAtual ===
-                        "toalha"
-                    ) {
+        if (tipoAtual === "toalha") {
+            linha.append(
+                criarCelulaTabela(
+                    String(registro.id).padStart(3, "0")
+                ),
+                criarCelulaTabela(registro.codigo),
+                criarCelulaTabela(registro.status),
+                criarCelulaAcoes(registro.id)
+            );
+        } else {
+            linha.append(
+                criarCelulaTabela(
+                    String(registro.id).padStart(3, "0")
+                ),
+                criarCelulaTabela(registro.nome),
+                criarCelulaTabela(registro.cpf),
+                criarCelulaTabela(registro.telefone),
+                criarCelulaTabela(registro.email),
+                criarCelulaAcoes(registro.id)
+            );
+        }
 
-                        return `
-                            <tr>
-
-                                <td>
-                                    ${String(
-                            registro.id
-                        ).padStart(
-                            3,
-                            "0"
-                        )
-                            }
-                                </td>
-
-                                <td>
-                                    ${escapeHtml(
-                                registro.codigo
-                            )
-                            }
-                                </td>
-
-                                <td>
-                                    ${escapeHtml(
-                                registro.status
-                            )
-                            }
-                                </td>
-
-                                <td class="actions-cell">
-
-                                    <button
-                                        class="edit-btn"
-                                        data-editar="${registro.id}"
-                                    >
-                                        Editar
-                                    </button>
-
-                                    <button
-                                        class="delete-btn"
-                                        data-excluir="${registro.id}"
-                                        aria-label="Excluir"
-                                        title="Excluir"
-                                    >
-                                        🗑
-                                    </button>
-
-                                </td>
-
-                            </tr>
-                        `;
-
-                    }
-
-
-                    return `
-                        <tr>
-
-                            <td>
-                                ${String(
-                        registro.id
-                    ).padStart(
-                        3,
-                        "0"
-                    )
-                        }
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                            registro.nome
-                        )
-                        }
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                            registro.cpf
-                        )
-                        }
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                            registro.telefone
-                        )
-                        }
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                            registro.email
-                        )
-                        }
-                            </td>
-
-                            <td class="actions-cell">
-
-                                <button
-                                    class="edit-btn"
-                                    data-editar="${registro.id}"
-                                >
-                                    Editar
-                                </button>
-
-                                <button
-                                    class="delete-btn"
-                                    data-excluir="${registro.id}"
-                                    aria-label="Excluir"
-                                    title="Excluir"
-                                >
-                                    🗑
-                                </button>
-
-                            </td>
-
-                        </tr>
-                    `;
-
-                }
-            )
-            .join("");
-
+        corpo.appendChild(linha);
+    });
 
     document
         .getElementById(

@@ -19,6 +19,7 @@ import {
     salvarToalhas
 } from "../dados/toalhas.js";
 
+import { criarOpcao } from "./componentes.js";
 
 const STORAGE = {
     nadadores: "nadadores", 
@@ -77,22 +78,8 @@ function carregarNadadores() {
     nadadores.forEach(
         function (nadador) {
 
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                nadador.id;
-
-
-            option.textContent =
-                nadador.nome;
-
-
             selectNadadorRetirada.appendChild(
-                option
+                criarOpcao(nadador.id, nadador.nome)
             );
 
         }
@@ -130,41 +117,12 @@ function carregarFuncionarios() {
     funcionarios.forEach(
         function (funcionario) {
 
-            const optionRetirada =
-                document.createElement(
-                    "option"
-                );
-
-
-            optionRetirada.value =
-                funcionario.id;
-
-
-            optionRetirada.textContent =
-                funcionario.nome;
-
-
             selectFuncionarioRetirada.appendChild(
-                optionRetirada
+                criarOpcao(funcionario.id, funcionario.nome)
             );
 
-
-            const optionDevolucao =
-                document.createElement(
-                    "option"
-                );
-
-
-            optionDevolucao.value =
-                funcionario.id;
-
-
-            optionDevolucao.textContent =
-                funcionario.nome;
-
-
             selectFuncionarioDevolucao.appendChild(
-                optionDevolucao
+                criarOpcao(funcionario.id, funcionario.nome)
             );
 
         }
@@ -216,22 +174,8 @@ function carregarToalhasDisponiveis() {
     disponiveis.forEach(
         function (toalha) {
 
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                toalha.id;
-
-
-            option.textContent =
-                toalha.codigo;
-
-
             selectToalhaRetirada.appendChild(
-                option
+                criarOpcao(toalha.id, toalha.codigo)
             );
 
         }
@@ -275,22 +219,8 @@ function carregarToalhasEmUso() {
     emUso.forEach(
         function (toalha) {
 
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                toalha.id;
-
-
-            option.textContent =
-                toalha.codigo;
-
-
             selectToalhaDevolucao.appendChild(
-                option
+                criarOpcao(toalha.id, toalha.codigo)
             );
 
         }
