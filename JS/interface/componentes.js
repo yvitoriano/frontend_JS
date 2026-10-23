@@ -132,7 +132,7 @@ export function criarBotaoEditar(id, acao = null) {
     botao.dataset.editar = id;
     botao.textContent = "Editar";
 
-    if (acao) {
+    if (typeof acao === "function") {
         botao.addEventListener("click", () => acao(id));
     }
 
@@ -144,6 +144,7 @@ export function criarBotaoEditar(id, acao = null) {
  * Cria o botão de exclusão de um cadastro.
  *
  * @param {number|string} id - Identificador do registro.
+ * @param {Function|null} acao - Callback opcional executado ao clicar.
  * @returns {HTMLButtonElement}
  */
 export function criarBotaoExcluir(id, acao = null) {
@@ -156,7 +157,7 @@ export function criarBotaoExcluir(id, acao = null) {
     botao.title = "Excluir";
     botao.textContent = "🗑";
 
-    if (acao) {
+    if (typeof acao === "function") {
         botao.addEventListener("click", () => acao(id));
     }
 
@@ -168,16 +169,85 @@ export function criarBotaoExcluir(id, acao = null) {
  * Cria a célula que reúne os botões de ação.
  *
  * @param {number|string} id - Identificador do registro.
+ * @param {Function|null} aoEditar - Callback opcional de edição.
+ * @param {Function|null} aoExcluir - Callback opcional de exclusão.
  * @returns {HTMLTableCellElement}
  */
-export function criarCelulaAcoes(id) {
+export function criarCelulaAcoes(id, aoEditar = null, aoExcluir = null) {
     const celula = document.createElement("td");
     celula.classList.add("actions-cell");
 
     celula.append(
-        criarBotaoEditar(id),
-        criarBotaoExcluir(id)
+        criarBotaoEditar(id, aoEditar),
+        criarBotaoExcluir(id, aoExcluir)
     );
 
     return celula;
+}
+
+
+/**
+ * Cria a linha de um nadador para a tabela de cadastros.
+ *
+ * @param {Object} nadador - Dados do nadador.
+ * @param {Object} callbacks - Callbacks opcionais aoEditar e aoExcluir.
+ * @returns {HTMLTableRowElement}
+ */
+export function criarLinhaNadador(nadador, callbacks = {}) {
+    const linha = document.createElement("tr");
+
+    linha.append(
+        criarCelulaTabela(String(nadador.id).padStart(3, "0")),
+        criarCelulaTabela(nadador.nome ?? ""),
+        criarCelulaTabela(nadador.cpf ?? ""),
+        criarCelulaTabela(nadador.telefone ?? ""),
+        criarCelulaTabela(nadador.email ?? ""),
+        criarCelulaAcoes(nadador.id, callbacks.aoEditar, callbacks.aoExcluir)
+    );
+
+    return linha;
+}
+
+
+/**
+ * Cria a linha de um funcionário para a tabela de cadastros.
+ *
+ * @param {Object} funcionario - Dados do funcionário.
+ * @param {Object} callbacks - Callbacks opcionais aoEditar e aoExcluir.
+ * @returns {HTMLTableRowElement}
+ */
+export function criarLinhaFuncionario(funcionario, callbacks = {}) {
+    const linha = document.createElement("tr");
+
+    linha.append(
+        criarCelulaTabela(String(funcionario.id).padStart(3, "0")),
+        criarCelulaTabela(funcionario.nome ?? ""),
+        criarCelulaTabela(funcionario.cpf ?? ""),
+        criarCelulaTabela(funcionario.telefone ?? ""),
+        criarCelulaTabela(funcionario.email ?? ""),
+        criarCelulaAcoes(funcionario.id, callbacks.aoEditar, callbacks.aoExcluir)
+    );
+
+    return linha;
+}
+
+
+/**
+ * Cria a linha de uma toalha para a tabela de cadastros.
+ *
+ * @param {Object} toalha - Dados da toalha.
+ * @param {Object} callbacks - Callbacks opcionais aoEditar e aoExcluir.
+ * @returns {HTMLTableRowElement}
+ */
+export function criarLinhaToalha(toalha, callbacks = {}) {
+    const linha = document.createElement("tr");
+
+    linha.append(
+        criarCelulaTabela(String(toalha.id).padStart(3, "0")),
+        criarCelulaTabela(toalha.codigo ?? ""),
+        criarCelulaTabela(toalha.status ?? "Disponível"),
+        criarCelulaAcoes(toalha.id, callbacks.aoEditar, callbacks.aoExcluir)
+    );
+
+    return linha;
 }

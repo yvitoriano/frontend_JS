@@ -20,9 +20,10 @@ import {
 } from "../dados/toalhas.js";
 
 import {
-    criarCelulaAcoes,
     criarCabecalhoTabela,
-    criarCelulaTabela
+    criarLinhaFuncionario,
+    criarLinhaNadador,
+    criarLinhaToalha
 } from "./componentes.js";
 
 const NEXT_ID = {
@@ -781,28 +782,22 @@ function renderizarLista() {
     corpo.replaceChildren();
 
     itens.forEach(function (registro) {
-        const linha = document.createElement("tr");
+        const callbacks = {
+            aoEditar: (id) => abrirEdicao(Number(id)),
+            aoExcluir: (id) => {
+                exclusaoAtual = Number(id);
+                abrirModal(modalConfirmacao);
+            }
+        };
+
+        let linha;
 
         if (tipoAtual === "toalha") {
-            linha.append(
-                criarCelulaTabela(
-                    String(registro.id).padStart(3, "0")
-                ),
-                criarCelulaTabela(registro.codigo),
-                criarCelulaTabela(registro.status),
-                criarCelulaAcoes(registro.id)
-            );
+            linha = criarLinhaToalha(registro, callbacks);
+        } else if (tipoAtual === "nadador") {
+            linha = criarLinhaNadador(registro, callbacks);
         } else {
-            linha.append(
-                criarCelulaTabela(
-                    String(registro.id).padStart(3, "0")
-                ),
-                criarCelulaTabela(registro.nome),
-                criarCelulaTabela(registro.cpf),
-                criarCelulaTabela(registro.telefone),
-                criarCelulaTabela(registro.email),
-                criarCelulaAcoes(registro.id)
-            );
+            linha = criarLinhaFuncionario(registro, callbacks);
         }
 
         corpo.appendChild(linha);
@@ -865,56 +860,7 @@ function renderizarLista() {
     );
 
 
-    corpo
-        .querySelectorAll(
-            "[data-editar]"
-        )
-        .forEach(
-            function (botao) {
 
-                botao.addEventListener(
-                    "click",
-                    function () {
-
-                        abrirEdicao(
-                            Number(
-                                botao.dataset.editar
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    corpo
-        .querySelectorAll(
-            "[data-excluir]"
-        )
-        .forEach(
-            function (botao) {
-
-                botao.addEventListener(
-                    "click",
-                    function () {
-
-                        exclusaoAtual =
-                            Number(
-                                botao.dataset.excluir
-                            );
-
-
-                        abrirModal(
-                            modalConfirmacao
-                        );
-
-                    }
-                );
-
-            }
-        );
 
 }
 
