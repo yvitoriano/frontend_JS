@@ -23,7 +23,8 @@ import {
     criarCabecalhoTabela,
     criarLinhaFuncionario,
     criarLinhaNadador,
-    criarLinhaToalha
+    criarLinhaToalha,
+    criarBotaoPaginacao
 } from "./componentes.js";
 
 const NEXT_ID = {
@@ -32,7 +33,7 @@ const NEXT_ID = {
     toalha: "proximoIdToalha"
 };
 
-const POR_PAGINA = 10;
+const POR_PAGINA = 5;
 
 
 let tipoAtual = "nadador";
@@ -867,132 +868,66 @@ function renderizarLista() {
 
 /* PAGINAÇÃO */
 
-function renderizarPaginacao(
-    totalPaginas
-) {
 
-    const paginacao =
-        document.getElementById(
-            "paginacaoLista"
-        );
+/* PAGINAÇÃO */
 
+function renderizarPaginacao(totalPaginas) {
+    const paginacao = document.getElementById("paginacaoLista");
 
-    if (
-        totalPaginas === 0
-    ) {
+    paginacao.replaceChildren();
 
-        paginacao.innerHTML = "";
-
+    if (totalPaginas === 0) {
         return;
-
     }
 
-
-    let html = "";
-
-
-    html += `
-        <button
-            type="button"
-            data-pag="prev"
-            ${paginaAtual === 1 ? "disabled" : ""}
-            aria-label="Página anterior"
-        >
-            ‹
-        </button>
-    `;
-
-
-    for (
-        let pagina = 1;
-        pagina <= totalPaginas;
-        pagina++
-    ) {
-
-        html += `
-            <button
-                type="button"
-                data-pag="${pagina}"
-                class="${pagina === paginaAtual ? "active" : ""}"
-            >
-                ${pagina}
-            </button>
-        `;
-
-    }
-
-
-    html += `
-        <button
-            type="button"
-            data-pag="next"
-            ${paginaAtual === totalPaginas ? "disabled" : ""}
-            aria-label="Próxima página"
-        >
-            ›
-        </button>
-    `;
-
-
-    paginacao.innerHTML =
-        html;
-
-
-    paginacao
-        .querySelectorAll(
-            "button"
-        )
-        .forEach(
-            function (botao) {
-
-                botao.addEventListener(
-                    "click",
-                    function () {
-
-                        if (
-                            botao.disabled
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        const destino =
-                            botao.dataset.pag;
-
-
-                        if (
-                            destino === "prev"
-                        ) {
-
-                            paginaAtual--;
-
-                        } else if (
-                            destino === "next"
-                        ) {
-
-                            paginaAtual++;
-
-                        } else {
-
-                            paginaAtual =
-                                Number(
-                                    destino
-                                );
-
-                        }
-
-
-                        renderizarLista();
-
-                    }
-                );
-
+    const botaoAnterior = criarBotaoPaginacao(
+        "‹",
+        function () {
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                renderizarLista();
             }
+        },
+        paginaAtual === 1
+    );
+
+    botaoAnterior.setAttribute("aria-label", "Página anterior");
+    paginacao.appendChild(botaoAnterior);
+
+    for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+        const botao = criarBotaoPaginacao(
+            pagina,
+            function () {
+                paginaAtual = pagina;
+                renderizarLista();
+            },
+            false,
+            pagina === paginaAtual
         );
 
+        // Mantém a classe usada pelo CSS da tela de cadastro.
+        if (pagina === paginaAtual) {
+            botao.classList.add("active");
+        }
+
+        paginacao.appendChild(botao);
+    }
+
+    const botaoProxima = criarBotaoPaginacao(
+        "›",
+        function () {
+            if (paginaAtual < totalPaginas) {
+                paginaAtual++;
+                renderizarLista();
+            }
+        },
+        paginaAtual === totalPaginas
+    );
+
+    botaoProxima.setAttribute("aria-label", "Próxima página");
+    paginacao.appendChild(botaoProxima);
 }
+
 
 
 /* EDIÇÃO */
