@@ -2,22 +2,28 @@ import { Nadador } from "../classes/nadador.js";
 import { Funcionario } from "../classes/funcionario.js";
 import { Toalha } from "../classes/toalha.js";
 
-import { carregarMovimentacoes } from "../dados/movimentacoes.js";
+import {
+    listarNadadores,
+    cadastrarNadador,
+    atualizarNadador,
+    excluirNadador
+} from "../api/nadadores.js";
 
 import {
-    carregarNadadores,
-    salvarNadadores
-} from "../dados/nadadores.js";
+    listarFuncionarios,
+    cadastrarFuncionario,
+    atualizarFuncionario,
+    excluirFuncionario
+} from "../api/funcionarios.js";
 
 import {
-    carregarFuncionarios,
-    salvarFuncionarios
-} from "../dados/funcionarios.js";
+    listarToalhas,
+    cadastrarToalha,
+    atualizarToalha,
+    excluirToalha
+} from "../api/toalhas.js";
 
-import {
-    carregarToalhas,
-    salvarToalhas
-} from "../dados/toalhas.js";
+import { listarMovimentacoes } from "../api/movimentacoes.js";
 
 import {
     criarCabecalhoTabela,
@@ -27,14 +33,7 @@ import {
     criarBotaoPaginacao
 } from "./componentes.js";
 
-const NEXT_ID = {
-    nadador: "proximoIdNadador",
-    funcionario: "proximoIdFuncionario",
-    toalha: "proximoIdToalha"
-};
-
 const POR_PAGINA = 5;
-
 
 let tipoAtual = "nadador";
 let paginaAtual = 1;
@@ -42,832 +41,338 @@ let termoBusca = "";
 let edicaoAtual = null;
 let exclusaoAtual = null;
 
-
-
-/* ID AUTOMÁTICO */
-
-function proximoId(tipo) {
-
-    let registros = [];
-
-    if (tipo === "nadador") {
-
-        registros = carregarNadadores();
-
-    } else if (tipo === "funcionario") {
-
-        registros = carregarFuncionarios();
-
-    } else if (tipo === "toalha") {
-
-        registros = carregarToalhas();
-
-    }
-
-    const maiorId = registros.reduce(
-        function (maior, registro) {
-
-            return Math.max(
-                maior,
-                Number(registro.id) || 0
-            );
-
-        },
-        0
-    );
-
-
-    let idAtual =
-        Number(
-            localStorage.getItem(NEXT_ID[tipo])
-        ) || (maiorId + 1);
-
-
-    if (idAtual <= maiorId) {
-        idAtual = maiorId + 1;
-    }
-
-
-    localStorage.setItem(
-        NEXT_ID[tipo],
-        String(idAtual + 1)
-    );
-
-
-    return idAtual;
-
-}
-
-
 /* AUXILIARES */
 
 function normalizar(texto) {
-
     return String(texto ?? "")
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
-
 }
-
 
 function escapeHtml(valor) {
-
     const elemento = document.createElement("div");
-
     elemento.textContent = String(valor ?? "");
-
     return elemento.innerHTML;
-
 }
 
+function mostrarErro(erro) {
+    console.error("Erro ao comunicar com a API:", erro);
+    alert(
+        erro?.message ||
+        "Não foi possível concluir a operação. Verifique se o servidor da API está em execução."
+    );
+}
+
+async function listarRegistros(tipo) {
+    if (tipo === "nadador") return await listarNadadores();
+    if (tipo === "funcionario") return await listarFuncionarios();
+    return await listarToalhas();
+}
 
 /* ABAS */
 
-const tabs =
-    document.querySelectorAll(".tab");
+const tabs = document.querySelectorAll(".tab");
+const conteudos = document.querySelectorAll(".tab-content");
 
-const conteudos =
-    document.querySelectorAll(".tab-content");
+tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+        const nomeAba = tab.dataset.tab;
 
-
-tabs.forEach(function (tab) {
-
-    tab.addEventListener("click", function () {
-
-        const nomeAba =
-            tab.dataset.tab;
-
-
-        tabs.forEach(function (item) {
-            item.classList.remove("active");
-        });
-
-
-        conteudos.forEach(function (conteudo) {
-            conteudo.classList.remove("active");
-        });
-
+        tabs.forEach((item) => item.classList.remove("active"));
+        conteudos.forEach((conteudo) => conteudo.classList.remove("active"));
 
         tab.classList.add("active");
-
-
-        document
-            .getElementById(nomeAba)
-            .classList.add("active");
-
+        document.getElementById(nomeAba)?.classList.add("active");
     });
-
 });
 
+/* CADASTRO DE NADADORES E FUNCIONÁRIOS */
 
-/* CADASTRO DE PESSOAS */
+async function cadastrarPessoa(tipo, formulario, ids) {
+    try {
+        const nome = document.getElementById(ids.nome).value.trim();
+        const cpf = document.getElementById(ids.cpf).value.trim();
+        const telefone = document.getElementById(ids.telefone).value.trim();
+        const email = document.getElementById(ids.email).value.trim();
 
-function cadastrarPessoa(
-    tipo,
-    formulario,
-    ids
-) {
+        if (!nome || !cpf || !telefone || !email) return;
 
-    let registro;
+        // O JSON Server gera o ID automaticamente.
+        const registro = tipo === "nadador"
+            ? new Nadador(undefined, nome, cpf, telefone, email)
+            : new Funcionario(undefined, nome, cpf, telefone, email);
 
-    if (tipo === "nadador") {
+        const dados = {
+            nome: registro.nome,
+            cpf: registro.cpf,
+            telefone: registro.telefone,
+            email: registro.email
+        };
 
-        registro = new Nadador(
-            proximoId(tipo),
-            document
-                .getElementById(ids.nome)
-                .value
-                .trim(),
-            document
-                .getElementById(ids.cpf)
-                .value
-                .trim(),
-            document
-                .getElementById(ids.telefone)
-                .value
-                .trim(),
-            document
-                .getElementById(ids.email)
-                .value
-                .trim()
-        );
+        if (tipo === "nadador") {
+            await cadastrarNadador(dados);
+            alert("Nadador cadastrado com sucesso.");
+        } else {
+            await cadastrarFuncionario(dados);
+            alert("Funcionário cadastrado com sucesso.");
+        }
 
-    } else {
+        formulario.reset();
 
-        registro = new Funcionario(
-            proximoId(tipo),
-            document
-                .getElementById(ids.nome)
-                .value
-                .trim(),
-            document
-                .getElementById(ids.cpf)
-                .value
-                .trim(),
-            document
-                .getElementById(ids.telefone)
-                .value
-                .trim(),
-            document
-                .getElementById(ids.email)
-                .value
-                .trim()
-        );
+        if (tipoAtual === tipo) {
+            await renderizarLista();
+        }
 
+    } catch (erro) {
+        mostrarErro(erro);
     }
-
-
-    if (
-        !registro.nome ||
-        !registro.cpf ||
-        !registro.telefone ||
-        !registro.email
-    ) {
-        return;
-    }
-
-
-    let registros;
-
-    if (tipo === "nadador") {
-
-        registros = carregarNadadores();
-
-    } else {
-
-        registros = carregarFuncionarios();
-
-    }
-
-
-    registros.push(registro);
-
-
-    if (tipo === "nadador") {
-
-        salvarNadadores(registros);
-
-    } else {
-
-        salvarFuncionarios(registros);
-
-    }
-
-
-    if (tipo === "nadador") {
-
-        alert(
-            "Nadador cadastrado com sucesso."
-        );
-
-    } else {
-
-        alert(
-            "Funcionário cadastrado com sucesso."
-        );
-
-    }
-
-
-    formulario.reset();
-
 }
 
+document.getElementById("formNadador")?.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-/* NADADOR */
+    await cadastrarPessoa("nadador", this, {
+        nome: "nomeNadador",
+        cpf: "cpfNadador",
+        telefone: "telefoneNadador",
+        email: "emailNadador"
+    });
+});
 
-document
-    .getElementById("formNadador")
-    .addEventListener(
-        "submit",
-        function (event) {
+document.getElementById("formFuncionario")?.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-            event.preventDefault();
+    await cadastrarPessoa("funcionario", this, {
+        nome: "nomeFuncionario",
+        cpf: "cpfFuncionario",
+        telefone: "telefoneFuncionario",
+        email: "emailFuncionario"
+    });
+});
 
+/* CADASTRO DE TOALHA */
 
-            cadastrarPessoa(
-                "nadador",
-                this,
-                {
-                    nome: "nomeNadador",
-                    cpf: "cpfNadador",
-                    telefone: "telefoneNadador",
-                    email: "emailNadador"
-                }
-            );
+document.getElementById("formToalha")?.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
+    try {
+        const codigo = document.getElementById("codigoToalha").value.trim();
+
+        if (!codigo) return;
+
+        const toalhas = await listarToalhas();
+
+        const existe = toalhas.some((toalha) =>
+            normalizar(toalha.codigo) === normalizar(codigo)
+        );
+
+        if (existe) {
+            alert("Já existe uma toalha com esse código identificador.");
+            return;
         }
-    );
 
+        const novaToalha = new Toalha(undefined, codigo, "Disponível");
 
-/* FUNCIONÁRIO */
+        await cadastrarToalha({
+            codigo: novaToalha.codigo,
+            status: novaToalha.status
+        });
 
-document
-    .getElementById("formFuncionario")
-    .addEventListener(
-        "submit",
-        function (event) {
+        alert("Toalha cadastrada com sucesso.");
 
-            event.preventDefault();
+        this.reset();
 
-
-            cadastrarPessoa(
-                "funcionario",
-                this,
-                {
-                    nome: "nomeFuncionario",
-                    cpf: "cpfFuncionario",
-                    telefone: "telefoneFuncionario",
-                    email: "emailFuncionario"
-                }
-            );
-
+        if (tipoAtual === "toalha") {
+            await renderizarLista();
         }
-    );
 
-
-/* CADASTRO TOALHA */
-
-document
-    .getElementById("formToalha")
-    .addEventListener(
-        "submit",
-        function (event) {
-
-            event.preventDefault();
-
-
-            const codigo =
-                document
-                    .getElementById(
-                        "codigoToalha"
-                    )
-                    .value
-                    .trim();
-
-
-            if (!codigo) {
-                return;
-            }
-
-
-            const toalhas =
-                carregarToalhas();
-
-
-            const existe =
-                toalhas.some(
-                    function (toalha) {
-
-                        return (
-                            normalizar(
-                                toalha.codigo
-                            ) ===
-                            normalizar(
-                                codigo
-                            )
-                        );
-
-                    }
-                );
-
-
-            if (existe) {
-
-                alert(
-                    "Já existe uma toalha com esse código identificador."
-                );
-
-                return;
-
-            }
-
-
-            const novaToalha = new Toalha(
-                proximoId("toalha"),
-                codigo,
-                "Disponível"
-            );
-
-
-            toalhas.push(
-                novaToalha
-            );
-
-
-            salvarToalhas(
-                toalhas
-            );
-
-
-            alert(
-                "Toalha cadastrada com sucesso."
-            );
-
-
-            this.reset();
-
-        }
-    );
-
+    } catch (erro) {
+        mostrarErro(erro);
+    }
+});
 
 /* MODAIS */
 
-const modalLista =
-    document.getElementById(
-        "modalLista"
-    );
-
-const modalEdicao =
-    document.getElementById(
-        "modalEdicao"
-    );
-
-const modalConfirmacao =
-    document.getElementById(
-        "modalConfirmacao"
-    );
-
+const modalLista = document.getElementById("modalLista");
+const modalEdicao = document.getElementById("modalEdicao");
+const modalConfirmacao = document.getElementById("modalConfirmacao");
 
 function abrirModal(modal) {
+    if (!modal) return;
 
     modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
 
-    modal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-    document.body.classList.add(
-        "modal-open"
-    );
-
+    document.body.classList.add("modal-open");
 }
-
 
 function fecharModal(modal) {
+    if (!modal) return;
 
     modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
 
-    modal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-
-    const algumModalAberto =
-        document.querySelector(
-            ".modal-overlay.open"
-        );
-
-
-    if (!algumModalAberto) {
-
-        document.body.classList.remove(
-            "modal-open"
-        );
-
+    if (!document.querySelector(".modal-overlay.open")) {
+        document.body.classList.remove("modal-open");
     }
-
 }
-
 
 /* VER CADASTRADOS */
 
-document
-    .querySelectorAll(
-        "[data-lista]"
-    )
-    .forEach(
-        function (botao) {
+document.querySelectorAll("[data-lista]").forEach((botao) => {
+    botao.addEventListener("click", async () => {
+        tipoAtual = botao.dataset.lista;
 
-            botao.addEventListener(
-                "click",
-                function () {
+        paginaAtual = 1;
+        termoBusca = "";
 
-                    tipoAtual =
-                        botao.dataset.lista;
+        document.getElementById("buscaCadastro").value = "";
 
-                    paginaAtual = 1;
+        abrirModal(modalLista);
 
-                    termoBusca = "";
-
-
-                    document
-                        .getElementById(
-                            "buscaCadastro"
-                        )
-                        .value = "";
-
-
-                    abrirModal(
-                        modalLista
-                    );
-
-
-                    renderizarLista();
-
-                }
-            );
-
-        }
-    );
-
+        await renderizarLista();
+    });
+});
 
 /* FECHAR MODAIS */
 
-document
-    .querySelectorAll(
-        "[data-fechar]"
-    )
-    .forEach(
-        function (botao) {
+document.querySelectorAll("[data-fechar]").forEach((botao) => {
+    botao.addEventListener("click", () => {
+        const modais = {
+            lista: "modalLista",
+            edicao: "modalEdicao",
+            confirmacao: "modalConfirmacao"
+        };
 
-            botao.addEventListener(
-                "click",
-                function () {
+        fecharModal(document.getElementById(modais[botao.dataset.fechar]));
+    });
+});
 
-                    const tipo =
-                        botao.dataset.fechar;
-
-
-                    const modais = {
-
-                        lista:
-                            "modalLista",
-
-                        edicao:
-                            "modalEdicao",
-
-                        confirmacao:
-                            "modalConfirmacao"
-
-                    };
-
-
-                    const modal =
-                        document.getElementById(
-                            modais[tipo]
-                        );
-
-
-                    fecharModal(
-                        modal
-                    );
-
-                }
-            );
-
+[modalLista, modalEdicao, modalConfirmacao].filter(Boolean).forEach((modal) => {
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            fecharModal(modal);
         }
-    );
-
-
-/* CLICAR FORA */
-
-[
-    modalLista,
-    modalEdicao,
-    modalConfirmacao
-].forEach(
-    function (modal) {
-
-        modal.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target === modal
-                ) {
-
-                    fecharModal(
-                        modal
-                    );
-
-                }
-
-            }
-        );
-
-    }
-);
-
+    });
+});
 
 /* BUSCA */
 
-document
-    .getElementById(
-        "buscaCadastro"
-    )
-    .addEventListener(
-        "input",
-        function (event) {
+document.getElementById("buscaCadastro")?.addEventListener("input", async (event) => {
+    termoBusca = event.target.value;
+    paginaAtual = 1;
 
-            termoBusca =
-                event.target.value;
+    await renderizarLista();
+});
 
-            paginaAtual = 1;
+async function dadosFiltrados() {
+    const registros = await listarRegistros(tipoAtual);
+    const pesquisa = normalizar(termoBusca);
 
-            renderizarLista();
+    return registros.filter((registro) => {
+        if (!pesquisa) return true;
 
-        }
-    );
-
-
-function dadosFiltrados() {
-
-    const pesquisa =
-        normalizar(
-            termoBusca
+        return Object.values(registro).some((valor) =>
+            normalizar(valor).includes(pesquisa)
         );
-
-
-    let registros;
-
-    if (tipoAtual === "nadador") {
-
-        registros = carregarNadadores();
-
-    } else if (tipoAtual === "funcionario") {
-
-        registros = carregarFuncionarios();
-
-    } else {
-
-        registros = carregarToalhas();
-
-    }
-
-
-    return registros.filter(
-        function (registro) {
-
-            if (!pesquisa) {
-                return true;
-            }
-
-
-            return Object
-                .values(registro)
-                .some(
-                    function (valor) {
-
-                        return normalizar(
-                            valor
-                        ).includes(
-                            pesquisa
-                        );
-
-                    }
-                );
-
-        }
-    );
-
+    });
 }
-
 
 /* RENDERIZAR LISTA */
 
-function renderizarLista() {
+async function renderizarLista() {
+    try {
+        let configuracao;
 
-    let configuracao;
-
-
-    if (
-        tipoAtual === "toalha"
-    ) {
-
-        configuracao = {
-
-            titulo:
-                "Toalhas cadastradas",
-
-            colunas: [
-                "ID",
-                "Código",
-                "Status",
-                "Ações"
-            ]
-
-        };
-
-    } else {
-
-        configuracao = {
-
-            titulo:
-                tipoAtual === "nadador"
+        if (tipoAtual === "toalha") {
+            configuracao = {
+                titulo: "Toalhas cadastradas",
+                colunas: ["ID", "Código", "Status", "Ações"]
+            };
+        } else {
+            configuracao = {
+                titulo: tipoAtual === "nadador"
                     ? "Nadadores cadastrados"
                     : "Funcionários cadastrados",
 
-            colunas: [
-                "ID",
-                "Nome",
-                "CPF",
-                "Telefone",
-                "E-mail",
-                "Ações"
-            ]
+                colunas: ["ID", "Nome", "CPF", "Telefone", "E-mail", "Ações"]
+            };
+        }
 
-        };
+        document.getElementById("tituloLista").textContent = configuracao.titulo;
 
-    }
-
-
-    document
-        .getElementById(
-            "tituloLista"
-        )
-        .textContent =
-        configuracao.titulo;
-
-
-
-    document
-        .getElementById("cabecalhoLista")
-        .replaceChildren(
+        document.getElementById("cabecalhoLista").replaceChildren(
             criarCabecalhoTabela(configuracao.colunas)
         );
 
+        const todos = await dadosFiltrados();
 
+        const quantidadePaginas = Math.ceil(todos.length / POR_PAGINA);
 
-    const todos =
-        dadosFiltrados();
-
-
-    const quantidadePaginas =
-        Math.ceil(
-            todos.length /
-            POR_PAGINA
-        );
-
-
-    if (
-        quantidadePaginas > 0 &&
-        paginaAtual > quantidadePaginas
-    ) {
-
-        paginaAtual =
-            quantidadePaginas;
-
-    }
-
-
-    if (
-        quantidadePaginas === 0
-    ) {
-
-        paginaAtual = 1;
-
-    }
-
-
-    const inicio =
-        (paginaAtual - 1) *
-        POR_PAGINA;
-
-
-    const itens =
-        todos.slice(
-            inicio,
-            inicio + POR_PAGINA
-        );
-
-
-    const corpo =
-        document.getElementById(
-            "corpoLista"
-        );
-
-    corpo.replaceChildren();
-
-    itens.forEach(function (registro) {
-        const callbacks = {
-            aoEditar: (id) => abrirEdicao(Number(id)),
-            aoExcluir: (id) => {
-                exclusaoAtual = Number(id);
-                abrirModal(modalConfirmacao);
-            }
-        };
-
-        let linha;
-
-        if (tipoAtual === "toalha") {
-            linha = criarLinhaToalha(registro, callbacks);
-        } else if (tipoAtual === "nadador") {
-            linha = criarLinhaNadador(registro, callbacks);
-        } else {
-            linha = criarLinhaFuncionario(registro, callbacks);
+        if (quantidadePaginas > 0 && paginaAtual > quantidadePaginas) {
+            paginaAtual = quantidadePaginas;
         }
 
-        corpo.appendChild(linha);
-    });
+        if (quantidadePaginas === 0) {
+            paginaAtual = 1;
+        }
 
-    document
-        .getElementById(
-            "listaVazia"
-        )
-        .hidden =
-        todos.length !== 0;
+        const inicio = (paginaAtual - 1) * POR_PAGINA;
 
+        const itens = todos.slice(inicio, inicio + POR_PAGINA);
 
-    document
-        .querySelector(
-            ".table-wrap"
-        )
-        .hidden =
-        todos.length === 0;
+        const corpo = document.getElementById("corpoLista");
 
+        corpo.replaceChildren();
 
-    if (
-        todos.length > 0
-    ) {
+        itens.forEach((registro) => {
+            const callbacks = {
+                aoEditar: (id) => abrirEdicao(id),
 
-        const final =
-            Math.min(
-                inicio +
-                POR_PAGINA,
-                todos.length
-            );
+                aoExcluir: (id) => {
+                    exclusaoAtual = id;
+                    abrirModal(modalConfirmacao);
+                }
+            };
 
+            let linha;
 
-        const palavraRegistro =
-            todos.length === 1
+            if (tipoAtual === "toalha") {
+                linha = criarLinhaToalha(registro, callbacks);
+            } else if (tipoAtual === "nadador") {
+                linha = criarLinhaNadador(registro, callbacks);
+            } else {
+                linha = criarLinhaFuncionario(registro, callbacks);
+            }
+
+            corpo.appendChild(linha);
+        });
+
+        document.getElementById("listaVazia").hidden = todos.length !== 0;
+
+        document.querySelector(".table-wrap").hidden = todos.length === 0;
+
+        if (todos.length > 0) {
+            const final = Math.min(inicio + POR_PAGINA, todos.length);
+
+            const palavraRegistro = todos.length === 1
                 ? "registro"
                 : "registros";
 
+            document.getElementById("resumoLista").textContent =
+                `Mostrando ${inicio + 1}-${final} de ${todos.length} ${palavraRegistro}`;
 
-        document
-            .getElementById(
-                "resumoLista"
-            )
-            .textContent =
-            `Mostrando ${inicio + 1}-${final} de ${todos.length} ${palavraRegistro}`;
+        } else {
+            document.getElementById("resumoLista").textContent = "";
+        }
 
-    } else {
+        renderizarPaginacao(quantidadePaginas);
 
-        document
-            .getElementById(
-                "resumoLista"
-            )
-            .textContent = "";
-
+    } catch (erro) {
+        mostrarErro(erro);
     }
-
-
-    renderizarPaginacao(
-        quantidadePaginas
-    );
-
-
-
-
 }
-
-
-/* PAGINAÇÃO */
-
 
 /* PAGINAÇÃO */
 
@@ -876,36 +381,34 @@ function renderizarPaginacao(totalPaginas) {
 
     paginacao.replaceChildren();
 
-    if (totalPaginas === 0) {
-        return;
-    }
+    if (totalPaginas === 0) return;
 
     const botaoAnterior = criarBotaoPaginacao(
         "‹",
-        function () {
+        async () => {
             if (paginaAtual > 1) {
                 paginaAtual--;
-                renderizarLista();
+                await renderizarLista();
             }
         },
         paginaAtual === 1
     );
 
     botaoAnterior.setAttribute("aria-label", "Página anterior");
+
     paginacao.appendChild(botaoAnterior);
 
     for (let pagina = 1; pagina <= totalPaginas; pagina++) {
         const botao = criarBotaoPaginacao(
             pagina,
-            function () {
+            async () => {
                 paginaAtual = pagina;
-                renderizarLista();
+                await renderizarLista();
             },
             false,
             pagina === paginaAtual
         );
 
-        // Mantém a classe usada pelo CSS da tela de cadastro.
         if (pagina === paginaAtual) {
             botao.classList.add("active");
         }
@@ -915,99 +418,43 @@ function renderizarPaginacao(totalPaginas) {
 
     const botaoProxima = criarBotaoPaginacao(
         "›",
-        function () {
+        async () => {
             if (paginaAtual < totalPaginas) {
                 paginaAtual++;
-                renderizarLista();
+                await renderizarLista();
             }
         },
         paginaAtual === totalPaginas
     );
 
     botaoProxima.setAttribute("aria-label", "Próxima página");
+
     paginacao.appendChild(botaoProxima);
 }
 
-
-
 /* EDIÇÃO */
 
-function abrirEdicao(id) {
+async function abrirEdicao(id) {
+    try {
+        const registros = await listarRegistros(tipoAtual);
 
-    let registros;
-
-    if (tipoAtual === "nadador") {
-
-        registros = carregarNadadores();
-
-    } else if (tipoAtual === "funcionario") {
-
-        registros = carregarFuncionarios();
-
-    } else {
-
-        registros = carregarToalhas();
-
-    }
-
-
-    const registro =
-        registros.find(
-            function (item) {
-
-                return (
-                    Number(
-                        item.id
-                    ) === id
-                );
-
-            }
+        const registro = registros.find(
+            (item) => String(item.id) === String(id)
         );
 
+        if (!registro) return;
 
-    if (!registro) {
-        return;
-    }
+        edicaoAtual = registro.id;
 
+        document.getElementById("edicaoId").textContent =
+            String(registro.id).padStart(3, "0");
 
-    edicaoAtual = id;
+        if (tipoAtual === "toalha") {
+            document.getElementById("tituloEdicao").textContent = "Editar toalha";
 
-
-    document
-        .getElementById(
-            "edicaoId"
-        )
-        .textContent =
-        String(id)
-            .padStart(
-                3,
-                "0"
-            );
-
-
-    if (
-        tipoAtual === "toalha"
-    ) {
-
-        document
-            .getElementById(
-                "tituloEdicao"
-            )
-            .textContent =
-            "Editar toalha";
-
-
-        document
-            .getElementById(
-                "camposEdicao"
-            )
-            .innerHTML = `
-
+            document.getElementById("camposEdicao").innerHTML = `
                 <div class="edit-field">
-
-                    <label for="editCodigo">
-                        Código da toalha
-                    </label>
+                    <label for="editCodigo">Código da toalha</label>
 
                     <input
                         id="editCodigo"
@@ -1015,45 +462,23 @@ function abrirEdicao(id) {
                         required
                         value="${escapeHtml(registro.codigo)}"
                     >
-
                 </div>
-
 
                 <div class="status-info">
-
                     Status:
-
-                    <strong>
-                        ${escapeHtml(registro.status)}
-                    </strong>
-
+                    <strong>${escapeHtml(registro.status)}</strong>
                 </div>
-
             `;
 
-    } else {
+        } else {
+            document.getElementById("tituloEdicao").textContent =
+                tipoAtual === "nadador"
+                    ? "Editar nadador"
+                    : "Editar funcionário";
 
-        document
-            .getElementById(
-                "tituloEdicao"
-            )
-            .textContent =
-            tipoAtual === "nadador"
-                ? "Editar nadador"
-                : "Editar funcionário";
-
-
-        document
-            .getElementById(
-                "camposEdicao"
-            )
-            .innerHTML = `
-
+            document.getElementById("camposEdicao").innerHTML = `
                 <div class="edit-field">
-
-                    <label for="editNome">
-                        Nome
-                    </label>
+                    <label for="editNome">Nome</label>
 
                     <input
                         id="editNome"
@@ -1061,15 +486,10 @@ function abrirEdicao(id) {
                         required
                         value="${escapeHtml(registro.nome)}"
                     >
-
                 </div>
 
-
                 <div class="edit-field">
-
-                    <label for="editCpf">
-                        CPF
-                    </label>
+                    <label for="editCpf">CPF</label>
 
                     <input
                         id="editCpf"
@@ -1077,15 +497,10 @@ function abrirEdicao(id) {
                         required
                         value="${escapeHtml(registro.cpf)}"
                     >
-
                 </div>
 
-
                 <div class="edit-field">
-
-                    <label for="editEmail">
-                        E-mail
-                    </label>
+                    <label for="editEmail">E-mail</label>
 
                     <input
                         id="editEmail"
@@ -1093,15 +508,10 @@ function abrirEdicao(id) {
                         required
                         value="${escapeHtml(registro.email)}"
                     >
-
                 </div>
 
-
                 <div class="edit-field">
-
-                    <label for="editTelefone">
-                        Telefone
-                    </label>
+                    <label for="editTelefone">Telefone</label>
 
                     <input
                         id="editTelefone"
@@ -1109,259 +519,100 @@ function abrirEdicao(id) {
                         required
                         value="${escapeHtml(registro.telefone)}"
                     >
-
                 </div>
-
             `;
+        }
 
+        abrirModal(modalEdicao);
+
+    } catch (erro) {
+        mostrarErro(erro);
     }
-
-
-    abrirModal(
-        modalEdicao
-    );
-
 }
 
 /* SALVAR EDIÇÃO */
 
+document.getElementById("formEdicao")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-document
-    .getElementById(
-        "formEdicao"
-    )
-    .addEventListener(
-        "submit",
-        function (event) {
+    try {
+        const registros = await listarRegistros(tipoAtual);
 
-            event.preventDefault();
+        const registroAtual = registros.find(
+            (registro) => String(registro.id) === String(edicaoAtual)
+        );
 
+        if (!registroAtual) return;
 
-            let registros;
+        if (tipoAtual === "toalha") {
+            const codigo = document.getElementById("editCodigo").value.trim();
 
-            if (tipoAtual === "nadador") {
+            if (!codigo) return;
 
-                registros = carregarNadadores();
-
-            } else if (tipoAtual === "funcionario") {
-
-                registros = carregarFuncionarios();
-
-            } else {
-
-                registros = carregarToalhas();
-
-            }
-
-
-            const indice =
-                registros.findIndex(
-                    function (registro) {
-
-                        return (
-                            Number(
-                                registro.id
-                            ) ===
-                            edicaoAtual
-                        );
-
-                    }
-                );
-
-
-            if (
-                indice < 0
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                tipoAtual === "toalha"
-            ) {
-
-                const codigo =
-                    document
-                        .getElementById(
-                            "editCodigo"
-                        )
-                        .value
-                        .trim();
-
-
-                if (!codigo) {
-                    return;
-                }
-
-
-                const codigoJaExiste =
-                    registros.some(
-                        function (
-                            toalha,
-                            posicao
-                        ) {
-
-                            return (
-                                posicao !== indice &&
-                                normalizar(
-                                    toalha.codigo
-                                ) ===
-                                normalizar(
-                                    codigo
-                                )
-                            );
-
-                        }
-                    );
-
-
-                if (
-                    codigoJaExiste
-                ) {
-
-                    alert(
-                        "Já existe uma toalha com esse código identificador."
-                    );
-
-                    return;
-
-                }
-
-
-                registros[indice] = {
-
-                    ...registros[indice],
-
-                    codigo:
-                        codigo
-
-                };
-
-            } else {
-
-                const nome =
-                    document
-                        .getElementById(
-                            "editNome"
-                        )
-                        .value
-                        .trim();
-
-
-                const cpf =
-                    document
-                        .getElementById(
-                            "editCpf"
-                        )
-                        .value
-                        .trim();
-
-
-                const email =
-                    document
-                        .getElementById(
-                            "editEmail"
-                        )
-                        .value
-                        .trim();
-
-
-                const telefone =
-                    document
-                        .getElementById(
-                            "editTelefone"
-                        )
-                        .value
-                        .trim();
-
-
-                if (
-                    !nome ||
-                    !cpf ||
-                    !email ||
-                    !telefone
-                ) {
-
-                    return;
-
-                }
-
-
-                registros[indice] = {
-
-                    ...registros[indice],
-
-                    nome:
-                        nome,
-
-                    cpf:
-                        cpf,
-
-                    email:
-                        email,
-
-                    telefone:
-                        telefone
-
-                };
-
-            }
-
-
-            if (tipoAtual === "nadador") {
-
-                salvarNadadores(registros);
-
-            } else if (tipoAtual === "funcionario") {
-
-                salvarFuncionarios(registros);
-
-            } else {
-
-                salvarToalhas(registros);
-
-            }
-
-
-            fecharModal(
-                modalEdicao
+            const codigoJaExiste = registros.some((toalha) =>
+                String(toalha.id) !== String(edicaoAtual) &&
+                normalizar(toalha.codigo) === normalizar(codigo)
             );
 
+            if (codigoJaExiste) {
+                alert("Já existe uma toalha com esse código identificador.");
+                return;
+            }
 
-            renderizarLista();
+            await atualizarToalha(edicaoAtual, { codigo });
 
+        } else {
+            const nome = document.getElementById("editNome").value.trim();
+            const cpf = document.getElementById("editCpf").value.trim();
+            const email = document.getElementById("editEmail").value.trim();
+            const telefone = document.getElementById("editTelefone").value.trim();
+
+            if (!nome || !cpf || !email || !telefone) return;
+
+            const dados = {
+                nome,
+                cpf,
+                email,
+                telefone
+            };
+
+            if (tipoAtual === "nadador") {
+                await atualizarNadador(edicaoAtual, dados);
+            } else {
+                await atualizarFuncionario(edicaoAtual, dados);
+            }
         }
-    );
 
+        fecharModal(modalEdicao);
+
+        await renderizarLista();
+
+    } catch (erro) {
+        mostrarErro(erro);
+    }
+});
 
 /* EXCLUSÃO */
 
-document
-    .getElementById("confirmarExclusao")
-    .addEventListener("click", function () {
+document.getElementById("confirmarExclusao")?.addEventListener("click", async () => {
+    try {
+        const movimentacoes = await listarMovimentacoes();
 
-        const movimentacoes = carregarMovimentacoes();
-
-        const registroVinculado = movimentacoes.some(
-            function (movimentacao) {
-
-                if (tipoAtual === "nadador") {
-                    return Number(movimentacao.nadadorId) === exclusaoAtual;
-                }
-
-                if (tipoAtual === "funcionario") {
-                    return Number(movimentacao.funcionarioId) === exclusaoAtual;
-                }
-
-                if (tipoAtual === "toalha") {
-                    return Number(movimentacao.toalhaId) === exclusaoAtual;
-                }
-
-                return false;
+        const registroVinculado = movimentacoes.some((movimentacao) => {
+            if (tipoAtual === "nadador") {
+                return String(movimentacao.nadadorId) === String(exclusaoAtual);
             }
-        );
+
+            if (tipoAtual === "funcionario") {
+                return String(movimentacao.funcionarioId) === String(exclusaoAtual);
+            }
+
+            if (tipoAtual === "toalha") {
+                return String(movimentacao.toalhaId) === String(exclusaoAtual);
+            }
+
+            return false;
+        });
 
         if (registroVinculado) {
             alert(
@@ -1369,37 +620,29 @@ document
             );
 
             exclusaoAtual = null;
+
             fecharModal(modalConfirmacao);
+
             return;
         }
 
-        let registros;
-
         if (tipoAtual === "nadador") {
-            registros = carregarNadadores();
-        } else if (tipoAtual === "funcionario") {
-            registros = carregarFuncionarios();
-        } else {
-            registros = carregarToalhas();
-        }
+            await excluirNadador(exclusaoAtual);
 
-        const registrosAtualizados = registros.filter(
-            function (registro) {
-                return Number(registro.id) !== exclusaoAtual;
-            }
-        );
-
-        if (tipoAtual === "nadador") {
-            salvarNadadores(registrosAtualizados);
         } else if (tipoAtual === "funcionario") {
-            salvarFuncionarios(registrosAtualizados);
+            await excluirFuncionario(exclusaoAtual);
+
         } else {
-            salvarToalhas(registrosAtualizados);
+            await excluirToalha(exclusaoAtual);
         }
 
         exclusaoAtual = null;
 
         fecharModal(modalConfirmacao);
 
-        renderizarLista();
-    });
+        await renderizarLista();
+
+    } catch (erro) {
+        mostrarErro(erro);
+    }
+});
