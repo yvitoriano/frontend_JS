@@ -1,641 +1,260 @@
-import { Movimentacao } from "../classes/movimentacao.js";
+// Nado Livre v.5 — tela de movimentação (retirada e devolução).
+// Todos os dados vêm da API (JSON Server); não há uso de localStorage.
 
-
+import { listarNadadores } from "../api/nadadores.js";
+import { listarFuncionarios } from "../api/funcionarios.js";
 import {
-    carregarMovimentacoes,
-    salvarMovimentacoes
-} from "../dados/movimentacoes.js";
-
-import {
-    carregarNadadores as carregarNadadoresDados
-} from "../dados/nadadores.js";
-
-import {
-    carregarFuncionarios as carregarFuncionariosDados
-} from "../dados/funcionarios.js";
-
-import {
-    carregarToalhas,
-    salvarToalhas
-} from "../dados/toalhas.js";
+    listarToalhas,
+    buscarToalha,
+    atualizarToalha,
+    substituirToalha
+} from "../api/toalhas.js";
+import { cadastrarMovimentacao } from "../api/movimentacoes.js";
 
 import { criarOpcao } from "./componentes.js";
 
-const STORAGE = {
-    nadadores: "nadadores", 
-    funcionarios: "funcionarios",
-    toalhas: "toalhas",
-    movimentacoes: "movimentacoes"
-};
+/* ELEMENTOS */
 
+const selectNadadorRetirada = document.getElementById("nadadorRetirada");
+const selectFuncionarioRetirada = document.getElementById("funcionarioRetirada");
+const selectToalhaRetirada = document.getElementById("toalhaRetirada");
 
-/*ELEMENTOS*/
+const selectToalhaDevolucao = document.getElementById("toalhaDevolucao");
+const selectFuncionarioDevolucao = document.getElementById("funcionarioDevolucao");
 
-const selectNadadorRetirada =
-    document.getElementById("nadadorRetirada");
+const dataRetirada = document.getElementById("dataRetirada");
+const dataDevolucao = document.getElementById("dataDevolucao");
 
-const selectFuncionarioRetirada =
-    document.getElementById("funcionarioRetirada");
+const formRetirada = document.getElementById("formRetirada");
+const formDevolucao = document.getElementById("formDevolucao");
 
-const selectToalhaRetirada =
-    document.getElementById("toalhaRetirada");
+/* AUXILIARES */
 
-const selectToalhaDevolucao =
-    document.getElementById("toalhaDevolucao");
+function mostrarErro(erro) {
+    console.error("Erro ao comunicar com a API:", erro);
 
-const selectFuncionarioDevolucao =
-    document.getElementById("funcionarioDevolucao");
-
-const dataRetirada =
-    document.getElementById("dataRetirada");
-
-const dataDevolucao =
-    document.getElementById("dataDevolucao");
-
-const formRetirada =
-    document.getElementById("formRetirada");
-
-const formDevolucao =
-    document.getElementById("formDevolucao");
-
-
-
-/*NADADORES*/
-
-function carregarNadadores() {
-
-    const nadadores =
-        carregarNadadoresDados();
-
-
-    selectNadadorRetirada.innerHTML = `
-        <option value="">
-            Selecione o nadador
-        </option>
-    `;
-
-
-    nadadores.forEach(
-        function (nadador) {
-
-            selectNadadorRetirada.appendChild(
-                criarOpcao(nadador.id, nadador.nome)
-            );
-
-        }
+    alert(
+        erro?.message ||
+        "Não foi possível concluir a operação. Verifique se o servidor da API está em execução."
     );
-
-
-    selectNadadorRetirada.disabled =
-        nadadores.length === 0;
-
 }
-
-
-/*FUNCIONÁRIOS*/
-
-function carregarFuncionarios() {
-
-    const funcionarios =
-        carregarFuncionariosDados();
-
-
-    selectFuncionarioRetirada.innerHTML = `
-        <option value="">
-            Selecione o funcionário
-        </option>
-    `;
-
-
-    selectFuncionarioDevolucao.innerHTML = `
-        <option value="">
-            Selecione o funcionário
-        </option>
-    `;
-
-
-    funcionarios.forEach(
-        function (funcionario) {
-
-            selectFuncionarioRetirada.appendChild(
-                criarOpcao(funcionario.id, funcionario.nome)
-            );
-
-            selectFuncionarioDevolucao.appendChild(
-                criarOpcao(funcionario.id, funcionario.nome)
-            );
-
-        }
-    );
-
-
-    const semFuncionarios =
-        funcionarios.length === 0;
-
-
-    selectFuncionarioRetirada.disabled =
-        semFuncionarios;
-
-
-    selectFuncionarioDevolucao.disabled =
-        semFuncionarios;
-
-}
-
-
-/*TOALHAS DISPONÍVEIS*/
-
-function carregarToalhasDisponiveis() {
-
-    const toalhas =
-        carregarToalhas();
-
-
-    const disponiveis =
-        toalhas.filter(
-            function (toalha) {
-
-                return (
-                    toalha.status ===
-                    "Disponível"
-                );
-
-            }
-        );
-
-
-    selectToalhaRetirada.innerHTML = `
-        <option value="">
-            Selecione a toalha disponível
-        </option>
-    `;
-
-
-    disponiveis.forEach(
-        function (toalha) {
-
-            selectToalhaRetirada.appendChild(
-                criarOpcao(toalha.id, toalha.codigo)
-            );
-
-        }
-    );
-
-
-    selectToalhaRetirada.disabled =
-        disponiveis.length === 0;
-
-}
-
-
-/*TOALHAS EM USO*/
-
-function carregarToalhasEmUso() {
-
-    const toalhas =
-        carregarToalhas();
-
-
-    const emUso =
-        toalhas.filter(
-            function (toalha) {
-
-                return (
-                    toalha.status ===
-                    "Em uso"
-                );
-
-            }
-        );
-
-
-    selectToalhaDevolucao.innerHTML = `
-        <option value="">
-            Selecione a toalha
-        </option>
-    `;
-
-
-    emUso.forEach(
-        function (toalha) {
-
-            selectToalhaDevolucao.appendChild(
-                criarOpcao(toalha.id, toalha.codigo)
-            );
-
-        }
-    );
-
-
-    selectToalhaDevolucao.disabled =
-        emUso.length === 0;
-
-}
-
-
-/*ATUALIZAR TODAS AS LISTAS*/
-
-function atualizarListas() {
-
-    carregarNadadores();
-
-    carregarFuncionarios();
-
-    carregarToalhasDisponiveis();
-
-    carregarToalhasEmUso();
-
-}
-
-
-/*DATA E HORA ATUAL*/
-
-function definirDataAtual() {
-
-    const agora =
-        new Date();
-
-
-    const ano =
-        agora.getFullYear();
-
-
-    const mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const dia =
-        String(
-            agora.getDate()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const hora =
-        String(
-            agora.getHours()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const minutos =
-        String(
-            agora.getMinutes()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const dataFormatada =
-        `${ano}-${mes}-${dia}T${hora}:${minutos}`;
-
-
-    dataRetirada.value =
-        dataFormatada;
-
-
-    dataDevolucao.value =
-        dataFormatada;
-
-}
-
-
-/*BUSCAR REGISTRO PELO ID*/
 
 function buscarPorId(lista, id) {
-
-    return lista.find(
-        function (item) {
-
-            return (
-                String(item.id) ===
-                String(id)
-            );
-
-        }
-    );
-
+    return lista.find((item) => String(item.id) === String(id));
 }
 
+function preencherSelect(select, textoPadrao, itens, obterTexto) {
+    select.replaceChildren();
 
-/*SALVAR MOVIMENTAÇÃO*/
+    const opcaoPadrao = document.createElement("option");
+    opcaoPadrao.value = "";
+    opcaoPadrao.textContent = textoPadrao;
+    select.appendChild(opcaoPadrao);
 
-function registrarMovimentacao(
-    tipo,
-    toalha,
-    funcionario,
-    nadador,
-    dataHora
-) {
+    itens.forEach((item) => {
+        select.appendChild(criarOpcao(item.id, obterTexto(item)));
+    });
 
-    const movimentacoes =
-        carregarMovimentacoes();
-
-    const maiorId =
-        movimentacoes.reduce(
-            function (maior, movimentacao) {
-
-                return Math.max(
-                    maior,
-                    Number(
-                        movimentacao.id
-                    ) || 0
-                );
-
-            },
-            0
-        );
-
-
-    const movimentacao =
-        new Movimentacao(
-            maiorId + 1,
-            tipo,
-            toalha,
-            funcionario,
-            nadador,
-            dataHora
-        );
-
-
-    movimentacoes.push(
-        movimentacao
-    );
-
-
-    salvarMovimentacoes(
-        movimentacoes
-    );
-
+    select.disabled = itens.length === 0;
 }
 
+/* ATUALIZAR LISTAS (uma única leitura de cada recurso) */
 
-/*REGISTRAR RETIRADA*/
+async function atualizarListas() {
+    try {
+        const [nadadores, funcionarios, toalhas] = await Promise.all([
+            listarNadadores(),
+            listarFuncionarios(),
+            listarToalhas()
+        ]);
 
-formRetirada.addEventListener(
-    "submit",
-    function (event) {
+        preencherSelect(
+            selectNadadorRetirada,
+            "Selecione o nadador",
+            nadadores,
+            (nadador) => nadador.nome
+        );
 
-        event.preventDefault();
+        preencherSelect(
+            selectFuncionarioRetirada,
+            "Selecione o funcionário",
+            funcionarios,
+            (funcionario) => funcionario.nome
+        );
 
+        preencherSelect(
+            selectFuncionarioDevolucao,
+            "Selecione o funcionário",
+            funcionarios,
+            (funcionario) => funcionario.nome
+        );
 
-        const nadadores =
-            carregarNadadoresDados();
+        preencherSelect(
+            selectToalhaRetirada,
+            "Selecione a toalha disponível",
+            toalhas.filter((toalha) => toalha.status === "Disponível"),
+            (toalha) => toalha.codigo
+        );
 
+        preencherSelect(
+            selectToalhaDevolucao,
+            "Selecione a toalha",
+            toalhas.filter((toalha) => toalha.status === "Em uso"),
+            (toalha) => toalha.codigo
+        );
 
-        const funcionarios =
-            carregarFuncionariosDados();
+    } catch (erro) {
+        mostrarErro(erro);
+    }
+}
 
+/* DATA E HORA ATUAL */
 
-        const toalhas =
-            carregarToalhas();
+function definirDataAtual() {
+    const agora = new Date();
 
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, "0");
+    const dia = String(agora.getDate()).padStart(2, "0");
+    const hora = String(agora.getHours()).padStart(2, "0");
+    const minutos = String(agora.getMinutes()).padStart(2, "0");
 
-        const nadador =
-            buscarPorId(
-                nadadores,
-                selectNadadorRetirada.value
-            );
+    const dataFormatada = `${ano}-${mes}-${dia}T${hora}:${minutos}`;
 
+    dataRetirada.value = dataFormatada;
+    dataDevolucao.value = dataFormatada;
+}
 
-        const funcionario =
-            buscarPorId(
-                funcionarios,
-                selectFuncionarioRetirada.value
-            );
+/* REGISTRAR RETIRADA */
 
+formRetirada.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-        const toalha =
-            buscarPorId(
-                toalhas,
-                selectToalhaRetirada.value
-            );
+    const botao = formRetirada.querySelector("button[type='submit'], button:not([type])");
+    if (botao) botao.disabled = true;
 
+    try {
+        const [nadadores, funcionarios] = await Promise.all([
+            listarNadadores(),
+            listarFuncionarios()
+        ]);
+
+        const nadador = buscarPorId(nadadores, selectNadadorRetirada.value);
+        const funcionario = buscarPorId(funcionarios, selectFuncionarioRetirada.value);
 
         if (
             !nadador ||
             !funcionario ||
-            !toalha ||
+            !selectToalhaRetirada.value ||
             !dataRetirada.value
         ) {
-
-            alert(
-                "Preencha todos os campos da retirada."
-            );
-
+            alert("Preencha todos os campos da retirada.");
             return;
-
         }
 
+        // Relê a toalha no servidor para garantir que ainda está disponível.
+        const toalha = await buscarToalha(selectToalhaRetirada.value);
 
-        if (
-            toalha.status !==
-            "Disponível"
-        ) {
-
-            alert(
-                "Esta toalha não está disponível."
-            );
-
-            atualizarListas();
-
+        if (toalha.status !== "Disponível") {
+            alert("Esta toalha não está disponível.");
+            await atualizarListas();
             return;
-
         }
 
+        await atualizarToalha(toalha.id, {
+            status: "Em uso",
+            nadadorId: nadador.id,
+            nadadorNome: nadador.nome
+        });
 
-        toalha.status =
-            "Em uso";
+        await cadastrarMovimentacao({
+            tipo: "Retirada",
+            toalhaId: toalha.id,
+            toalhaCodigo: toalha.codigo,
+            funcionarioId: funcionario.id,
+            funcionarioNome: funcionario.nome,
+            nadadorId: nadador.id,
+            nadadorNome: nadador.nome,
+            dataHora: dataRetirada.value
+        });
 
-
-        /*
-            Guarda também quem retirou a toalha.
-            Isso permite recuperar o nadador
-            relacionado posteriormente.
-        */
-
-        toalha.nadadorId =
-            nadador.id;
-
-
-        toalha.nadadorNome =
-            nadador.nome;
-
-
-        salvarToalhas(
-            toalhas
-        );
-
-
-        registrarMovimentacao(
-            "Retirada",
-            toalha,
-            funcionario,
-            nadador,
-            dataRetirada.value
-        );
-
-
-        alert(
-            "Retirada registrada com sucesso!"
-        );
-
+        alert("Retirada registrada com sucesso!");
 
         formRetirada.reset();
-
-
         definirDataAtual();
 
+    } catch (erro) {
+        mostrarErro(erro);
 
-        atualizarListas();
-
+    } finally {
+        if (botao) botao.disabled = false;
+        await atualizarListas();
     }
-);
+});
 
+/* REGISTRAR DEVOLUÇÃO */
 
-/*REGISTRAR DEVOLUÇÃO*/
+formDevolucao.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
+    const botao = formDevolucao.querySelector("button[type='submit'], button:not([type])");
+    if (botao) botao.disabled = true;
 
-formDevolucao.addEventListener(
-    "submit",
-    function (event) {
-        event.preventDefault();
+    try {
+        const funcionarios = await listarFuncionarios();
 
-        const funcionarios = carregarFuncionariosDados();
-        const toalhas = carregarToalhas();
-        const nadadores = carregarNadadoresDados();
+        const funcionario = buscarPorId(funcionarios, selectFuncionarioDevolucao.value);
 
-        const funcionario = buscarPorId(
-            funcionarios,
-            selectFuncionarioDevolucao.value
-        );
-
-
-        const toalha =
-            buscarPorId(
-                toalhas,
-                selectToalhaDevolucao.value
-            );
-
-
-        if (
-            !funcionario ||
-            !toalha ||
-            !dataDevolucao.value
-        ) {
-
-            alert(
-                "Preencha todos os campos da devolução."
-            );
-
+        if (!funcionario || !selectToalhaDevolucao.value || !dataDevolucao.value) {
+            alert("Preencha todos os campos da devolução.");
             return;
-
         }
 
+        const toalha = await buscarToalha(selectToalhaDevolucao.value);
 
-        if (
-            toalha.status !==
-            "Em uso"
-        ) {
-
-            alert(
-                "Esta toalha não está em uso."
-            );
-
-            atualizarListas();
-
+        if (toalha.status !== "Em uso") {
+            alert("Esta toalha não está em uso.");
+            await atualizarListas();
             return;
-
         }
 
+        // O nadador que retirou fica registrado na própria toalha.
+        await cadastrarMovimentacao({
+            tipo: "Devolução",
+            toalhaId: toalha.id,
+            toalhaCodigo: toalha.codigo,
+            funcionarioId: funcionario.id,
+            funcionarioNome: funcionario.nome,
+            nadadorId: toalha.nadadorId ?? null,
+            nadadorNome: toalha.nadadorNome ?? null,
+            dataHora: dataDevolucao.value
+        });
 
-        const nadador =
-            buscarPorId(
-                nadadores,
-                toalha.nadadorId
-            );
+        // PUT substitui o registro, removendo nadadorId e nadadorNome.
+        await substituirToalha(toalha.id, {
+            codigo: toalha.codigo,
+            status: "Disponível"
+        });
 
-        registrarMovimentacao(
-            "Devolução",
-            toalha,
-            funcionario,
-            nadador || null,
-            dataDevolucao.value
-        );
-
-
-        toalha.status =
-            "Disponível";
-
-
-        delete toalha.nadadorId;
-
-        delete toalha.nadadorNome;
-
-
-        salvarToalhas(
-            toalhas
-        );
-
-
-        alert(
-            "Devolução registrada com sucesso!"
-        );
-
+        alert("Devolução registrada com sucesso!");
 
         formDevolucao.reset();
-
-
         definirDataAtual();
 
+    } catch (erro) {
+        mostrarErro(erro);
 
-        atualizarListas();
-
+    } finally {
+        if (botao) botao.disabled = false;
+        await atualizarListas();
     }
-);
+});
 
+/* ATUALIZAR AO VOLTAR PARA A PÁGINA */
 
-/*ATUALIZAR AO VOLTAR PARA A PÁGINA*/
-
-window.addEventListener(
-    "pageshow",
-    function () {
-
-        atualizarListas();
-
-    }
-);
-
-
-/*ATUALIZAR CASO O LOCALSTORAGE MUDE*/
-
-window.addEventListener(
-    "storage",
-    function (event) {
-
-        if (
-            event.key === STORAGE.nadadores ||
-            event.key === STORAGE.funcionarios ||
-            event.key === STORAGE.toalhas
-        ) {
-
-            atualizarListas();
-
-        }
-
-    }
-);
-
-atualizarListas();
+window.addEventListener("pageshow", function () {
+    atualizarListas();
+});
 
 definirDataAtual();
+atualizarListas();
