@@ -1,0 +1,88 @@
+{
+  "nadadores": [
+    {
+      "id": "n-001",
+      "nome": "Nadador Exemplo A",
+      "cpf": "000.000.000-00",
+      "telefone": "(84) 90000-0001",
+      "email": "nadador.a@exemplo.com"
+    },
+    {
+      "id": "n-002",
+      "nome": "Nadador Exemplo B",
+      "cpf": "111.111.111-11",
+      "telefone": "(84) 90000-0002",
+      "email": "nadador.b@exemplo.com"
+    }
+  ],
+  "funcionarios": [
+    {
+      "id": "f-001",
+      "nome": "Funcionario Exemplo A",
+      "cpf": "222.222.222-22",
+      "telefone": "(84) 90000-0003",
+      "email": "funcionario.a@exemplo.com"
+    },
+    {
+      "id": "f-002",
+      "nome": "Funcionario Exemplo B",
+      "cpf": "333.333.333-33",
+      "telefone": "(84) 90000-0004",
+      "email": "funcionario.b@exemplo.com"
+    }
+  ],
+  "toalhas": [
+    {
+      "id": "t-001",
+      "codigo": "TL-001",
+      "status": "Em uso",
+      "nadadorId": "n-001",
+      "nadadorNome": "Nadador Exemplo A"
+    },
+    {
+      "id": "t-002",
+      "codigo": "TL-002",
+      "status": "Disponível"
+    },
+    {
+      "id": "t-003",
+      "codigo": "TL-003",
+      "status": "Disponível"
+    }
+  ],
+  "movimentacoes": [
+    {
+      "id": "m-001",
+      "tipo": "Retirada",
+      "toalhaId": "t-001",
+      "toalhaCodigo": "TL-001",
+      "funcionarioId": "f-001",
+      "funcionarioNome": "Funcionario Exemplo A",
+      "nadadorId": "n-001",
+      "nadadorNome": "Nadador Exemplo A",
+      "dataHora": "2026-11-01T09:00"
+    },
+    {
+      "id": "m-002",
+      "tipo": "Retirada",
+      "toalhaId": "t-002",
+      "toalhaCodigo": "TL-002",
+      "funcionarioId": "f-002",
+      "funcionarioNome": "Funcionario Exemplo B",
+      "nadadorId": "n-002",
+      "nadadorNome": "Nadador Exemplo B",
+      "dataHora": "2026-11-01T10:00"
+    },
+    {
+      "id": "m-003",
+      "tipo": "Devolução",
+      "toalhaId": "t-002",
+      "toalhaCodigo": "TL-002",
+      "funcionarioId": "f-002",
+      "funcionarioNome": "Funcionario Exemplo B",
+      "nadadorId": "n-002",
+      "nadadorNome": "Nadador Exemplo B",
+      "dataHora": "2026-11-01T11:00"
+    }
+  ]
+}
