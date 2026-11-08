@@ -33,21 +33,36 @@
   ],
   "toalhas": [
     {
-      "id": "t-001",
       "codigo": "TL-001",
+      "status": "Disponível",
+      "id": "t-001"
+    },
+    {
+      "codigo": "TL-002",
       "status": "Em uso",
+      "id": "t-002",
       "nadadorId": "n-001",
       "nadadorNome": "Nadador Exemplo A"
     },
     {
-      "id": "t-002",
-      "codigo": "TL-002",
-      "status": "Disponível"
+      "codigo": "TL-003",
+      "status": "Disponível",
+      "id": "vBFPeQqQDAQ"
     },
     {
-      "id": "t-003",
-      "codigo": "TL-003",
-      "status": "Disponível"
+      "codigo": "TL-004",
+      "status": "Disponível",
+      "id": "RYFR3vKQsEw"
+    },
+    {
+      "codigo": "TL-005",
+      "status": "Disponível",
+      "id": "1hHsYVNCdXU"
+    },
+    {
+      "codigo": "TL-006",
+      "status": "Disponível",
+      "id": "UPo7-G4VHz8"
     }
   ],
   "movimentacoes": [
@@ -83,6 +98,72 @@
       "nadadorId": "n-002",
       "nadadorNome": "Nadador Exemplo B",
       "dataHora": "2026-11-01T11:00"
+    },
+    {
+      "tipo": "Retirada",
+      "toalhaId": "t-002",
+      "toalhaCodigo": "TL-002",
+      "funcionarioId": "f-001",
+      "funcionarioNome": "Funcionario Exemplo A",
+      "nadadorId": "n-001",
+      "nadadorNome": "Nadador Exemplo A",
+      "dataHora": "2026-11-08T02:37",
+      "id": "g7nyM-dHz3U"
+    },
+    {
+      "tipo": "Devolução",
+      "toalhaId": "t-002",
+      "toalhaCodigo": "TL-002",
+      "funcionarioId": "f-001",
+      "funcionarioNome": "Funcionario Exemplo A",
+      "nadadorId": "n-001",
+      "nadadorNome": "Nadador Exemplo A",
+      "dataHora": "2026-11-08T02:37",
+      "id": "xb0elgZY8RA"
+    },
+    {
+      "tipo": "Devolução",
+      "toalhaId": "t-001",
+      "toalhaCodigo": "TL-001",
+      "funcionarioId": "f-001",
+      "funcionarioNome": "Funcionario Exemplo A",
+      "nadadorId": "n-001",
+      "nadadorNome": "Nadador Exemplo A",
+      "dataHora": "2026-11-08T02:43",
+      "id": "g-_NgAjidoQ"
+    },
+    {
+      "tipo": "Retirada",
+      "toalhaId": "t-002",
+      "toalhaCodigo": "TL-002",
+      "funcionarioId": "f-002",
+      "funcionarioNome": "Funcionario Exemplo B",
+      "nadadorId": "n-001",
+      "nadadorNome": "Nadador Exemplo A",
+      "dataHora": "2026-11-08T02:48",
+      "id": "UH-zb2JRqyY"
+    },
+    {
+      "tipo": "Retirada",
+      "toalhaId": "UPo7-G4VHz8",
+      "toalhaCodigo": "TL-006",
+      "funcionarioId": "f-002",
+      "funcionarioNome": "Funcionario Exemplo B",
+      "nadadorId": "n-002",
+      "nadadorNome": "Nadador Exemplo B",
+      "dataHora": "2026-11-08T02:54",
+      "id": "Whqf-Lq9LZw"
+    },
+    {
+      "tipo": "Devolução",
+      "toalhaId": "UPo7-G4VHz8",
+      "toalhaCodigo": "TL-006",
+      "funcionarioId": "f-001",
+      "funcionarioNome": "Funcionario Exemplo A",
+      "nadadorId": "n-002",
+      "nadadorNome": "Nadador Exemplo B",
+      "dataHora": "2026-11-08T02:55",
+      "id": "pS9GLLqyXo8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

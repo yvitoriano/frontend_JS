@@ -1,10 +1,8 @@
-import {
-    carregarToalhas
-} from "../dados/toalhas.js";
+// Nado Livre v.5 — tela de consulta de toalhas.
+// Os dados são carregados diretamente da API REST.
 
-import {
-    carregarMovimentacoes
-} from "../dados/movimentacoes.js";
+import { listarToalhas } from "../api/toalhas.js";
+import { listarMovimentacoes } from "../api/movimentacoes.js";
 
 import {
     criarCelulaTabela,
@@ -12,47 +10,28 @@ import {
     criarBotaoPaginacao
 } from "./componentes.js";
 
-
 const POR_PAGINA = 10;
 
 let paginaAtual = 1;
+let toalhasCarregadas = [];
+let movimentacoesCarregadas = [];
 
+const listaToalhas = document.getElementById("listaToalhas");
+const mensagemVazia = document.getElementById("mensagemVazia");
+const filtroStatus = document.getElementById("filtroStatus");
+const btnAtualizar = document.getElementById("btnAtualizar");
 
-const listaToalhas =
-    document.getElementById("listaToalhas");
+const totalToalhas = document.getElementById("totalToalhas");
+const totalDisponiveis = document.getElementById("totalDisponiveis");
+const totalEmUso = document.getElementById("totalEmUso");
+const totalNaoDevolvidas = document.getElementById("totalNaoDevolvidas");
 
-const mensagemVazia =
-    document.getElementById("mensagemVazia");
-
-const filtroStatus =
-    document.getElementById("filtroStatus");
-
-const btnAtualizar =
-    document.getElementById("btnAtualizar");
-
-const totalToalhas =
-    document.getElementById("totalToalhas");
-
-const totalDisponiveis =
-    document.getElementById("totalDisponiveis");
-
-const totalEmUso =
-    document.getElementById("totalEmUso");
-
-const totalNaoDevolvidas =
-    document.getElementById("totalNaoDevolvidas");
-
-const paginacao =
-    document.getElementById("paginacao");
-
-const resumoPaginacao =
-    document.getElementById("resumoPaginacao");
-
+const paginacao = document.getElementById("paginacao");
+const resumoPaginacao = document.getElementById("resumoPaginacao");
 
 function formatarId(id) {
     return String(id).padStart(2, "0");
 }
-
 
 function formatarData(data) {
     if (!data) {
@@ -74,9 +53,8 @@ function formatarData(data) {
     });
 }
 
-
-function buscarUltimaMovimentacao(toalha, movimentacoes) {
-    const registros = movimentacoes.filter(
+function buscarUltimaMovimentacao(toalha) {
+    const registros = movimentacoesCarregadas.filter(
         function (movimentacao) {
             return String(movimentacao.toalhaId) === String(toalha.id);
         }
@@ -95,14 +73,17 @@ function buscarUltimaMovimentacao(toalha, movimentacoes) {
     return registros[0];
 }
 
-
 function obterObservacao(toalha, ultimaMovimentacao) {
     if (toalha.status === "Disponível") {
         return "Pronta para uso";
     }
 
     if (toalha.status === "Em uso") {
-        if (ultimaMovimentacao && ultimaMovimentacao.nadadorNome) {
+        if (toalha.nadadorNome) {
+            return "Retirada por " + toalha.nadadorNome;
+        }
+
+        if (ultimaMovimentacao?.nadadorNome) {
             return "Retirada por " + ultimaMovimentacao.nadadorNome;
         }
 
@@ -116,13 +97,31 @@ function obterObservacao(toalha, ultimaMovimentacao) {
     return "—";
 }
 
+async function carregarDados() {
+    try {
+        const [toalhas, movimentacoes] = await Promise.all([
+            listarToalhas(),
+            listarMovimentacoes()
+        ]);
+
+        toalhasCarregadas = toalhas;
+        movimentacoesCarregadas = movimentacoes;
+
+        atualizarLista();
+    } catch (erro) {
+        console.error("Erro ao carregar dados das toalhas:", erro);
+
+        alert(
+            erro?.message ||
+            "Não foi possível carregar as toalhas. Verifique se a API está em execução."
+        );
+    }
+}
 
 function atualizarLista() {
-    const toalhas = carregarToalhas();
-    const movimentacoes = carregarMovimentacoes();
     const filtro = filtroStatus.value;
 
-    const toalhasFiltradas = toalhas.filter(
+    const toalhasFiltradas = toalhasCarregadas.filter(
         function (toalha) {
             return filtro === "Todas" || toalha.status === filtro;
         }
@@ -151,10 +150,7 @@ function atualizarLista() {
     }
 
     registrosPagina.forEach(function (toalha) {
-        const ultimaMovimentacao = buscarUltimaMovimentacao(
-            toalha,
-            movimentacoes
-        );
+        const ultimaMovimentacao = buscarUltimaMovimentacao(toalha);
 
         const linha = document.createElement("tr");
 
@@ -194,7 +190,7 @@ function atualizarLista() {
         listaToalhas.appendChild(linha);
     });
 
-    atualizarResumo(toalhas);
+    atualizarResumo(toalhasCarregadas);
 
     atualizarPaginacao(
         toalhasFiltradas.length,
@@ -202,24 +198,17 @@ function atualizarLista() {
     );
 }
 
-
 function atualizarResumo(toalhas) {
     const disponiveis = toalhas.filter(
-        function (toalha) {
-            return toalha.status === "Disponível";
-        }
+        toalha => toalha.status === "Disponível"
     ).length;
 
     const emUso = toalhas.filter(
-        function (toalha) {
-            return toalha.status === "Em uso";
-        }
+        toalha => toalha.status === "Em uso"
     ).length;
 
     const naoDevolvidas = toalhas.filter(
-        function (toalha) {
-            return toalha.status === "Não devolvida";
-        }
+        toalha => toalha.status === "Não devolvida"
     ).length;
 
     totalToalhas.textContent = toalhas.length;
@@ -227,7 +216,6 @@ function atualizarResumo(toalhas) {
     totalEmUso.textContent = emUso;
     totalNaoDevolvidas.textContent = naoDevolvidas;
 }
-
 
 function atualizarPaginacao(quantidade, totalPaginas) {
     paginacao.replaceChildren();
@@ -284,31 +272,13 @@ function atualizarPaginacao(quantidade, totalPaginas) {
     );
 }
 
-
 filtroStatus.addEventListener("change", function () {
     paginaAtual = 1;
     atualizarLista();
 });
 
+btnAtualizar.addEventListener("click", carregarDados);
 
-btnAtualizar.addEventListener("click", function () {
-    atualizarLista();
-});
+window.addEventListener("pageshow", carregarDados);
 
-
-window.addEventListener("pageshow", function () {
-    atualizarLista();
-});
-
-
-window.addEventListener("storage", function (event) {
-    if (
-        event.key === "toalhas" ||
-        event.key === "movimentacoes"
-    ) {
-        atualizarLista();
-    }
-});
-
-
-atualizarLista();
+carregarDados();
