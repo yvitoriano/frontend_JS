@@ -1,11 +1,10 @@
-
 # NADO LIVRE
 
 ## Estudo de Caso 2 — Sistema de Controle de Toalhas em uma Escola de Natação
 
 **Equipe:** 4V - Informática para Internet
 
-### Integrantes
+## Integrantes
 
 - Elouise da Costa Galdino
 - Erick Wellingthon Dantas de Oliveira Gomes
@@ -15,19 +14,19 @@
 
 ## Sobre o projeto
 
-O Nado Livre é um sistema desenvolvido para auxiliar no gerenciamento de toalhas em uma escola de natação. O sistema permite cadastrar nadadores, funcionários e toalhas, além de controlar as retiradas, devoluções e movimentações realizadas.
+O Nado Livre é um sistema desenvolvido para auxiliar no gerenciamento de toalhas em uma escola de natação. O sistema permite cadastrar nadadores, funcionários e toalhas, além de controlar retiradas, devoluções e movimentações realizadas.
 
 ## Funcionalidades
 
 - Cadastro de nadadores, funcionários e toalhas.
-- Consulta e gerenciamento dos cadastros.
+- Consulta, edição e exclusão de registros.
 - Registro de retirada e devolução de toalhas.
 - Controle do status das toalhas, indicando se estão disponíveis ou em uso.
-- Registro e consulta das movimentações.
-- Armazenamento persistente dos dados utilizando `localStorage`.
-- Reconstrução dos objetos e relacionamentos entre movimentações, nadadores, funcionários e toalhas após o carregamento dos dados.
+- Consulta das movimentações realizadas.
+- Armazenamento persistente dos dados por meio de uma API REST.
+- Integração entre movimentações, nadadores, funcionários e toalhas.
 - Regra de integridade que impede a exclusão de cadastros vinculados a movimentações existentes.
-- Geração de IDs para identificar os registros.
+- Identificação dos registros por IDs textuais gerados pelo JSON Server.
 
 ## Tecnologias utilizadas
 
@@ -35,35 +34,101 @@ O Nado Livre é um sistema desenvolvido para auxiliar no gerenciamento de toalha
 - CSS3
 - JavaScript
 - Classes e módulos ES (`import` e `export`).
-- Manipulação de eventos.
-- `localStorage` para armazenamento dos dados no navegador.
+- API REST.
+- JSON Server.
+- Fetch API para requisições HTTP.
+- Métodos HTTP GET, POST, PATCH, PUT e DELETE.
+- Async e Await para operações assíncronas.
 
 ## Organização dos arquivos
 
 O código JavaScript está organizado em módulos:
 
-- `classes/` — contém as classes utilizadas no sistema, responsáveis por representar as entidades do domínio.
-- `dados/` — contém as operações de carregamento e armazenamento dos dados.
-- `interface/` — contém a lógica de interação com as páginas e os elementos da interface.
-- `interface/componentes.js` — reúne funções reutilizáveis para a criação de elementos da interface, como botões, células, cabeçalhos e linhas de tabelas.
+- `JS/api/` — contém os módulos responsáveis pela comunicação com a API REST.
+- `JS/api/http.js` — centraliza as requisições HTTP e o tratamento de erros.
+- `JS/api/nadadores.js` — contém as operações relacionadas aos nadadores.
+- `JS/api/funcionarios.js` — contém as operações relacionadas aos funcionários.
+- `JS/api/toalhas.js` — contém as operações relacionadas às toalhas.
+- `JS/api/movimentacoes.js` — contém as operações relacionadas às movimentações.
+- `JS/classes/` — contém as classes utilizadas para representar as entidades do sistema.
+- `JS/interface/` — contém a lógica de interação com as páginas e os elementos da interface.
+- `JS/interface/componentes.js` — reúne funções reutilizáveis para a criação de elementos da interface.
+- `db.json` — armazena os registros utilizados pelo JSON Server.
+- `package.json` — contém as configurações e os comandos necessários para executar o projeto.
 
 ## Como executar
 
-1. Abra a pasta do projeto no Visual Studio Code.
-2. Inicie um servidor local, por exemplo, utilizando a extensão Live Server.
+### 1. Instalar as dependências
+
+Abra a pasta principal do projeto no Visual Studio Code e execute o seguinte comando no terminal:
+
+```bash
+npm install
+```
+
+### 2. Iniciar a API
+
+No terminal, execute:
+
+```bash
+npm run api
+```
+
+O JSON Server será iniciado na porta `3000`.
+
+Os endpoints disponíveis são:
+
+- `http://localhost:3000/nadadores`
+- `http://localhost:3000/funcionarios`
+- `http://localhost:3000/toalhas`
+- `http://localhost:3000/movimentacoes`
+
+**Importante:** mantenha o terminal da API aberto enquanto utilizar o sistema.
+
+### 3. Abrir o sistema
+
+Com a API em funcionamento:
+
+1. Abra o projeto no Visual Studio Code.
+2. Inicie um servidor local utilizando a extensão Live Server.
 3. Abra a página `html/index.html`.
 4. Utilize o menu para acessar as páginas de cadastro, movimentação e consulta de toalhas.
 
-Os dados são armazenados no `localStorage` do navegador utilizado.
+A API e o servidor local do frontend devem permanecer em execução durante o uso do sistema.
 
-## Frontend v.4 — Criação de um Módulo de Componentes
+## Armazenamento dos dados
 
-Nesta versão, o projeto foi refatorado para melhorar a organização do código e separar as responsabilidades das classes do domínio e da interface.
+Na versão 5, o armazenamento foi adaptado para utilizar uma API REST com JSON Server, substituindo a dependência do `localStorage`.
 
-O objetivo da refatoração é centralizar a criação de elementos visuais em um módulo de componentes reutilizáveis, reduzindo a repetição de código e facilitando a manutenção do sistema.
+Os dados ficam registrados no arquivo `db.json`, permitindo que as informações permaneçam salvas após atualizar ou fechar o navegador.
 
-O módulo `JS/interface/componentes.js` disponibiliza funções para criar elementos utilizados nas tabelas, botões de ação, opções de seleção, indicadores de status e componentes de paginação.
+As operações de consulta, cadastro, atualização e exclusão são realizadas por requisições HTTP.
 
-Essa organização torna o código mais modular e facilita a reutilização dos componentes em diferentes partes do sistema.
+## Frontend v.5 — Integração com API REST
 
-**Branch de desenvolvimento:** `versao-4`
+Nesta versão, o projeto foi adaptado para utilizar uma API REST como forma de comunicação e persistência dos dados.
+
+Foi desenvolvido um módulo HTTP compartilhado para centralizar as requisições e o tratamento de erros. Também foram criados módulos específicos para cada recurso do sistema: nadadores, funcionários, toalhas e movimentações.
+
+As interfaces de cadastro, movimentação e consulta de toalhas foram adaptadas para trabalhar com dados obtidos da API, utilizando operações assíncronas com `async` e `await`.
+
+Também foram preservadas as funcionalidades existentes, como filtros, paginação, validações, relacionamentos e regras de negócio.
+
+## Testes e validações
+
+Durante a adaptação da versão 5, foram realizados testes para verificar:
+
+- Consulta e carregamento dos registros pela API.
+- Cadastro, edição e exclusão de registros.
+- Impedimento de exclusão de cadastros vinculados a movimentações.
+- Validação de códigos duplicados de toalhas.
+- Funcionamento dos filtros e da paginação.
+- Registro de retiradas e devoluções.
+- Atualização dos status das toalhas.
+- Preservação dos relacionamentos entre os registros.
+- Identificação de falhas quando a API está indisponível.
+- Recuperação do funcionamento após reiniciar o JSON Server.
+
+## Branch de desenvolvimento
+
+`versao-5`
