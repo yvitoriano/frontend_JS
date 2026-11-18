@@ -1,0 +1,9 @@
+{
+  "name": "nado-livre-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend do sistema Nado Livre integrado à API Flask",
+  "scripts": {
+    "frontend": "python -m http.server 5501"
+  }
+}

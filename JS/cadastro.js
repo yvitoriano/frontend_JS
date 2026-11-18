@@ -1,0 +1,1 @@
+import "./interface/cadastro.js";

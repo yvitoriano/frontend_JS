@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastros - Nado Livre</title>
+    <link rel="stylesheet" href="../css/cadastro.css">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="logo-space">
+                    <img src="../img/logo.svg" alt="">
+                </div>
+
+                <div class="brand-text">
+                    <div class="brand-name">
+                        NADO<span>LIVRE</span>
+                    </div>
+
+                    <div class="brand-subtitle">
+                        Controle de Toalhas
+                    </div>
+                </div>
+            </div>
+
+            <nav class="navigation">
+
+                <a href="index.html" class="nav-item">
+                    <span class="icon-space">
+                        <img src="../img/House.svg" alt="">
+                    </span>
+                    <span>Início</span>
+                </a>
+
+                <a href="cadastro.html" class="nav-item selected">
+                    <span class="icon-space">
+                        <img src="../img/users.svg" alt="">
+                    </span>
+                    <span>Cadastro</span>
+                </a>
+
+                <a href="movimentacao.html" class="nav-item">
+                    <span class="icon-space">
+                        <img src="../img/movi.svg" alt="">
+                    </span>
+                    <span>Movimentação</span>
+                </a>
+
+                <a href="toalhas.html" class="nav-item">
+                    <span class="icon-space">
+                        <img src="../img/toalha.svg" alt="">
+                    </span>
+                    <span>Toalhas</span>
+                </a>
+
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="user-box">
+
+                    <div class="user-image-space">
+                        <img src="../img/userphoto.svg" alt="">
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Usuario</strong>
+                        <span>Contabilidade</span>
+                    </div>
+
+                    <div class="arrow-space">
+                        <img src="../img/arrow.svg" alt="">
+                    </div>
+
+                </div>
+
+                <a href="#" class="logout">
+                    <span class="logout-icon-space">
+                        <img src="../img/exit.svg" alt="">
+                    </span>
+                    <span>Sair</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <main class="main-content">
+
+            <header class="page-header">
+                <h1>Cadastros</h1>
+
+                <p>
+                    Cadastre e gerencie nadadores, funcionários e toalhas do sistema.
+                </p>
+            </header>
+
+
+            <section class="cadastro-area">
+
+                <nav class="tabs">
+
+                    <button class="tab active" data-tab="nadador">
+                        <span class="tab-icon-space">
+                            <img src="../img/icon2.svg" alt="">
+                        </span>
+                        <span>Nadador</span>
+                    </button>
+
+                    <button class="tab" data-tab="funcionario">
+                        <span class="tab-icon-space">
+                            <img src="../img/icon2 (1).svg" alt="">
+                        </span>
+                        <span>Funcionário</span>
+                    </button>
+
+                    <button class="tab" data-tab="toalha">
+                        <span class="tab-icon-space">
+                            <img src="../img/icon2 (2).svg" alt="">
+                        </span>
+                        <span>Toalhas</span>
+                    </button>
+
+                </nav>
+
+
+                <!-- NADADOR -->
+
+                <section class="tab-content active" id="nadador">
+
+                    <div class="form-title">
+
+                        <div class="form-title-icon"></div>
+
+                        <div>
+                            <h2>Cadastro de nadador</h2>
+                            <p>Preencha os dados do nadador</p>
+                        </div>
+
+                    </div>
+
+
+                    <form id="formNadador">
+
+                        <div class="form-grid">
+
+                            <div class="field">
+                                <label for="nomeNadador">Nome</label>
+
+                                <input type="text" id="nomeNadador" placeholder="Digite o nome completo" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="telefoneNadador">Telefone</label>
+
+                                <input type="text" id="telefoneNadador" placeholder="(00)00000-0000" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="cpfNadador">CPF</label>
+
+                                <input type="text" id="cpfNadador" placeholder="000.000.000-00" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="emailNadador">E-mail</label>
+
+                                <input type="email" id="emailNadador" placeholder="exemplo@gmail.com" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button type="button" class="button-secondary" data-lista="nadador">
+                                Ver cadastrados
+                            </button>
+
+                            <button type="submit" class="button-primary">
+                                Cadastrar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                <!-- FUNCIONÁRIO -->
+
+                <section class="tab-content" id="funcionario">
+
+                    <div class="form-title">
+
+                        <div class="form-title-icon"></div>
+
+                        <div>
+                            <h2>Cadastro de funcionário</h2>
+                            <p>Preencha os dados do funcionário</p>
+                        </div>
+
+                    </div>
+
+
+                    <form id="formFuncionario">
+
+                        <div class="form-grid">
+
+                            <div class="field">
+                                <label for="nomeFuncionario">Nome</label>
+
+                                <input type="text" id="nomeFuncionario" placeholder="Digite o nome completo" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="telefoneFuncionario">Telefone</label>
+
+                                <input type="text" id="telefoneFuncionario" placeholder="(00)00000-0000" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="cpfFuncionario">CPF</label>
+
+                                <input type="text" id="cpfFuncionario" placeholder="000.000.000-00" required>
+                            </div>
+
+
+                            <div class="field">
+                                <label for="emailFuncionario">E-mail</label>
+
+                                <input type="email" id="emailFuncionario" placeholder="exemplo@gmail.com" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button type="button" class="button-secondary" data-lista="funcionario">
+                                Ver cadastrados
+                            </button>
+
+                            <button type="submit" class="button-primary">
+                                Cadastrar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                <!-- TOALHA -->
+
+                <section class="tab-content" id="toalha">
+
+                    <div class="form-title">
+
+                        <div class="form-title-icon"></div>
+
+                        <div>
+                            <h2>Cadastro de toalha</h2>
+                            <p>Preencha os dados da toalha</p>
+                        </div>
+
+                    </div>
+
+
+                    <form id="formToalha">
+
+                        <div class="form-grid">
+
+                            <div class="field full">
+
+                                <label for="codigoToalha">
+                                    Código identificador
+                                </label>
+
+                                <input type="text" id="codigoToalha" placeholder="Digite o código identificador"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button type="button" class="button-secondary" data-lista="toalha">
+                                Ver cadastrados
+                            </button>
+
+                            <button type="submit" class="button-primary">
+                                Cadastrar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                <div class="information">
+
+                    <div class="information-icon-space">
+                        <img src="../img/Info.svg" alt="">
+                    </div>
+
+                    <div>
+                        <strong>Informação</strong>
+
+                        <p>
+                            Os campos ID dos cadastros são gerados automaticamente pelo sistema.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- MODAL LISTA -->
+
+    <div class="modal-overlay" id="modalLista" aria-hidden="true">
+
+        <div class="modal modal-lista" role="dialog" aria-modal="true">
+
+            <button class="modal-close" type="button" data-fechar="lista" aria-label="Fechar">
+                &times;
+            </button>
+
+
+            <h2 id="tituloLista">Cadastros</h2>
+
+
+            <div class="list-search">
+
+                <span>⌕</span>
+
+                <input id="buscaCadastro" type="search" placeholder="Buscar por nome, CPF ou ID...">
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table class="cadastros-table">
+
+                    <thead id="cabecalhoLista"></thead>
+
+                    <tbody id="corpoLista"></tbody>
+
+                </table>
+
+            </div>
+
+
+            <div id="listaVazia" class="empty-state" hidden>
+                Nenhum cadastro encontrado.
+            </div>
+
+
+            <div class="list-footer">
+
+                <span id="resumoLista"></span>
+
+                <div id="paginacaoLista" class="pagination"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MODAL EDIÇÃO -->
+
+    <div class="modal-overlay modal-overlay-top" id="modalEdicao" aria-hidden="true">
+
+        <div class="modal modal-edicao" role="dialog" aria-modal="true">
+
+            <button class="modal-close" type="button" data-fechar="edicao" aria-label="Fechar">
+                &times;
+            </button>
+
+
+            <h2 id="tituloEdicao">
+                Editar dados
+            </h2>
+
+
+            <form id="formEdicao">
+
+                <div class="edit-id">
+                    ID:
+                    <strong id="edicaoId"></strong>
+                </div>
+
+
+                <div id="camposEdicao"></div>
+
+
+                <div class="edit-actions">
+
+                    <button type="button" class="button-cancel" data-fechar="edicao">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="button-save">
+                        Salvar alterações
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- MODAL EXCLUSÃO -->
+
+    <div class="modal-overlay modal-overlay-confirm" id="modalConfirmacao" aria-hidden="true">
+
+        <div class="modal modal-confirmacao" role="dialog" aria-modal="true">
+
+            <button class="modal-close" type="button" data-fechar="confirmacao" aria-label="Fechar">
+                &times;
+            </button>
+
+
+            <h2>
+                Excluir cadastro
+            </h2>
+
+
+            <p>
+                Tem certeza que deseja excluir este cadastro?
+            </p>
+
+
+            <div class="confirm-actions">
+
+                <button type="button" class="button-cancel" data-fechar="confirmacao">
+                    Cancelar
+                </button>
+
+                <button type="button" id="confirmarExclusao" class="button-danger">
+                    Excluir
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="module" src="../JS/cadastro.js"></script>
+
+</body>
+
+</html>
